@@ -1,0 +1,15 @@
+<div>
+    <ng-container *ngIf="columns.length <= 1">
+        <ng-container *ngFor="let child of Children" [componentWrapper]="child">
+        </ng-container>
+    </ng-container>
+    
+    <ng-container *ngIf="columns.length > 1">
+        <ng-container *ngFor="let column of columns">
+            <div [class]="column.css">
+                <ng-template *ngFor="let child of column.children" [componentWrapper]="child">
+                </ng-template>
+            </div>
+        </ng-container>
+    </ng-container>
+</div>
