@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { LazyContentService } from "../../../services/lazy-content.service";
-import { ContentBlockProperties, ContentBlockModel } from "../../../common";
+import { ContentBlockProperties, ContentBlockModel, ModelBase } from "../../../common";
 
 @Component({
     templateUrl: "content-block.component.html",
@@ -15,8 +15,10 @@ export class ContentComponent extends ContentBlockModel implements OnInit {
 
     ngOnInit(): void {
         if (this.Lazy) {
-            this.lazyService.requestContent(this.Id).subscribe((content: any) => {
-                this.Properties.Content = content;
+            this.lazyService.receivedContent$.subscribe((model: ModelBase) => {
+                if (model.Id === this.Id) {
+                    this.Properties.Content = model.Properties.Content;
+                }
             });
         }
     }

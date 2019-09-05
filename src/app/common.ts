@@ -1,7 +1,10 @@
 export interface PageContentServiceResponse {
-    ComponentContext: { Components: ModelBase[], HasLazyComponents: boolean };
+    ComponentContext: ComponentContext;
 }
-
+export interface ComponentContext {
+     Components: ModelBase[];
+     HasLazyComponents: boolean;
+}
 export class ModelBase {
     Id: string;
     Lazy: boolean;
