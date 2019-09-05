@@ -9,7 +9,6 @@ import { Directive, ElementRef, AfterViewInit } from "@angular/core";
     }
 
     ngAfterViewInit(): void {
-        debugger;
         const parentElement = this.el.nativeElement.parentElement;
         const element = this.el.nativeElement;
         parentElement.removeChild(element);
