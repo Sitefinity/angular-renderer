@@ -1,4 +1,4 @@
-import { ModelBase } from "../../common";
+import { ModelBase } from "../../models/model-base";
 import { LayoutComponent } from "./layout/layout.component";
 import { ContentComponent } from "./content-block/content-block.component";
 import { Directive, OnInit, ViewContainerRef, Input, ElementRef, ComponentFactoryResolver, Renderer } from "@angular/core";
@@ -32,7 +32,7 @@ export class WrapperComponentDirective implements OnInit {
     private setProperties(componentData: any, componentInstance: any) {
         if (componentData && componentInstance) {
             Object.keys(componentData).forEach((propName) => {
-                componentInstance[propName] = componentData[propName];
+                componentInstance.Model[propName] = componentData[propName];
             });
         }
     }

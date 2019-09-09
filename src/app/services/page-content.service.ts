@@ -1,21 +1,69 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { Subject } from "rxjs";
-import { PageContentServiceResponse } from "../common";
+import { Subject, Observable, ReplaySubject } from "rxjs";
+import { RootUrlService } from "./root-url.service";
+import { ModelBase } from "../models/model-base";
+import { PageContentServiceResponse, ComponentContext, ODataEntityResponse } from "../models/service-response";
 
 @Injectable()
 export class PageContentService {
-    constructor(private http: HttpClient) { }
+    public receivedContent$ = new ReplaySubject<ModelBase>();
 
-    public get(pageName: string) {
+    private readonly serviceApi = "api/default";
+
+    constructor(private http: HttpClient, private rootUrlService: RootUrlService) { }
+
+    public get(pageName: string): Observable<PageContentServiceResponse> {
         const return$ = new Subject<PageContentServiceResponse>();
-        this.http.get(`http://localhost:8000/api/default/pages/Default.Model(url=@param)?@param='${pageName}'`)
-                .subscribe((s: PageContentServiceResponse) => {
-            return$.next(s);
-        }, error => {
-            return$.error( error );
-        });
+        const rootUrl = this.rootUrlService.getUrl();
+        this.http.get(`${rootUrl}/${this.serviceApi}/pages/Default.Model(url=@param)?@param='${pageName}'`)
+            .subscribe((s: PageContentServiceResponse) => {
+                return$.next(s);
+
+                if (s.ComponentContext.HasLazyComponents) {
+                    this.getLazy(pageName).subscribe(r => {
+                        r.Components.forEach(c => {
+                            this.receivedContent$.next(c);
+                        });
+                    });
+                }
+
+            }, error => {
+                return$.error(error);
+            });
 
         return return$;
+    }
+
+    public getLazy(url: string): Observable<ComponentContext> {
+        const return$ = new Subject<ComponentContext>();
+        const rootUrl = this.rootUrlService.getUrl();
+
+        this.http.get(`${rootUrl}/${this.serviceApi}/pages/Default.LazyComponents(url=@param)?@param='${url}'`)
+            .subscribe((s: ComponentContext) => {
+                return$.next(s);
+            }, error => {
+                return$.error(error);
+            });
+
+        return return$;
+    }
+
+    public getShared(id: string, providerName: string): Observable<ODataEntityResponse> {
+        const return$ = new Subject<ODataEntityResponse>();
+        const rootUrl = this.rootUrlService.getUrl();
+
+        this.http.get(`${rootUrl}/${this.serviceApi}/contentitems(${id})?sf_provider=${providerName}`)
+            .subscribe((s: ODataEntityResponse) => {
+                return$.next(s);
+            }, error => {
+                return$.error(error);
+            });
+
+        return return$;
+    }
+
+    public sendContent(model: ModelBase) {
+        this.receivedContent$.next(model);
     }
 }

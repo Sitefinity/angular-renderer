@@ -1,15 +1,17 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { ContainerModel, LayoutColumns, ModelBase } from "../../../common";
+import { ContainerModel, LayoutColumns, ColumnModel } from "../../../models/container-model";
+import { BaseClass } from "../base.component";
+import { PageContentService } from "../../../services/page-content.service";
 
 @Component({
     selector: "app-layout",
     templateUrl: "./layout.component.html"
 })
-export class LayoutComponent extends ContainerModel implements OnInit {
+export class LayoutComponent extends BaseClass<ContainerModel> implements OnInit {
     public columns: ColumnModel[] = [];
 
-    constructor() {
-        super();
+    constructor(protected pageContentService: PageContentService) {
+        super(pageContentService);
     }
 
     public ngOnInit() {
@@ -17,22 +19,16 @@ export class LayoutComponent extends ContainerModel implements OnInit {
     }
 
     private generateColumns() {
-        const columns = LayoutColumns[this.ViewName];
+        const columns = LayoutColumns[this.Model.ViewName];
         if (columns <= 1) {
             return;
         }
         for (let i = 1; i <= columns; i++) {
             this.columns.push({
-                css: this.Properties[`Column${i}_Css`],
-                label: this.Properties[`Column${i}_Label`],
-                children: this.Children.filter(c => c.PlaceHolder === `Column${i}`)
+                css: this.Model.Properties[`Column${i}_Css`],
+                label: this.Model.Properties[`Column${i}_Label`],
+                children: this.Model.Children.filter(c => c.PlaceHolder === `Column${i}`)
             });
         }
     }
-}
-
-interface ColumnModel {
-    css: string;
-    label: string;
-    children: ModelBase[];
 }

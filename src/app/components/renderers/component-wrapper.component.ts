@@ -1,5 +1,5 @@
 import { Component, ViewContainerRef, ViewChild, ComponentFactoryResolver, Renderer, Input, AfterViewInit, OnInit } from "@angular/core";
-import { ModelBase } from "../../common";
+import { ModelBase } from "../../models/model-base";
 import { LayoutComponent } from "./layout/layout.component";
 import { ContentComponent } from "./content-block/content-block.component";
 
