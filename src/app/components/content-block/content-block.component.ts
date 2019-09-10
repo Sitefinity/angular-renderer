@@ -1,8 +1,6 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
-import { Subscription } from "rxjs";
+import { Component, OnInit } from "@angular/core";
 import { PageContentService } from "../../services/page-content.service";
-import { ModelBase } from "../../models/model-base";
-import { ContentBlockModel } from "../../models/content-block-model";
+import { ContentBlockProperties } from "../../models/content-block-model";
 import { ODataEntityResponse } from "../../models/service-response";
 import { BaseComponent } from "../base.component";
 
@@ -10,7 +8,7 @@ import { BaseComponent } from "../base.component";
     templateUrl: "content-block.component.html",
     selector: "app-content"
 })
-export class ContentComponent extends BaseComponent<ContentBlockModel> implements OnInit {
+export class ContentComponent extends BaseComponent<ContentBlockProperties> implements OnInit {
     constructor(protected pageContentService: PageContentService) {
         super(pageContentService);
     }

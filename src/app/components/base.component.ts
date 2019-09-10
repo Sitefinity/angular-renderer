@@ -1,7 +1,6 @@
-import { OnInit, OnDestroy } from "@angular/core";
+import { OnDestroy } from "@angular/core";
 import { Subscription } from "rxjs";
 import { ModelBase } from "../models/model-base";
-import { ODataEntityResponse } from "../models/service-response";
 import { PageContentService } from "../services/page-content.service";
 
 export class BaseComponent<T> implements OnDestroy {

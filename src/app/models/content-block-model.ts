@@ -1,4 +1,4 @@
-export class ContentBlockModel {
+export class ContentBlockProperties {
     Content: string;
     ExcludeFromSearchIndex: boolean;
     ProviderName: string;

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { LayoutColumns, ColumnModel } from "../../models/container-model";
 import { BaseComponent } from "../base.component";
 import { PageContentService } from "../../services/page-content.service";
