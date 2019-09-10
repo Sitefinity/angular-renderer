@@ -1,13 +1,13 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { ContainerModel, LayoutColumns, ColumnModel } from "../../../models/container-model";
-import { BaseClass } from "../base.component";
-import { PageContentService } from "../../../services/page-content.service";
+import { ContainerModel, LayoutColumns, ColumnModel } from "../../models/container-model";
+import { BaseComponent } from "../base.component";
+import { PageContentService } from "../../services/page-content.service";
 
 @Component({
     selector: "app-layout",
     templateUrl: "./layout.component.html"
 })
-export class LayoutComponent extends BaseClass<ContainerModel> implements OnInit {
+export class LayoutComponent extends BaseComponent<ContainerModel> implements OnInit {
     public columns: ColumnModel[] = [];
 
     constructor(protected pageContentService: PageContentService) {

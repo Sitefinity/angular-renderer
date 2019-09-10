@@ -1,0 +1,25 @@
+import { OnInit, OnDestroy } from "@angular/core";
+import { Subscription } from "rxjs";
+import { ModelBase } from "../models/model-base";
+import { ODataEntityResponse } from "../models/service-response";
+import { PageContentService } from "../services/page-content.service";
+
+export class BaseComponent<T extends ModelBase> implements OnDestroy {
+    public Model: T = {} as T;
+    private subscriptions: Subscription[] = [];
+    protected pageContentService: PageContentService;
+
+    constructor(pageContentService: PageContentService) {
+        this.pageContentService = pageContentService;
+    }
+
+    ngOnDestroy(): void {
+        this.subscriptions.forEach(s => {
+            s.unsubscribe();
+        });
+    }
+
+    protected registerSubscription(sub: Subscription) {
+        this.subscriptions.push(sub);
+    }
+}
