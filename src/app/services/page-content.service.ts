@@ -7,7 +7,7 @@ import { PageContentServiceResponse, ComponentContext, ODataEntityResponse } fro
 
 @Injectable()
 export class PageContentService {
-    public receivedContent$ = new ReplaySubject<ModelBase>();
+    public receivedContent$ = new ReplaySubject<ModelBase<any>>();
 
     private readonly serviceApi = "api/default";
 
@@ -63,7 +63,7 @@ export class PageContentService {
         return return$;
     }
 
-    public sendContent(model: ModelBase) {
+    public sendContent(model: ModelBase<any>) {
         this.receivedContent$.next(model);
     }
 }

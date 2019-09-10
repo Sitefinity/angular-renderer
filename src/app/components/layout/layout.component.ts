@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { ContainerModel, LayoutColumns, ColumnModel } from "../../models/container-model";
+import { LayoutColumns, ColumnModel } from "../../models/container-model";
 import { BaseComponent } from "../base.component";
 import { PageContentService } from "../../services/page-content.service";
 
@@ -7,7 +7,7 @@ import { PageContentService } from "../../services/page-content.service";
     selector: "app-layout",
     templateUrl: "./layout.component.html"
 })
-export class LayoutComponent extends BaseComponent<ContainerModel> implements OnInit {
+export class LayoutComponent extends BaseComponent<[{ [key: string]: string }]> implements OnInit {
     public columns: ColumnModel[] = [];
 
     constructor(protected pageContentService: PageContentService) {

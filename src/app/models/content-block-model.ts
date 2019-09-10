@@ -1,11 +1,4 @@
-import { ModelBase } from "./model-base";
-
-export class ContentBlockModel extends ModelBase {
-    Name: "ContentBlock";
-    Properties: ContentBlockProperties;
-}
-
-export class ContentBlockProperties {
+export class ContentBlockModel {
     Content: string;
     ExcludeFromSearchIndex: boolean;
     ProviderName: string;

@@ -9,7 +9,7 @@ import { PageContentService } from "../services/page-content.service";
     selector: "[componentWrapper]"
 })
 export class WrapperComponentDirective implements OnInit {
-    @Input("componentWrapper") componentData: ModelBase;
+    @Input("componentWrapper") componentData: ModelBase<any>;
 
     constructor(private pageContentService: PageContentService,
                 private viewContainer: ViewContainerRef,

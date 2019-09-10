@@ -1,9 +1,11 @@
-export class ModelBase {
+export class ModelBase<T> {
     Id: string;
-    Lazy: boolean;
-    Children: ModelBase[];
+    Name: string;
     Caption: string;
+
+    Lazy: boolean;
+    ViewName: string;
     PlaceHolder: string;
-    Name: any;
-    Properties: any;
+    Properties: T;
+    Children: ModelBase<any>[];
 }
