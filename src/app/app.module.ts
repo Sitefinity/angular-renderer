@@ -8,8 +8,7 @@ import { PageContentService } from "./services/page-content.service";
 import { HttpClientModule } from "@angular/common/http";
 import { LayoutComponent } from "./components/layout/layout.component";
 import { ContentComponent } from "./components/content-block/content-block.component";
-import { RemoveWrapperDirective } from "./directives/remove-wrapper.directive";
-import { WrapperComponentDirective } from "./components/component-wrapper.directive";
+import { WrapperComponentDirective } from "./directives/component-wrapper.directive";
 import { RootUrlService } from "./services/root-url.service";
 
 @NgModule({
@@ -18,8 +17,7 @@ import { RootUrlService } from "./services/root-url.service";
     RootComponent,
     LayoutComponent,
     ContentComponent,
-    WrapperComponentDirective,
-    RemoveWrapperDirective,
+    WrapperComponentDirective
   ],
   entryComponents: [
     LayoutComponent,
@@ -33,8 +31,7 @@ import { RootUrlService } from "./services/root-url.service";
   providers: [
     RootUrlService,
     PageContentService,
-    WrapperComponentDirective,
-    RemoveWrapperDirective
+    WrapperComponentDirective
   ],
   bootstrap: [AppComponent]
 })

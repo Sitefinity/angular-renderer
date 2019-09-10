@@ -1,8 +1,6 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
-import { Subscription } from "rxjs";
+import { Component, OnInit } from "@angular/core";
 import { PageContentService } from "../../services/page-content.service";
-import { ModelBase } from "../../models/model-base";
-import { ContentBlockModel, ContentBlockProperties } from "../../models/content-block-model";
+import { ContentBlockModel } from "../../models/content-block-model";
 import { ODataEntityResponse } from "../../models/service-response";
 import { BaseComponent } from "../base.component";
 

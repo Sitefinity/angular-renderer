@@ -1,8 +1,13 @@
 import { ModelBase } from "../models/model-base";
-import { LayoutComponent } from "./layout/layout.component";
-import { ContentComponent } from "./content-block/content-block.component";
-import { Directive, OnInit, ViewContainerRef, Input, ElementRef, ComponentFactoryResolver, Renderer } from "@angular/core";
+import { LayoutComponent } from "../components/layout/layout.component";
+import { ContentComponent } from "../components/content-block/content-block.component";
+import { Directive, OnInit, ViewContainerRef, Input, ComponentFactoryResolver } from "@angular/core";
 import { PageContentService } from "../services/page-content.service";
+
+const TYPES_MAP = {
+    Layout: LayoutComponent,
+    ContentBlock: ContentComponent
+};
 
 @Directive({
     // tslint:disable-next-line:directive-selector
@@ -13,15 +18,14 @@ export class WrapperComponentDirective implements OnInit {
 
     constructor(private pageContentService: PageContentService,
                 private viewContainer: ViewContainerRef,
-                private resolver: ComponentFactoryResolver,
-                private renderer: Renderer) {}
+                private resolver: ComponentFactoryResolver) {}
 
     public ngOnInit(): void {
         if (!this.componentData) {
             return;
         }
 
-        const type: any = this.componentData.Name === "Layout" ? LayoutComponent : ContentComponent;
+        const type: any = TYPES_MAP[this.componentData.Name];
         if (!type) {
             return;
         }
