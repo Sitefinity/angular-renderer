@@ -20,15 +20,42 @@ export class LayoutComponent extends BaseComponent<ContainerModel> implements On
 
     private generateColumns() {
         const columns = LayoutColumns[this.Model.ViewName];
-        if (columns <= 1) {
-            return;
-        }
-        for (let i = 1; i <= columns; i++) {
+        if (columns === 1) {
             this.columns.push({
-                css: this.Model.Properties[`Column${i}_Css`],
-                label: this.Model.Properties[`Column${i}_Label`],
-                children: this.Model.Children.filter(c => c.PlaceHolder === `Column${i}`)
+                css: this.Model.Properties[`Container_Css`],
+                label: this.Model.Properties[`Container_Label`],
+                children: this.Model.Children
             });
+        } else {
+            let temp: any = {};
+            const props = this.Model.Properties;
+            for (const key in props) {
+                if (!Object.hasOwnProperty(key)) {
+                    if (key.includes("Css")) {
+                        temp.css = props[key];
+                    } else if (key.includes("Label")) {
+                        temp.label = props[key];
+                    }
+
+                    if (temp.css !== undefined && temp.label !== undefined) {
+                        const placeholder = this.getPlaceholder(key);
+                        temp.children = this.Model.Children.filter(c => c.PlaceHolder === placeholder);
+                        this.columns.push(temp);
+                        temp = {};
+                    }
+                }
+            }
         }
+    }
+
+    private getPlaceholder(key: string) {
+        let ret;
+        ["Css", "Label"].forEach(v => {
+            if (key.includes(v)) {
+                ret = key.replace(v, "");
+            }
+        });
+
+        return ret;
     }
 }

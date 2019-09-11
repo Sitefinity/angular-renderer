@@ -10,6 +10,7 @@ import { LayoutComponent } from "./components/layout/layout.component";
 import { ContentComponent } from "./components/content-block/content-block.component";
 import { WrapperComponentDirective } from "./directives/component-wrapper.directive";
 import { RootUrlService } from "./services/root-url.service";
+import { CommonModule } from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { RootUrlService } from "./services/root-url.service";
   ],
   imports: [
     BrowserModule,
+    CommonModule,
     HttpClientModule,
     AppRoutingModule
   ],

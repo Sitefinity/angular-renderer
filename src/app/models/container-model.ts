@@ -2,7 +2,7 @@ import { ModelBase } from "./model-base";
 
 export class ContainerModel extends ModelBase {
     Name: "Layout";
-    Properties: [{ [key: string]: string }];
+    Properties: { [key: string]: string };
     ViewName: string;
 }
 
