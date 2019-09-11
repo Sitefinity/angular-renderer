@@ -9,6 +9,7 @@ export class ContainerModel extends ModelBase {
 export interface ColumnModel {
     css: string;
     label: string;
+    placeholder: string;
     children: ModelBase[];
 }
 

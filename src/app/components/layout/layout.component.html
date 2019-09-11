@@ -1,6 +1,19 @@
-<div [ngClass]="{'row': columns.length > 1}">
-    <div *ngFor="let column of columns" [class]="column.css">
-        <ng-template *ngFor="let child of column.children" [componentWrapper]="child">
+<ng-container *ngTemplateOutlet="columns.length <= 1 ? singleContainer : multipleColumns; context: { columns: columns, container: container }">
+</ng-container>
+
+<ng-template #singleContainer let-container="container">
+    <div [class]="container.css">
+        <ng-template *ngFor="let child of container.children" [componentWrapper]="child">
         </ng-template>
     </div>
-</div>
+</ng-template>
+
+<ng-template #multipleColumns let-columns="columns" let-container="container">
+    <div [class]="container.css">
+        <div *ngFor="let column of columns" [class]="column.css">
+            <ng-template *ngFor="let child of column.children" [componentWrapper]="child">
+            </ng-template>
+        </div>
+    </div>
+</ng-template>
+
