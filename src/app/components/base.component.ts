@@ -3,8 +3,9 @@ import { Subscription } from "rxjs";
 import { ModelBase } from "../models/model-base";
 import { PageContentService } from "../services/page-content.service";
 
-export class BaseComponent<T extends ModelBase> implements OnDestroy {
-    public Model: T = {} as T;
+export class BaseComponent<T> implements OnDestroy {
+    public Model: ModelBase<T>;
+
     private subscriptions: Subscription[] = [];
     protected pageContentService: PageContentService;
 

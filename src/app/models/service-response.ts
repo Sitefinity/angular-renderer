@@ -5,7 +5,7 @@ export interface PageContentServiceResponse {
 }
 
 export interface ComponentContext {
-    Components: ModelBase[];
+    Components: ModelBase<any>[];
     HasLazyComponents: boolean;
 }
 

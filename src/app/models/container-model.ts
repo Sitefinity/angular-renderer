@@ -1,16 +1,10 @@
 import { ModelBase } from "./model-base";
 
-export class ContainerModel extends ModelBase {
-    Name: "Layout";
-    Properties: { [key: string]: string };
-    ViewName: string;
-}
-
 export interface ColumnModel {
     css: string;
     label: string;
+    children: ModelBase<any>[];
     placeholder: string;
-    children: ModelBase[];
 }
 
 export const LayoutColumns = {
