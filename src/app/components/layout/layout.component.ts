@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild, TemplateRef } from "@angular/core";
 import { LayoutColumns, ColumnModel } from "../../models/container-model";
 import { BaseComponent } from "../base.component";
 import { PageContentService } from "../../services/page-content.service";
@@ -7,15 +7,23 @@ import { PageContentService } from "../../services/page-content.service";
     selector: "app-layout",
     templateUrl: "./layout.component.html"
 })
-export class LayoutComponent extends BaseComponent<[{ [key: string]: string }]> implements OnInit {
+export class LayoutComponent extends BaseComponent<{ [key: string]: string }> implements OnInit {
     public columns: ColumnModel[] = [];
     public container: ColumnModel = {} as any;
+    public itemTemplateName: TemplateRef<any>;
+
+    @ViewChild("oneColumn", { static: true }) private oneColumnTemplate: TemplateRef<any>;
+    @ViewChild("twoColumns", { static: true }) private twoColumnsTemplate: TemplateRef<any>;
+    @ViewChild("threeColumns", { static: true }) private threeColumnsTemplate: TemplateRef<any>;
+    @ViewChild("fourColumns", { static: true }) private fourColumnsTemplate: TemplateRef<any>;
+    @ViewChild("fiveColumns", { static: true }) private fiveColumnsTemplate: TemplateRef<any>;
 
     constructor(protected pageContentService: PageContentService) {
         super(pageContentService);
     }
 
     public ngOnInit() {
+        this.setTemplate();
         this.generateColumns();
     }
 
@@ -46,7 +54,7 @@ export class LayoutComponent extends BaseComponent<[{ [key: string]: string }]> 
                 const placeholder = this.getPlaceholder(key);
                 if (!columns.some(c => c.placeholder === placeholder)) {
                     const children = this.Model.Children.filter(c => c.PlaceHolder === placeholder);
-                    columns.push({children, placeholder, css: null, label: null});
+                    columns.push({ children, placeholder, css: null, label: null });
                 }
 
                 const column = columns.find(c => c.placeholder === placeholder);
@@ -61,8 +69,9 @@ export class LayoutComponent extends BaseComponent<[{ [key: string]: string }]> 
 
         const rowIndex = columns.findIndex(c => c.label == null);
 
-        this.container = rowIndex !== -1 ? columns.splice(rowIndex, 1)[0] : {css: "row", label: null, children: [], placeholder: null};
+        this.container = rowIndex !== -1 ? columns.splice(rowIndex, 1)[0] : { css: "row", label: null, children: [], placeholder: null };
         this.columns = columns;
+        console.log(columns);
     }
 
     private getPlaceholder(key: string) {
@@ -74,5 +83,29 @@ export class LayoutComponent extends BaseComponent<[{ [key: string]: string }]> 
         });
 
         return ret;
+    }
+
+    private setTemplate() {
+        const columns = LayoutColumns[this.Model.ViewName];
+        switch (columns) {
+            case 1:
+                this.itemTemplateName = this.oneColumnTemplate;
+                break;
+            case 2:
+                this.itemTemplateName = this.twoColumnsTemplate;
+                break;
+            case 3:
+                this.itemTemplateName = this.threeColumnsTemplate;
+                break;
+            case 4:
+                this.itemTemplateName = this.fourColumnsTemplate;
+                break;
+            case 5:
+                this.itemTemplateName = this.fiveColumnsTemplate;
+                break;
+            default:
+                console.log("CUSTOM TEMPLATE IS NOT RESOLVED");
+                break;
+        }
     }
 }

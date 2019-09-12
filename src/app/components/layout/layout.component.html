@@ -1,19 +1,81 @@
-<ng-container *ngTemplateOutlet="columns.length <= 1 ? singleContainer : multipleColumns; context: { columns: columns, container: container }">
+<ng-container *ngTemplateOutlet="itemTemplateName ? itemTemplateName : defaultTemplate; context: { columns: columns, container: container }">
 </ng-container>
 
-<ng-template #singleContainer let-container="container">
+<ng-template #defaultTemplate let-widget>
+    <div>Unknow Template</div>>
+</ng-template>
+
+<ng-template #oneColumn let-container="container">
     <div [class]="container.css">
         <ng-template *ngFor="let child of container.children" [componentWrapper]="child">
         </ng-template>
     </div>
 </ng-template>
 
-<ng-template #multipleColumns let-columns="columns" let-container="container">
+<ng-template #twoColumns>
     <div [class]="container.css">
-        <div *ngFor="let column of columns" [class]="column.css">
-            <ng-template *ngFor="let child of column.children" [componentWrapper]="child">
-            </ng-template>
+        <div [class]="columns[0].css">
+            <ng-container *ngTemplateOutlet="columnChildren; context: {children: columns[0].children}"></ng-container>
+        </div>
+        <div [class]="columns[1].css">
+            <ng-container *ngTemplateOutlet="columnChildren; context: {children: columns[1].children}"></ng-container>
         </div>
     </div>
+</ng-template>
+
+<ng-template #threeColumns>
+    <div [class]="container.css">
+        <div [class]="columns[0].css">
+            <ng-container *ngTemplateOutlet="columnChildren; context: {children: columns[0].children}"></ng-container>
+        </div>
+        <div [class]="columns[1].css">
+            <ng-container *ngTemplateOutlet="columnChildren; context: {children: columns[1].children}"></ng-container>
+        </div>
+        <div [class]="columns[2].css">
+            <ng-container *ngTemplateOutlet="columnChildren; context: {children: columns[2].children}"></ng-container>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #fourColumns>
+    <div [class]="container.css">
+        <div [class]="columns[0].css">
+            <ng-container *ngTemplateOutlet="columnChildren; context: {children: columns[0].children}"></ng-container>
+        </div>
+        <div [class]="columns[1].css">
+            <ng-container *ngTemplateOutlet="columnChildren; context: {children: columns[1].children}"></ng-container>
+        </div>
+        <div [class]="columns[2].css">
+            <ng-container *ngTemplateOutlet="columnChildren; context: {children: columns[2].children}"></ng-container>
+        </div>
+        <div [class]="columns[3].css">
+            <ng-container *ngTemplateOutlet="columnChildren; context: {children: columns[3].children}"></ng-container>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #fiveColumns>
+    <div [class]="container.css">
+        <div [class]="columns[0].css">
+            <ng-container *ngTemplateOutlet="columnChildren; context: {children: columns[0].children}"></ng-container>
+        </div>
+        <div [class]="columns[1].css">
+            <ng-container *ngTemplateOutlet="columnChildren; context: {children: columns[1].children}"></ng-container>
+        </div>
+        <div [class]="columns[2].css">
+            <ng-container *ngTemplateOutlet="columnChildren; context: {children: columns[2].children}"></ng-container>
+        </div>
+        <div [class]="columns[3].css">
+            <ng-container *ngTemplateOutlet="columnChildren; context: {children: columns[3].children}"></ng-container>
+        </div>
+        <div [class]="columns[4].css">
+            <ng-container *ngTemplateOutlet="columnChildren; context: {children: columns[4].children}"></ng-container>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #columnChildren let-children="children">
+    <ng-template *ngFor="let child of children" [componentWrapper]="child">
+    </ng-template>
 </ng-template>
 
