@@ -4,7 +4,10 @@ import { RootComponent } from "./components/root.component";
 
 
 const routes: Routes = [
-  { path: ":url", component: RootComponent}
+  {
+    path: "**",
+    component: RootComponent
+  }
 ];
 
 @NgModule({

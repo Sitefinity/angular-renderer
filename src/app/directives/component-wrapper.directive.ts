@@ -31,11 +31,12 @@ export class WrapperComponentDirective implements OnInit {
         }
 
         if (this.componentData.Lazy) {
+            const component = this.createAndInjectComponent(type);
+
             this.pageContentService.receivedContent$.subscribe(model => {
                 if (model.Id === this.componentData.Id) {
                     Object.assign(this.componentData, model);
-
-                    this.createAndInjectComponent(type);
+                    this.setProperties(this.componentData, component);
                 }
             });
         } else {
@@ -49,6 +50,8 @@ export class WrapperComponentDirective implements OnInit {
         const componentInstance = componentRef.instance;
 
         this.setProperties(this.componentData, componentInstance);
+
+        return componentInstance;
     }
 
     private setProperties(componentData: any, componentInstance: any) {
