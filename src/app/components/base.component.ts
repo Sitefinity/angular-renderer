@@ -4,7 +4,7 @@ import { ModelBase } from "../models/model-base";
 import { PageContentService } from "../services/page-content.service";
 
 export class BaseComponent<T> implements OnDestroy {
-    public Model: ModelBase<T>;
+    public Model: ModelBase<T> = {} as ModelBase<T>;
 
     private subscriptions: Subscription[] = [];
     protected pageContentService: PageContentService;

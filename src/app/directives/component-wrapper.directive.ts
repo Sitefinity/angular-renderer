@@ -56,6 +56,10 @@ export class WrapperComponentDirective implements OnInit {
 
     private setProperties(componentData: any, componentInstance: any) {
         if (componentData && componentInstance) {
+            if (!componentInstance.Model) {
+                componentInstance.Model = {};
+            }
+
             Object.keys(componentData).forEach((propName) => {
                 componentInstance.Model[propName] = componentData[propName];
             });
