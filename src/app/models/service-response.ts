@@ -1,6 +1,7 @@
 import { ModelBase } from "./model-base";
 
 export interface PageContentServiceResponse {
+    Culture: string;
     ComponentContext: ComponentContext;
 }
 

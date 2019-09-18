@@ -3,6 +3,7 @@ import { LayoutComponent } from "../components/layout/layout.component";
 import { ContentComponent } from "../components/content-block/content-block.component";
 import { Directive, OnInit, ViewContainerRef, Input, ComponentFactoryResolver } from "@angular/core";
 import { PageContentService } from "../services/page-content.service";
+import { BaseComponent } from '../components/base.component';
 
 const TYPES_MAP = {
     Layout: LayoutComponent,
@@ -15,6 +16,7 @@ const TYPES_MAP = {
 })
 export class WrapperComponentDirective implements OnInit {
     @Input("componentWrapper") componentData: ModelBase<any>;
+    @Input("culture") culture: string;
 
     constructor(private pageContentService: PageContentService,
                 private viewContainer: ViewContainerRef,
@@ -47,22 +49,20 @@ export class WrapperComponentDirective implements OnInit {
     private createAndInjectComponent(type: any) {
         const factory = this.resolver.resolveComponentFactory(type);
         const componentRef = this.viewContainer.createComponent(factory, null, this.viewContainer.injector);
-        const componentInstance = componentRef.instance;
+        const componentInstance = componentRef.instance as BaseComponent<ModelBase<any>>;
 
         this.setProperties(this.componentData, componentInstance);
 
         return componentInstance;
     }
 
-    private setProperties(componentData: any, componentInstance: any) {
+    private setProperties(componentData: any, componentInstance: BaseComponent<ModelBase<any>>) {
         if (componentData && componentInstance) {
-            if (!componentInstance.Model) {
-                componentInstance.Model = {};
-            }
-
             Object.keys(componentData).forEach((propName) => {
                 componentInstance.Model[propName] = componentData[propName];
             });
+
+            componentInstance.Model.Culture = this.culture
         }
     }
 }

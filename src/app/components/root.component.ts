@@ -9,6 +9,7 @@ import { ModelBase } from "../models/model-base";
 })
 export class RootComponent implements OnInit {
     public content: ModelBase<any>[];
+    public culture: string;
 
     constructor(private route: ActivatedRoute,
                 private pageContentService: PageContentService) {
@@ -20,6 +21,7 @@ export class RootComponent implements OnInit {
             const pageUrl = r.map(u => u.path).join("/");
             this.pageContentService.get(pageUrl).subscribe(s => {
                 this.content = s.ComponentContext.Components;
+                this.culture = s.Culture;
             });
         });
     }

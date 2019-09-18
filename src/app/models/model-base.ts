@@ -8,4 +8,6 @@ export class ModelBase<T> {
     PlaceHolder: string;
     Properties: T;
     Children: ModelBase<any>[];
+
+    Culture: string;
 }
