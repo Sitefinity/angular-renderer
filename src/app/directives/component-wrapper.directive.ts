@@ -17,6 +17,7 @@ const TYPES_MAP = {
 export class WrapperComponentDirective implements OnInit {
     @Input("componentWrapper") componentData: ModelBase<any>;
     @Input("culture") culture: string;
+    @Input("siteId") siteId: string;
 
     constructor(private pageContentService: PageContentService,
                 private viewContainer: ViewContainerRef,
@@ -62,7 +63,8 @@ export class WrapperComponentDirective implements OnInit {
                 componentInstance.Model[propName] = componentData[propName];
             });
 
-            componentInstance.Model.Culture = this.culture
+            componentInstance.Model.Culture = this.culture;
+            componentInstance.Model.SiteId = this.siteId;
         }
     }
 }

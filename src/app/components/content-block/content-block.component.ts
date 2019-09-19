@@ -15,7 +15,7 @@ export class ContentComponent extends BaseComponent<ContentBlockProperties> impl
 
     ngOnInit() {
         if (this.Model.Properties && this.Model.Properties.SharedContentID && this.Model.Properties.ProviderName) {
-            const sub = this.pageContentService.getShared(this.Model.Properties.SharedContentID, this.Model.Properties.ProviderName, this.Model.Culture)
+            const sub = this.pageContentService.getShared(this.Model.Properties.SharedContentID, this.Model.Properties.ProviderName, this.Model.Culture, this.Model.SiteId)
                             .subscribe((response: ODataEntityResponse) => {
                 this.Model.Properties.Content = response.Content;
             });

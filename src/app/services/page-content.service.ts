@@ -49,11 +49,11 @@ export class PageContentService {
         return return$;
     }
 
-    public getShared(id: string, providerName: string, cultureName: string): Observable<ODataEntityResponse> {
+    public getShared(id: string, providerName: string, cultureName: string, siteId: string): Observable<ODataEntityResponse> {
         const return$ = new Subject<ODataEntityResponse>();
         const rootUrl = this.rootUrlService.getUrl();
 
-        this.http.get(`${rootUrl}/${this.serviceApi}/contentitems(${id})?sf_provider=${providerName}&sf_culture=${cultureName}`)
+        this.http.get(`${rootUrl}/${this.serviceApi}/contentitems(${id})?sf_provider=${providerName}&sf_culture=${cultureName}&sf_site=${siteId}`)
             .subscribe((s: ODataEntityResponse) => {
                 return$.next(s);
             }, error => {

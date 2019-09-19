@@ -7,7 +7,7 @@
 
 <ng-template #oneColumn let-container="container">
     <div [class]="container.css">
-        <ng-template *ngFor="let child of container.children" [componentWrapper]="child" [culture]="Model.Culture">
+        <ng-template *ngFor="let child of container.children" [componentWrapper]="child" [culture]="Model.Culture" [siteId]="Model.SiteId">
         </ng-template>
     </div>
 </ng-template>
@@ -75,7 +75,7 @@
 </ng-template>
 
 <ng-template #columnChildren let-children="children">
-    <ng-template *ngFor="let child of children" [componentWrapper]="child" [culture]="Model.Culture">
+    <ng-template *ngFor="let child of children" [componentWrapper]="child" [culture]="Model.Culture" [siteId]="Model.SiteId">
     </ng-template>
 </ng-template>
 

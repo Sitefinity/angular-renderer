@@ -10,4 +10,5 @@ export class ModelBase<T> {
     Children: ModelBase<any>[];
 
     Culture: string;
+    SiteId: string;
 }
