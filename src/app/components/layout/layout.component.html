@@ -2,18 +2,25 @@
 </ng-container>
 
 <ng-template #defaultTemplate let-widget>
-    <div>Unknow Template</div>>
+    <div>Unknow Template</div>
 </ng-template>
 
-<ng-template #oneColumn let-container="container">
-    <div [class]="container.css">
-        <ng-template *ngFor="let child of container.children" [componentWrapper]="child" [culture]="Model.Culture" [siteId]="Model.SiteId">
-        </ng-template>
+<ng-template #container>
+    <div [class]="columns[0].css">
+        <ng-container *ngTemplateOutlet="columnChildren; context: {children: columns[0].children}"></ng-container>
+      </div>
+</ng-template>
+
+<ng-template #oneColumn>
+    <div [class]="rowCss">
+        <div [class]="columns[0].css">
+          <ng-container *ngTemplateOutlet="columnChildren; context: {children: columns[0].children}"></ng-container>
+        </div>
     </div>
 </ng-template>
 
 <ng-template #twoColumns>
-    <div [class]="container.css">
+    <div [class]="rowCss">
         <div [class]="columns[0].css">
             <ng-container *ngTemplateOutlet="columnChildren; context: {children: columns[0].children}"></ng-container>
         </div>
@@ -24,7 +31,7 @@
 </ng-template>
 
 <ng-template #threeColumns>
-    <div [class]="container.css">
+    <div [class]="rowCss">
         <div [class]="columns[0].css">
             <ng-container *ngTemplateOutlet="columnChildren; context: {children: columns[0].children}"></ng-container>
         </div>
@@ -38,7 +45,7 @@
 </ng-template>
 
 <ng-template #fourColumns>
-    <div [class]="container.css">
+    <div [class]="rowCss">
         <div [class]="columns[0].css">
             <ng-container *ngTemplateOutlet="columnChildren; context: {children: columns[0].children}"></ng-container>
         </div>
@@ -55,7 +62,7 @@
 </ng-template>
 
 <ng-template #fiveColumns>
-    <div [class]="container.css">
+    <div [class]="rowCss">
         <div [class]="columns[0].css">
             <ng-container *ngTemplateOutlet="columnChildren; context: {children: columns[0].children}"></ng-container>
         </div>
