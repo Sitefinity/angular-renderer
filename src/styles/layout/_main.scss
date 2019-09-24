@@ -1,3 +1,5 @@
-.main {
+.#{$selector-prefix}-main {
+  padding-top: 50px;
+  padding-bottom: 130px;
   background: url("./assets/images/1-bg.png") top left repeat-x;
 }

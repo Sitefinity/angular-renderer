@@ -1,41 +1,4 @@
 $selector-prefix: "qu";
 
 $font-family: "Open Sans", sans-serif;
-
-$spacing-4xs: 5px;
-$spacing-3xs: 10px;
-$spacing-2xs: 15px;
-$spacing-xs: 20px;
-$spacing-s: 25px;
-
-$spacing-m: 30px;
-$spacing-l: 35px;
-$spacing-xl: 40px;
-$spacing-2xl: 45px;
-
-$spacing-3xl: 50px; //==$gutter==50px
-$spacing-4xl: 55px;
-$spacing-5xl: 75px;
-$spacing-6xl: 85px;
-
-$spacing-7xl: 100px;
-$spacing-8xl: 130px;
-
-$spacing-list: (
-    zero: 0, //0
-    4xs: $spacing-4xs, //5px
-    3xs: $spacing-3xs, //10px
-    2xs: $spacing-2xs, //15px
-    xs:  $spacing-xs,  //20px
-    s:   $spacing-s,   //25px
-    m:   $spacing-m,   //30px
-    l:   $spacing-l,   //35px
-    xl:  $spacing-xl,  //40px
-    2xl: $spacing-2xl, //45px
-    3xl: $spacing-3xl, //50px
-    4xl: $spacing-4xl, //55px
-    5xl: $spacing-5xl, //60px
-    6xl: $spacing-6xl, //80px
-    7xl: $spacing-7xl, //100px
-    8xl: $spacing-8xl, //120px
-);
+$font-family-symbol: "Gill Sans", sans-serif;
