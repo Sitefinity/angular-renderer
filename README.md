@@ -8,8 +8,8 @@ Progress® Sitefinity® CMS sample frontend renderer app
 The sample code in this repo implements a decoupled frontend SPA renderer for Sitefinity CMS. It uses the Sitefinity Layout API services to render the layout and widget content in Sitefinity MVC pages. This implementation also works with personalized pages and personalized widgets to enable per-user content personalization.
 
 ## Prerequisites
-• Node.js 12.0 LTS or later.
-• npm 6.0 or later.
+- Node.js 12.0 LTS or later.
+- npm 6.0 or later.
 
 ## Installation
 
