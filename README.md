@@ -1,27 +1,35 @@
-# SfPagesSampleApps
+Progress® Sitefinity® CMS sample frontend renderer app
+======================================================
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.2.
+> **NOTE**: Latest supported version: Sitefinity CMS 12.2.7200.0
 
-## Development server
+## Overview
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+The sample code in this repo implements a decoupled frontend SPA renderer for Sitefinity CMS. It uses the Sitefinity Layout API services to render the layout and widget content in Sitefinity MVC pages. This implementation also works with personalized pages and personalized widgets to enable per-user content personalization.
 
-## Code scaffolding
+## Prerequisites
+- Node.js 12.0 LTS or later.
+- npm 6.0 or later.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Installation
 
-## Build
+To develop using the provided source sample, perform the following:
+1. Clone this repository.
+2. Using a text editor, open this file: `<local repository>/src/app/services/root-url.service`
+3. Locate the `getUrl` method.
+4. Change the value it returns to be the URL of your Sitefinity CMS instance containing the data you want to expose.
+5. Open a new Command Prompt inside the directory with your local repository.
+6. To install project dependencies, run `npm install`.
+7. To start the sample application, run `npm start`.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+    The application starts listening on localhost:4200.
+8. To verify that the sample application works, perform the following:
+    1. Log into your Sitefinity CMS instance with administrative credentials.
+    2. Click Pages.
+    3. In the Actions menu of the page that you want to render, click Title & properties.
+    4. Copy the last segment of the page’s URL.
+   
+       For example, `welcome`.
+    5. In your browser, enter `localhost:4200/<URL of the page to render>`
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+       For example, enter `localhost:4200/welcome`.
