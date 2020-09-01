@@ -1,7 +1,7 @@
 Progress® Sitefinity® CMS sample frontend renderer app
 ======================================================
 
-> **NOTE**: Latest supported version: Sitefinity CMS 12.2.7200.0
+> **NOTE**: Latest supported version: Sitefinity CMS 13.1.7400.0
 
 ## Overview
 
