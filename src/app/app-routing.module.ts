@@ -4,14 +4,14 @@ import { RootComponent } from "./components/root.component";
 
 
 const routes: Routes = [
-  {
-    path: "**",
-    component: RootComponent
-  }
+    {
+        path: "**",
+        component: RootComponent
+    }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule]
 })
 export class AppRoutingModule { }

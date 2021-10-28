@@ -1,12 +1,10 @@
 import { ModelBase } from "../models/model-base";
-import { LayoutComponent } from "../components/layout/layout.component";
 import { ContentComponent } from "../components/content-block/content-block.component";
 import { Directive, OnInit, ViewContainerRef, Input, ComponentFactoryResolver } from "@angular/core";
 import { PageContentService } from "../services/page-content.service";
 import { BaseComponent } from '../components/base.component';
 
-const TYPES_MAP: {[key: string]: Function } = {
-    Layout: LayoutComponent,
+const TYPES_MAP: { [key: string]: Function } = {
     ContentBlock: ContentComponent
 };
 
@@ -20,8 +18,8 @@ export class WrapperComponentDirective implements OnInit {
     @Input("siteId") siteId!: string;
 
     constructor(private pageContentService: PageContentService,
-                private viewContainer: ViewContainerRef,
-                private resolver: ComponentFactoryResolver) {}
+        private viewContainer: ViewContainerRef,
+        private resolver: ComponentFactoryResolver) { }
 
     public ngOnInit(): void {
         if (!this.componentData) {
