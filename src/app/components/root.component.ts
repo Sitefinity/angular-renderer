@@ -8,9 +8,9 @@ import { ModelBase } from "../models/model-base";
   templateUrl: "./root.component.html"
 })
 export class RootComponent implements OnInit {
-  public content: ModelBase<any>[];
-  public culture: string;
-  public siteId: string;
+  public content: ModelBase<any>[] = [];
+  public culture!: string;
+  public siteId!: string;
 
   constructor(private route: ActivatedRoute,
     private pageContentService: PageContentService) {

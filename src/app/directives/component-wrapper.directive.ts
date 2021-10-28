@@ -5,7 +5,7 @@ import { Directive, OnInit, ViewContainerRef, Input, ComponentFactoryResolver } 
 import { PageContentService } from "../services/page-content.service";
 import { BaseComponent } from '../components/base.component';
 
-const TYPES_MAP = {
+const TYPES_MAP: {[key: string]: Function } = {
     Layout: LayoutComponent,
     ContentBlock: ContentComponent
 };
@@ -15,9 +15,9 @@ const TYPES_MAP = {
     selector: "[componentWrapper]"
 })
 export class WrapperComponentDirective implements OnInit {
-    @Input("componentWrapper") componentData: ModelBase<any>;
-    @Input("culture") culture: string;
-    @Input("siteId") siteId: string;
+    @Input("componentWrapper") componentData!: ModelBase<any>;
+    @Input("culture") culture!: string;
+    @Input("siteId") siteId!: string;
 
     constructor(private pageContentService: PageContentService,
                 private viewContainer: ViewContainerRef,
@@ -49,7 +49,7 @@ export class WrapperComponentDirective implements OnInit {
 
     private createAndInjectComponent(type: any) {
         const factory = this.resolver.resolveComponentFactory(type);
-        const componentRef = this.viewContainer.createComponent(factory, null, this.viewContainer.injector);
+        const componentRef = this.viewContainer.createComponent(factory, undefined, this.viewContainer.injector);
         const componentInstance = componentRef.instance as BaseComponent<ModelBase<any>>;
 
         this.setProperties(this.componentData, componentInstance);
@@ -60,7 +60,7 @@ export class WrapperComponentDirective implements OnInit {
     private setProperties(componentData: any, componentInstance: BaseComponent<ModelBase<any>>) {
         if (componentData && componentInstance) {
             Object.keys(componentData).forEach((propName) => {
-                componentInstance.Model[propName] = componentData[propName];
+                (componentInstance.Model as any)[propName] = componentData[propName];
             });
 
             componentInstance.Model.Culture = this.culture;

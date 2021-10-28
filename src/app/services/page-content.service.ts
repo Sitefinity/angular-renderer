@@ -16,7 +16,7 @@ export class PageContentService {
     public get(pageName: string): Observable<PageContentServiceResponse> {
         const return$ = new Subject<PageContentServiceResponse>();
         const rootUrl = this.rootUrlService.getUrl();
-        this.http.get(`${rootUrl}/${this.serviceApi}/pages/Default.Model(url=@param)?@param='${pageName}'`)
+        this.http.get<PageContentServiceResponse>(`${rootUrl}/${this.serviceApi}/pages/Default.Model(url=@param)?@param='${pageName}'`)
             .subscribe((s: PageContentServiceResponse) => {
                 return$.next(s);
 
@@ -39,7 +39,7 @@ export class PageContentService {
         const return$ = new Subject<ComponentContext>();
         const rootUrl = this.rootUrlService.getUrl();
 
-        this.http.get(`${rootUrl}/${this.serviceApi}/pages/Default.LazyComponents(url=@param)?@param='${url}'`)
+        this.http.get<ComponentContext>(`${rootUrl}/${this.serviceApi}/pages/Default.LazyComponents(url=@param)?@param='${url}'`)
             .subscribe((s: ComponentContext) => {
                 return$.next(s);
             }, error => {
@@ -53,7 +53,7 @@ export class PageContentService {
         const return$ = new Subject<ODataEntityResponse>();
         const rootUrl = this.rootUrlService.getUrl();
 
-        this.http.get(`${rootUrl}/${this.serviceApi}/contentitems(${id})?sf_provider=${providerName}&sf_culture=${cultureName}&sf_site=${siteId}`)
+        this.http.get<ODataEntityResponse>(`${rootUrl}/${this.serviceApi}/contentitems(${id})?sf_provider=${providerName}&sf_culture=${cultureName}&sf_site=${siteId}`)
             .subscribe((s: ODataEntityResponse) => {
                 return$.next(s);
             }, error => {

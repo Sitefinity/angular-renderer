@@ -7,7 +7,7 @@ export interface ColumnModel {
     placeholder: string;
 }
 
-export const LayoutColumns = {
+export const LayoutColumns: { [key: string]: number } = {
     "1-column": 1,
     "2-columns": 2,
     "3-columns": 3,

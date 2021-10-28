@@ -9,16 +9,22 @@ import { PageContentService } from "../../services/page-content.service";
 })
 export class LayoutComponent extends BaseComponent<{ [key: string]: string }> implements OnInit {
     public columns: ColumnModel[] = [];
-    public rowCss: string;
+    public rowCss: string = "";
 
-    public itemTemplateName: TemplateRef<any>;
+    public itemTemplateName!: TemplateRef<any>;
 
-    @ViewChild("container", { static: true }) private containerTemplate: TemplateRef<any>;
-    @ViewChild("oneColumn", { static: true }) private oneColumnTemplate: TemplateRef<any>;
-    @ViewChild("twoColumns", { static: true }) private twoColumnsTemplate: TemplateRef<any>;
-    @ViewChild("threeColumns", { static: true }) private threeColumnsTemplate: TemplateRef<any>;
-    @ViewChild("fourColumns", { static: true }) private fourColumnsTemplate: TemplateRef<any>;
-    @ViewChild("fiveColumns", { static: true }) private fiveColumnsTemplate: TemplateRef<any>;
+    @ViewChild("container", { static: true })
+    private containerTemplate!: TemplateRef<any>;
+    @ViewChild("oneColumn", { static: true })
+    private oneColumnTemplate!: TemplateRef<any>;
+    @ViewChild("twoColumns", { static: true })
+    private twoColumnsTemplate!: TemplateRef<any>;
+    @ViewChild("threeColumns", { static: true })
+    private threeColumnsTemplate!: TemplateRef<any>;
+    @ViewChild("fourColumns", { static: true })
+    private fourColumnsTemplate!: TemplateRef<any>;
+    @ViewChild("fiveColumns", { static: true })
+    private fiveColumnsTemplate!: TemplateRef<any>;
 
     constructor(protected pageContentService: PageContentService) {
         super(pageContentService);

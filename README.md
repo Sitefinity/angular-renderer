@@ -9,7 +9,7 @@ The sample code in this repo implements a decoupled frontend SPA renderer for Si
 
 In this repository, you can find these sample apps:
 
-1. The `master` branch contains a blank starter kit. 
+1. The `master` branch contains a blank starter kit.
 
    Use it when you want to have full control over the functionality of your app.
 2. The `quantum-landing-page` branch contains a sample app which demonstrates how to consume and present content and layout.
@@ -37,7 +37,7 @@ To develop using the provided source sample, perform the following:
     2. Click Pages.
     3. In the Actions menu of the page that you want to render, click Title & properties.
     4. Copy the last segment of the page’s URL.
-   
+
        For example, `welcome`.
     5. In your browser, enter `localhost:4200/<URL of the page to render>`
 
