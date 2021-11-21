@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { PageContentService } from "../../services/page-content.service";
-import { ContentBlockProperties } from "../../models/content-block-model";
+import { ContentBlockEntity } from "../../models/content-block-entity";
 import { ODataEntityResponse } from "../../models/service-response";
 import { BaseComponent } from "../base.component";
 
@@ -8,7 +8,7 @@ import { BaseComponent } from "../base.component";
     templateUrl: "content-block.component.html",
     selector: "app-content"
 })
-export class ContentComponent extends BaseComponent<ContentBlockProperties> implements OnInit {
+export class ContentComponent extends BaseComponent<ContentBlockEntity> implements OnInit {
     constructor(protected pageContentService: PageContentService) {
         super(pageContentService);
     }

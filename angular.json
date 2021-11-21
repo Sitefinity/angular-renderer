@@ -71,9 +71,9 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-              "baseHref": "/dev/",
-              "deployUrl": "/dev/"
-          },
+                "baseHref": "/dev/",
+                "deployUrl": "/dev/"
+            },
           "configurations": {
             "production": {
               "browserTarget": "angular-renderer:build:production"

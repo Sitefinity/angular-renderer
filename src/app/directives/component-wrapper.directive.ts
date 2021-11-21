@@ -1,8 +1,10 @@
 import { ModelBase } from "../models/model-base";
 import { ContentComponent } from "../components/content-block/content-block.component";
-import { Directive, OnInit, ViewContainerRef, Input, ComponentFactoryResolver } from "@angular/core";
+import { Directive, OnInit, ViewContainerRef, Input, ComponentFactoryResolver, Renderer2 } from "@angular/core";
 import { PageContentService } from "../services/page-content.service";
 import { BaseComponent } from '../components/base.component';
+import { RenderContext } from '../services/render-context';
+import { RenderWidgetService } from "../services/render-widget.service";
 
 const TYPES_MAP: { [key: string]: Function } = {
     ContentBlock: ContentComponent
@@ -14,12 +16,10 @@ const TYPES_MAP: { [key: string]: Function } = {
 })
 export class WrapperComponentDirective implements OnInit {
     @Input("componentWrapper") componentData!: ModelBase<any>;
-    @Input("culture") culture!: string;
-    @Input("siteId") siteId!: string;
 
-    constructor(private pageContentService: PageContentService,
+    constructor(
         private viewContainer: ViewContainerRef,
-        private resolver: ComponentFactoryResolver) { }
+        private renderWidgetService: RenderWidgetService) { }
 
     public ngOnInit(): void {
         if (!this.componentData) {
@@ -31,38 +31,6 @@ export class WrapperComponentDirective implements OnInit {
             return;
         }
 
-        if (this.componentData.Lazy) {
-            const component = this.createAndInjectComponent(type);
-
-            this.pageContentService.receivedContent$.subscribe(model => {
-                if (model.Id === this.componentData.Id) {
-                    Object.assign(this.componentData, model);
-                    this.setProperties(this.componentData, component);
-                }
-            });
-        } else {
-            this.createAndInjectComponent(type);
-        }
-    }
-
-    private createAndInjectComponent(type: any) {
-        const factory = this.resolver.resolveComponentFactory(type);
-        const componentRef = this.viewContainer.createComponent(factory, undefined, this.viewContainer.injector);
-        const componentInstance = componentRef.instance as BaseComponent<ModelBase<any>>;
-
-        this.setProperties(this.componentData, componentInstance);
-
-        return componentInstance;
-    }
-
-    private setProperties(componentData: any, componentInstance: BaseComponent<ModelBase<any>>) {
-        if (componentData && componentInstance) {
-            Object.keys(componentData).forEach((propName) => {
-                (componentInstance.Model as any)[propName] = componentData[propName];
-            });
-
-            componentInstance.Model.Culture = this.culture;
-            componentInstance.Model.SiteId = this.siteId;
-        }
+        this.renderWidgetService.createAndInjectComponent(this.componentData, this.viewContainer);
     }
 }

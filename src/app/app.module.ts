@@ -10,6 +10,9 @@ import { ContentComponent } from "./components/content-block/content-block.compo
 import { WrapperComponentDirective } from "./directives/component-wrapper.directive";
 import { RootUrlService } from "./services/root-url.service";
 import { CommonModule } from "@angular/common";
+import { RendererContractImpl } from "./services/renderer-contract";
+import { RenderContext } from "./services/render-context";
+import { RenderWidgetService } from "./services/render-widget.service";
 
 @NgModule({
     declarations: [
@@ -30,8 +33,12 @@ import { CommonModule } from "@angular/common";
     providers: [
         RootUrlService,
         PageContentService,
+        RenderContext,
+        RenderWidgetService,
+        RendererContractImpl,
         WrapperComponentDirective
     ],
     bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

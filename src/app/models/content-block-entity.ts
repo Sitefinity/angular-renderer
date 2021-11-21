@@ -1,4 +1,4 @@
-export class ContentBlockProperties {
+export class ContentBlockEntity {
     Content!: string;
     ExcludeFromSearchIndex!: boolean;
     ProviderName!: string;
