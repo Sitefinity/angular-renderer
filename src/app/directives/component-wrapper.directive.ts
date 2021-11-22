@@ -7,7 +7,7 @@ import { RenderContext } from '../services/render-context';
 import { RenderWidgetService } from "../services/render-widget.service";
 
 const TYPES_MAP: { [key: string]: Function } = {
-    ContentBlock: ContentComponent
+    Content: ContentComponent
 };
 
 @Directive({

@@ -4,6 +4,7 @@ import { Subject, Observable, ReplaySubject } from "rxjs";
 import { RootUrlService } from "./root-url.service";
 import { ModelBase } from "../models/model-base";
 import { PageContentServiceResponse, ComponentContext, ODataEntityResponse } from "../models/service-response";
+import { RenderContext } from "./render-context";
 
 @Injectable()
 export class PageContentService {
@@ -11,12 +12,17 @@ export class PageContentService {
 
     private readonly serviceApi = "api/default";
 
-    constructor(private http: HttpClient, private rootUrlService: RootUrlService) { }
+    constructor(private http: HttpClient, private rootUrlService: RootUrlService, private renderContext: RenderContext) { }
 
     public get(pageName: string): Observable<PageContentServiceResponse> {
         const return$ = new Subject<PageContentServiceResponse>();
         const rootUrl = this.rootUrlService.getUrl();
-        this.http.get<PageContentServiceResponse>(`${rootUrl}/${this.serviceApi}/pages/Default.Model(url=@param)?@param='${pageName}'`)
+        let serviceUrl = `${rootUrl}/${this.serviceApi}/pages/Default.Model(url=@param)?@param='${pageName}'`;
+        if (this.renderContext.isEdit()) {
+            serviceUrl += "&sfaction=edit";
+        }
+
+        this.http.get<PageContentServiceResponse>(serviceUrl)
             .subscribe((s: PageContentServiceResponse) => {
                 return$.next(s);
 
