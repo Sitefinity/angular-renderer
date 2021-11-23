@@ -3,7 +3,6 @@ import { ActivatedRoute } from "@angular/router";
 import { ModelBase } from "./models/model-base";
 import { PageContentService } from "./services/page-content.service";
 import { RenderContext } from "./services/render-context";
-import { RenderWidgetService } from "./services/render-widget.service";
 import { RendererContractImpl } from "./services/renderer-contract";
 
 @Component({
@@ -24,8 +23,6 @@ export class AppComponent {
             rendererContract.getWidgets = rendererService.getWidgets;
             rendererContract.renderWidget = rendererService.renderWidget;
             rendererContract.ready = rendererService.ready;
-        } else {
-            delete (window as any)["rendererContract"];
         }
     }
 
