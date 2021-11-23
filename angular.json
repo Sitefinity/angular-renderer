@@ -70,6 +70,9 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+              "servePath": "/sfrenderer/angular-dev"
+          },
           "configurations": {
             "production": {
               "browserTarget": "angular-renderer:build:production"
