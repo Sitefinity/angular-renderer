@@ -75,7 +75,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-              "servePath": "/sfrenderer/angular"
+              "baseHref": "/",
+              "deployUrl": "sfrenderer/angular/"
           },
           "configurations": {
             "production": {

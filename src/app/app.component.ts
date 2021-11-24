@@ -14,16 +14,8 @@ export class AppComponent {
     title = "sf-pages-sample-apps";
     public content: ModelBase<any>[] = [];
 
-    constructor(renderContext: RenderContext, private rendererService: RendererContractImpl, private route: ActivatedRoute,
-        private pageContentService: PageContentService) {
-        if (renderContext.isEdit()) {
-            const rendererContract = (window as any)["rendererContract"] as RendererContractImpl;
-            rendererContract.getWidgetMetadata = rendererService.getWidgetMetadata;
-            rendererContract.getCategories = rendererService.getCategories;
-            rendererContract.getWidgets = rendererService.getWidgets;
-            rendererContract.renderWidget = rendererService.renderWidget;
-            rendererContract.ready = rendererService.ready;
-        }
+    constructor(private renderContext: RenderContext, private rendererService: RendererContractImpl, private pageContentService: PageContentService) {
+
     }
 
     ngOnInit(): void {
@@ -33,7 +25,10 @@ export class AppComponent {
         });
 
         window.setTimeout(() => {
-            (window as any)["rendererContract"].resolveFunc();
+            if (this.renderContext.isEdit()) {
+                (window as any)["rendererContract"] = this.rendererService;
+                window.dispatchEvent(new Event('contractReady'));
+            }
         }, 500);
     }
 
