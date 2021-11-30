@@ -32,8 +32,9 @@ export class RenderWidgetService {
             this.renderer.createRenderer(null, null).setAttribute(componentRef.location.nativeElement, "data-sfid", widgetModel.Id);
             this.renderer.createRenderer(null, null).setAttribute(componentRef.location.nativeElement, "data-sfisorphaned", "false");
             this.renderer.createRenderer(null, null).setAttribute(componentRef.location.nativeElement, "data-sfiscontentwidget", "true");
+            this.renderer.createRenderer(null, null).setAttribute(componentRef.location.nativeElement, "data-sfisemptyvisualhidden", "false");
         }
-        debugger;
+
         this.setProperties(widgetModel, componentInstance);
 
         return componentInstance;

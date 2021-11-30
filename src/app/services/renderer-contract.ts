@@ -7,9 +7,8 @@ export class RendererContractImpl implements RendererContract {
 
     renderWidget(args: RenderWidgetArgs): Promise<RenderResult> {
         window.location.reload();
-        return Promise.resolve({
-            content: "",
-            scripts: []
+        return new Promise((resolve, reject) => {
+
         });
     }
 
@@ -26,7 +25,7 @@ export class RendererContractImpl implements RendererContract {
                     widgets: [
                         {
                             name: "Content",
-                            addWidgetName: "Content",
+                            addWidgetName: "ContentBlock",
                             addWidgetTitle: "Content block",
                             title: "Content block",
                             initialProperties: []
