@@ -6,7 +6,7 @@ import { RenderContext } from "./render-context";
 import { ComponentMetadata, WidgetModel } from "./renderer-contract";
 
 const TYPES_MAP: { [key: string]: Function } = {
-    Content: ContentComponent
+    ContentBlock: ContentComponent
 };
 
 @Injectable()

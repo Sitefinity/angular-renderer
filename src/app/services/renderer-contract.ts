@@ -24,7 +24,7 @@ export class RendererContractImpl implements RendererContract {
                     title: "Basic",
                     widgets: [
                         {
-                            name: "Content",
+                            name: "ContentBlock",
                             addWidgetName: "ContentBlock",
                             addWidgetTitle: "Content block",
                             title: "Content block",
