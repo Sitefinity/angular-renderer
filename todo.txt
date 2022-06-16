@@ -1,7 +1,1 @@
-how to host standalone renderer
-how to know when all of the components have loaded
-feature parity to what extent?
-sdk needs to be improved.
-extract proxy part of renderer or use separate app to host angular in dev mode
-root element must be configured
 enable loading of single component in edit mode

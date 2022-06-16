@@ -22,16 +22,21 @@ export class AppComponent {
         const path = window.location.pathname;
         this.pageContentService.get(path).subscribe(s => {
             this.content = s.ComponentContext.Components;
-        });
 
-        window.setTimeout(() => {
             if (this.renderContext.isEdit()) {
-                (window as any)["rendererContract"] = this.rendererService;
-                window.dispatchEvent(new Event('contractReady'));
-            }
-        }, 500);
-    }
+                window.document.body.setAttribute('data-sfcontainer', '');
+                const handle = window.setInterval(() => {
+                    // we do not know the exact time when angular has finished the rendering process.
+                    // thus we check every 100ms for dom changes. A proper check would be to see if every single
+                    // component is rendered
+                    if ((this.content.length > 0 && window.document.body.childElementCount > 0) || this.content.length === 0) {
+                        window.clearInterval(handle);
 
-    ngAfterViewInit(): void {
+                        (window as any)["rendererContract"] = this.rendererService;
+                        window.dispatchEvent(new Event('contractReady'));
+                    }
+                }, 100);
+            }
+        });
     }
 }
