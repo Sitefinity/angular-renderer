@@ -1,5 +1,6 @@
 import { ComponentFactoryResolver, Injectable, Injector, Type } from "@angular/core";
 import { ContentComponent } from "../components/content-block/content-block.component";
+import { RenderWidgetService } from "./render-widget.service";
 
 @Injectable()
 export class RendererContractImpl implements RendererContract {
@@ -8,7 +9,7 @@ export class RendererContractImpl implements RendererContract {
         "ContentBlock": ContentComponent
     };
 
-    constructor(private factory: ComponentFactoryResolver, private injector: Injector) {
+    constructor(private renderWidgetService: RenderWidgetService) {
 
     }
 
@@ -17,17 +18,14 @@ export class RendererContractImpl implements RendererContract {
     }
 
     renderWidget(args: RenderWidgetArgs): Promise<RenderResult> {
-        const factory = this.factory.resolveComponentFactory(this.componentFactoryMap[args.model.Name])
-        const instanceReference = factory.create(this.injector);
-        Object.assign(instanceReference.instance, args.model.Properties);
+        const instanceReference = this.renderWidgetService.createComponent(args.model);
 
-        window.location.reload();
         return new Promise((resolve, reject) => {
-            /*resolve({
-                element: instanceReference.location.nativeElement,
+            resolve({
+                element: instanceReference?.location.nativeElement,
                 content: '',
                 scripts: []
-            })*/
+            })
         });
     }
 

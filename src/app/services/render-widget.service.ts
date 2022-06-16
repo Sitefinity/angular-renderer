@@ -1,4 +1,4 @@
-import { ComponentFactoryResolver, Injectable, Renderer2, RendererFactory2, Type, ViewContainerRef } from "@angular/core";
+import { ComponentFactoryResolver, Injectable, Injector, Renderer2, RendererFactory2, Type, ViewContainerRef } from "@angular/core";
 import { BaseComponent } from "../components/base.component";
 import { ContentComponent } from "../components/content-block/content-block.component";
 import { ModelBase } from "../models/model-base";
@@ -11,7 +11,11 @@ const TYPES_MAP: { [key: string]: Function } = {
 
 @Injectable()
 export class RenderWidgetService {
-    constructor(private resolver: ComponentFactoryResolver, private renderContext: RenderContext, private renderer: RendererFactory2) {
+    constructor(
+        private resolver: ComponentFactoryResolver,
+        private renderContext: RenderContext,
+        private renderer: RendererFactory2,
+        private injector: Injector) {
 
     }
 
@@ -38,6 +42,31 @@ export class RenderWidgetService {
         this.setProperties(widgetModel, componentInstance);
 
         return componentInstance;
+    }
+
+    public createComponent(widgetModel: WidgetModel) {
+        const type: any = TYPES_MAP[widgetModel.Name];
+        if (!type) {
+            return;
+        }
+
+        const factory = this.resolver.resolveComponentFactory(type);
+        const componentRef = factory.create(this.injector);
+        const componentInstance = componentRef.instance as BaseComponent<ModelBase<any>>;
+
+        if (this.renderContext.isEdit()) {
+            this.renderer.createRenderer(null, null).setAttribute(componentRef.location.nativeElement, "data-sfname", widgetModel.Name);
+            this.renderer.createRenderer(null, null).setAttribute(componentRef.location.nativeElement, "data-sftitle", widgetModel.Name);
+            this.renderer.createRenderer(null, null).setAttribute(componentRef.location.nativeElement, "data-sfemptyiconaction", "Edit");
+            this.renderer.createRenderer(null, null).setAttribute(componentRef.location.nativeElement, "data-sfid", widgetModel.Id);
+            this.renderer.createRenderer(null, null).setAttribute(componentRef.location.nativeElement, "data-sfisorphaned", "false");
+            this.renderer.createRenderer(null, null).setAttribute(componentRef.location.nativeElement, "data-sfiscontentwidget", "true");
+            this.renderer.createRenderer(null, null).setAttribute(componentRef.location.nativeElement, "data-sfisemptyvisualhidden", "false");
+        }
+
+        this.setProperties(widgetModel, componentInstance);
+
+        return componentRef;
     }
 
     private setProperties(componentData: WidgetModel, componentInstance: BaseComponent<ModelBase<any>>) {
