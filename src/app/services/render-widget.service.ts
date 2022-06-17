@@ -1,4 +1,4 @@
-import { ComponentFactoryResolver, Injectable, Injector, Renderer2, RendererFactory2, Type, ViewContainerRef } from "@angular/core";
+import { ApplicationRef, ComponentFactoryResolver, Injectable, Injector, RendererFactory2, ViewContainerRef } from "@angular/core";
 import { BaseComponent } from "../components/base.component";
 import { ContentComponent } from "../components/content-block/content-block.component";
 import { ModelBase } from "../models/model-base";
@@ -12,6 +12,7 @@ const TYPES_MAP: { [key: string]: Function } = {
 @Injectable()
 export class RenderWidgetService {
     constructor(
+        private appRef: ApplicationRef,
         private resolver: ComponentFactoryResolver,
         private renderContext: RenderContext,
         private renderer: RendererFactory2,
@@ -65,6 +66,8 @@ export class RenderWidgetService {
         }
 
         this.setProperties(widgetModel, componentInstance);
+        this.appRef.attachView(componentRef.hostView);
+        this.appRef.tick();
 
         return componentRef;
     }

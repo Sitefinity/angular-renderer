@@ -14,7 +14,10 @@ export class AppComponent {
     title = "sf-pages-sample-apps";
     public content: ModelBase<any>[] = [];
 
-    constructor(private renderContext: RenderContext, private rendererService: RendererContractImpl, private pageContentService: PageContentService) {
+    constructor(
+        private renderContext: RenderContext,
+        private rendererService: RendererContractImpl,
+        private pageContentService: PageContentService) {
 
     }
 
