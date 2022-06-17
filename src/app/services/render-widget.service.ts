@@ -28,18 +28,9 @@ export class RenderWidgetService {
 
         const factory = this.resolver.resolveComponentFactory(type);
         const componentRef = viewContainer.createComponent(factory, undefined, viewContainer.injector);
+        this.setAttributes(componentRef.location.nativeElement, widgetModel);
+
         const componentInstance = componentRef.instance as BaseComponent<ModelBase<any>>;
-
-        if (this.renderContext.isEdit()) {
-            this.renderer.createRenderer(null, null).setAttribute(componentRef.location.nativeElement, "data-sfname", widgetModel.Name);
-            this.renderer.createRenderer(null, null).setAttribute(componentRef.location.nativeElement, "data-sftitle", widgetModel.Name);
-            this.renderer.createRenderer(null, null).setAttribute(componentRef.location.nativeElement, "data-sfemptyiconaction", "Edit");
-            this.renderer.createRenderer(null, null).setAttribute(componentRef.location.nativeElement, "data-sfid", widgetModel.Id);
-            this.renderer.createRenderer(null, null).setAttribute(componentRef.location.nativeElement, "data-sfisorphaned", "false");
-            this.renderer.createRenderer(null, null).setAttribute(componentRef.location.nativeElement, "data-sfiscontentwidget", "true");
-            this.renderer.createRenderer(null, null).setAttribute(componentRef.location.nativeElement, "data-sfisemptyvisualhidden", "false");
-        }
-
         this.setProperties(widgetModel, componentInstance);
 
         return componentInstance;
@@ -53,23 +44,27 @@ export class RenderWidgetService {
 
         const factory = this.resolver.resolveComponentFactory(type);
         const componentRef = factory.create(this.injector);
+        this.setAttributes(componentRef.location.nativeElement, widgetModel);
+
         const componentInstance = componentRef.instance as BaseComponent<ModelBase<any>>;
-
-        if (this.renderContext.isEdit()) {
-            this.renderer.createRenderer(null, null).setAttribute(componentRef.location.nativeElement, "data-sfname", widgetModel.Name);
-            this.renderer.createRenderer(null, null).setAttribute(componentRef.location.nativeElement, "data-sftitle", widgetModel.Name);
-            this.renderer.createRenderer(null, null).setAttribute(componentRef.location.nativeElement, "data-sfemptyiconaction", "Edit");
-            this.renderer.createRenderer(null, null).setAttribute(componentRef.location.nativeElement, "data-sfid", widgetModel.Id);
-            this.renderer.createRenderer(null, null).setAttribute(componentRef.location.nativeElement, "data-sfisorphaned", "false");
-            this.renderer.createRenderer(null, null).setAttribute(componentRef.location.nativeElement, "data-sfiscontentwidget", "true");
-            this.renderer.createRenderer(null, null).setAttribute(componentRef.location.nativeElement, "data-sfisemptyvisualhidden", "false");
-        }
-
         this.setProperties(widgetModel, componentInstance);
+
         this.appRef.attachView(componentRef.hostView);
         this.appRef.tick();
 
         return componentRef;
+    }
+
+    private setAttributes(element: HTMLElement, widgetModel: WidgetModel) {
+        if (this.renderContext.isEdit()) {
+            this.renderer.createRenderer(null, null).setAttribute(element, "data-sfname", widgetModel.Name);
+            this.renderer.createRenderer(null, null).setAttribute(element, "data-sftitle", widgetModel.Name);
+            this.renderer.createRenderer(null, null).setAttribute(element, "data-sfemptyiconaction", "Edit");
+            this.renderer.createRenderer(null, null).setAttribute(element, "data-sfid", widgetModel.Id);
+            this.renderer.createRenderer(null, null).setAttribute(element, "data-sfisorphaned", "false");
+            this.renderer.createRenderer(null, null).setAttribute(element, "data-sfiscontentwidget", "true");
+            this.renderer.createRenderer(null, null).setAttribute(element, "data-sfisemptyvisualhidden", "false");
+        }
     }
 
     private setProperties(componentData: WidgetModel, componentInstance: BaseComponent<ModelBase<any>>) {
