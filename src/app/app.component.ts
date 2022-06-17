@@ -24,6 +24,7 @@ export class AppComponent {
     ngOnInit(): void {
         const path = window.location.pathname;
         this.pageContentService.get(path).subscribe(s => {
+            this.renderContext.cultureName = s.Culture;
             this.content = s.ComponentContext.Components;
 
             if (this.renderContext.isEdit()) {

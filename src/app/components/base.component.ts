@@ -8,11 +8,6 @@ export class BaseComponent<T> implements OnDestroy {
     public Model: ModelBase<T> = {} as ModelBase<T>;
 
     private subscriptions: Subscription[] = [];
-    protected pageContentService: PageContentService;
-
-    constructor(pageContentService: PageContentService) {
-        this.pageContentService = pageContentService;
-    }
 
     ngOnDestroy(): void {
         this.subscriptions.forEach(s => {

@@ -1,9 +1,7 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 
-import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { RootComponent } from "./components/root.component";
 import { PageContentService } from "./services/page-content.service";
 import { HttpClientModule } from "@angular/common/http";
 import { ContentComponent } from "./components/content-block/content-block.component";
@@ -17,7 +15,6 @@ import { RenderWidgetService } from "./services/render-widget.service";
 @NgModule({
     declarations: [
         AppComponent,
-        RootComponent,
         ContentComponent,
         WrapperComponentDirective
     ],
@@ -27,8 +24,7 @@ import { RenderWidgetService } from "./services/render-widget.service";
     imports: [
         BrowserModule,
         CommonModule,
-        HttpClientModule,
-        AppRoutingModule
+        HttpClientModule
     ],
     providers: [
         RootUrlService,
