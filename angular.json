@@ -37,18 +37,6 @@
           },
           "configurations": {
             "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
-                }
-              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -56,10 +44,13 @@
                 }
               ],
               "outputHashing": "all",
+              "buildOptimizer": false,  
+              "optimization": false,
               "index": {
                   "input": "src/index.prod.html",
                   "output": "index.html"
-              }
+              },
+              "deployUrl": "/sitefinity/public/renderers/angular/"
             },
             "development": {
               "buildOptimizer": false,
@@ -75,8 +66,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-              "baseHref": "/",
-              "deployUrl": "sfrenderer/angular/"
+              "deployUrl": "/sitefinity/public/renderers/angular/"
           },
           "configurations": {
             "production": {
