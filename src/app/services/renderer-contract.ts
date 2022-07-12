@@ -59,26 +59,13 @@ export class RendererContractImpl implements RendererContract {
             dataItems: []
         });
     }
-
-    ready(): Promise<void> {
-        var that = this;
-        return new Promise((resolve, reject) => {
-            that.resolveFunc = resolve;
-        });
-    }
-
-    setReady() {
-        this.resolveFunc();
-    }
 }
-
 
 export interface RendererContract {
     getWidgetMetadata(args: GetWidgetMetadataArgs): Promise<ComponentMetadata>;
     renderWidget(args: RenderWidgetArgs): Promise<RenderResult>;
     getCategories(args: GetCategoriesArgs): Promise<Array<string>>;
     getWidgets(args: GetWidgetsArgs): Promise<TotalCountResult<Array<WidgetSection>>>;
-    ready(): Promise<void>;
 }
 
 export interface TotalCountResult<T> {
@@ -112,6 +99,7 @@ export interface WidgetItem {
     title: string;
     addWidgetTitle: string;
     addWidgetName: string;
+    thumbnailUrl?: string;
     initialProperties: Array<{ name: string, value: string}>
 }
 
