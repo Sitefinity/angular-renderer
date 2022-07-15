@@ -1,1 +1,0 @@
-enable loading of single component in edit mode
