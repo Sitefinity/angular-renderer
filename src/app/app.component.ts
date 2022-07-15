@@ -23,7 +23,7 @@ export class AppComponent {
 
     ngOnInit(): void {
         const path = window.location.pathname;
-        this.pageContentService.get(path).subscribe(s => {
+        this.pageContentService.get(window.location.href).subscribe(s => {
             this.renderContext.cultureName = s.Culture;
             this.content = s.ComponentContext.Components;
 

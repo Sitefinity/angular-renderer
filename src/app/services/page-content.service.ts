@@ -17,7 +17,7 @@ export class PageContentService {
     public get(pageName: string): Observable<PageContentServiceResponse> {
         const return$ = new Subject<PageContentServiceResponse>();
         const rootUrl = this.rootUrlService.getUrl();
-        let serviceUrl = `${rootUrl}/${this.serviceApi}/pages/Default.Model(url=@param)?@param='${pageName}'`;
+        let serviceUrl = `${rootUrl}/${this.serviceApi}/pages/Default.Model(url=@param)?@param='${encodeURIComponent(pageName)}'`;
         if (this.renderContext.isEdit()) {
             serviceUrl += "&sfaction=edit";
         }
