@@ -15,7 +15,7 @@ export interface SectionEntity {
     SectionMargin: OffsetStyle,
     SectionBackground: BackgroundStyle,
     ColumnsPadding: { [key: string]: OffsetStyle },
-    ColumnsBackground: { [key: string]: SimpleBackgroundStyle },
+    ColumnsBackground: string,
     CustomCssClass: { [key: string]: CustomCssModel },
     Labels: string;
     Attributes: string;

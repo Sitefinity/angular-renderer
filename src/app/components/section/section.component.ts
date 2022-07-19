@@ -6,6 +6,7 @@ import { ColumnModel } from "./column-model";
 import { BackgroundBase } from "src/app/styling/background-base";
 import { LabelModel } from "./label-model";
 import { AttributeModel } from "../attribute-model";
+import { SimpleBackgroundStyle } from "src/app/styling/simple-background-style";
 const ColumnNamePrefix = "Column";
 
 @Component({
@@ -34,6 +35,10 @@ export class SectionComponent extends BaseComponent<SectionEntity> implements On
         let attributes: { [key: string]: Array<AttributeModel> } | null = null;
         if (this.Properties.Attributes)
             attributes = JSON.parse(this.Properties.Attributes);
+
+        let columnsBackground: { [key: string]: SimpleBackgroundStyle } | null = null;
+        if (this.Properties.ColumnsBackground)
+            columnsBackground = JSON.parse(this.Properties.ColumnsBackground);
 
         for (let i = 0; i < this.Properties.ColumnsCount; i++) {
             let currentName = `${ColumnNamePrefix}${i + 1}`;
@@ -64,9 +69,9 @@ export class SectionComponent extends BaseComponent<SectionEntity> implements On
                 });
             }
 
-            if (this.Properties.ColumnsBackground && this.Properties.ColumnsBackground.hasOwnProperty(currentName)) {
-                const backgroundStyle = this.Properties.ColumnsBackground[currentName];
-                if (backgroundStyle.BackgroundType == BackgroundBase.Color) {
+            if (columnsBackground && columnsBackground.hasOwnProperty(currentName)) {
+                const backgroundStyle = columnsBackground[currentName];
+                if (backgroundStyle.BackgroundType == "Color") {
                     column.Attributes["style"] = `--sf-background-color: ${backgroundStyle.Color}`;
                 }
             }

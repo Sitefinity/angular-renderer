@@ -1,4 +1,1 @@
-export enum BackgroundBase {
-    None,
-    Color
-}
+export type BackgroundBase = "Color" | "None";
