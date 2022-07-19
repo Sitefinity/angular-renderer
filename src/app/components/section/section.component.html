@@ -1,4 +1,4 @@
-<section *ngIf="Properties.ColumnsCount > 0" [attr.style]="Model.Properties.WrapperCssClass" class="row" [attr.class]="Model.Properties.SectionClasses"><!--@Html.BuildAttributes(Model.Attributes, "Section")-->
+<section class="row">
     <ng-container *ngFor="let column of Model.Properties.Columns">
         <div [dynamicAttributes]="column.Attributes"></div>
     </ng-container>
