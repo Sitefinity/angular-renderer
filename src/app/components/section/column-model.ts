@@ -1,4 +1,3 @@
 export interface ColumnModel {
-    Name: string;
-    Title: string;
+    Attributes: { [key: string]: string };
 }

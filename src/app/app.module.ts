@@ -12,6 +12,7 @@ import { RenderContext } from "./services/render-context";
 import { RenderWidgetService } from "./services/render-widget.service";
 import { ErrorComponent } from "./components/error/error.component";
 import { SectionComponent } from "./components/section/section.component";
+import { DynamicAttributesDirective } from "./directives/dynamic-attributes.directive";
 
 @NgModule({
     declarations: [
@@ -19,7 +20,8 @@ import { SectionComponent } from "./components/section/section.component";
         ContentComponent,
         SectionComponent,
         ErrorComponent,
-        WrapperComponentDirective
+        WrapperComponentDirective,
+        DynamicAttributesDirective
     ],
     entryComponents: [
         ContentComponent,
@@ -37,7 +39,8 @@ import { SectionComponent } from "./components/section/section.component";
         RenderContext,
         RenderWidgetService,
         RendererContractImpl,
-        WrapperComponentDirective
+        WrapperComponentDirective,
+        DynamicAttributesDirective
     ],
     bootstrap: [AppComponent]
 })
