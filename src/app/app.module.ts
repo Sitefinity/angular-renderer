@@ -1,6 +1,5 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
-
 import { AppComponent } from "./app.component";
 import { PageContentService } from "./services/page-content.service";
 import { HttpClientModule } from "@angular/common/http";
@@ -11,15 +10,21 @@ import { CommonModule } from "@angular/common";
 import { RendererContractImpl } from "./services/renderer-contract";
 import { RenderContext } from "./services/render-context";
 import { RenderWidgetService } from "./services/render-widget.service";
+import { ErrorComponent } from "./components/error/error.component";
+import { SectionComponent } from "./components/section/section.component";
 
 @NgModule({
     declarations: [
         AppComponent,
         ContentComponent,
+        SectionComponent,
+        ErrorComponent,
         WrapperComponentDirective
     ],
     entryComponents: [
-        ContentComponent
+        ContentComponent,
+        ErrorComponent,
+        SectionComponent
     ],
     imports: [
         BrowserModule,

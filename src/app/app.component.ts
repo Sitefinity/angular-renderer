@@ -29,11 +29,14 @@ export class AppComponent {
 
             if (this.renderContext.isEdit()) {
                 window.document.body.setAttribute('data-sfcontainer', '');
+                const timeout = 2000;
+                const start = new Date().getTime();
                 const handle = window.setInterval(() => {
                     // we do not know the exact time when angular has finished the rendering process.
                     // thus we check every 100ms for dom changes. A proper check would be to see if every single
                     // component is rendered
-                    if ((this.content.length > 0 && window.document.body.childElementCount > 0) || this.content.length === 0) {
+                    const timePassed = new Date().getTime() - start;
+                    if ((this.content.length > 0 && window.document.body.childElementCount > 0) || this.content.length === 0 || timePassed > timeout) {
                         window.clearInterval(handle);
 
                         (window as any)["rendererContract"] = this.rendererService;

@@ -1,0 +1,17 @@
+{
+    "totalCount": 1,
+    "dataItems": [
+        {
+            "title": "Basic",
+            "widgets": [
+                {
+                    "name": "SitefinityContentBlock",
+                    "addWidgetName": null,
+                    "addWidgetTitle": null,
+                    "title": "Content block",
+                    "initialProperties": []
+                }
+            ]
+        }
+    ]
+}

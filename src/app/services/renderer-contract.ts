@@ -1,20 +1,36 @@
-import { ComponentFactoryResolver, Injectable, Injector, Type } from "@angular/core";
-import { ContentComponent } from "../components/content-block/content-block.component";
+import { Injectable, Type } from "@angular/core";
 import { RenderWidgetService } from "./render-widget.service";
+import sitefinityContentBlockJson from './designer-metadata/sitefinity-content-block.json';
+import sitefinitySectionJson from './designer-metadata/sitefinity-section.json';
+
+import contentWidgetsJson from './selector-metadata/content-widgets.json';
+import layoutWidgetsJson from './selector-metadata/layout-widgets.json';
+
 
 @Injectable()
 export class RendererContractImpl implements RendererContract {
-    private resolveFunc: any;
-    private componentFactoryMap: {[key:string]: Type<any>} = {
-        "ContentBlock": ContentComponent
-    };
+
+    private metadataMap: { [key: string]: any } = {
+        "SitefinityContentBlock": sitefinityContentBlockJson,
+        "SitefinitySection": sitefinitySectionJson,
+    }
 
     constructor(private renderWidgetService: RenderWidgetService) {
 
     }
 
     getWidgetMetadata(args: GetWidgetMetadataArgs): Promise<ComponentMetadata> {
-        return Promise.resolve(<any>{ "Name": "ContentBlock", "Caption": "Content block", "PropertyMetadata": [{ "Name": "Basic", "Sections": [{ "Name": "Main", "Title": null, "Properties": [{ "Name": "Content", "DefaultValue": null, "Title": "Content", "Type": "html", "SectionName": null, "CategoryName": null, "Properties": { "Meta_DynamicLinksContainer_HasLinks": "True" }, "TypeChildProperties": [], "Position": 0 }, { "Name": "ProviderName", "DefaultValue": null, "Title": "ProviderName", "Type": "string", "SectionName": null, "CategoryName": null, "Properties": {}, "TypeChildProperties": [], "Position": 0 }, { "Name": "SharedContentID", "DefaultValue": null, "Title": "SharedContentID", "Type": "uuid", "SectionName": null, "CategoryName": null, "Properties": {}, "TypeChildProperties": [], "Position": 0 }], "CategoryName": "Basic" }] }, { "Name": "Advanced", "Sections": [{ "Name": "AdvancedMain", "Title": null, "Properties": [{ "Name": "SfWidgetLabel", "DefaultValue": "Content block", "Title": "Label", "Type": null, "SectionName": null, "CategoryName": "Advanced", "Properties": { "Meta_Description_Description": "Custom labels are displayed in the page editor for your convenience. You can change the generic name with a specific one only for this widget.", "Meta_MaxLength_Length": "30" }, "TypeChildProperties": [], "Position": 0 }, { "Name": "WrapperCssClass", "DefaultValue": null, "Title": "Wrapper CSS class", "Type": "string", "SectionName": null, "CategoryName": "Advanced", "Properties": {}, "TypeChildProperties": [], "Position": 0 }, { "Name": "TagName", "DefaultValue": "div", "Title": "Tag name", "Type": "string", "SectionName": null, "CategoryName": "Advanced", "Properties": {}, "TypeChildProperties": [], "Position": 0 }], "CategoryName": "Advanced" }, { "Name": "Display settings", "Title": "Display settings", "Properties": [{ "Name": "Margins", "DefaultValue": null, "Title": "Margins", "Type": "complex", "SectionName": "Display settings", "CategoryName": "Advanced", "Properties": { "Meta_TableView_ColumnTitle": "Content", "Meta_TableView_Enabled": "True" }, "TypeChildProperties": [{ "Name": "Top", "DefaultValue": "None", "Title": "Top", "Type": "chipchoice", "SectionName": null, "CategoryName": null, "Properties": { "Meta_Choices": "[{\u0022Title\u0022:\u0022None\u0022,\u0022Name\u0022:\u0022None\u0022,\u0022Value\u0022:\u0022None\u0022,\u0022Icon\u0022:null},{\u0022Title\u0022:\u0022Small\u0022,\u0022Name\u0022:\u0022S\u0022,\u0022Value\u0022:\u0022S\u0022,\u0022Icon\u0022:null},{\u0022Title\u0022:\u0022Medium\u0022,\u0022Name\u0022:\u0022M\u0022,\u0022Value\u0022:\u0022M\u0022,\u0022Icon\u0022:null},{\u0022Title\u0022:\u0022Large\u0022,\u0022Name\u0022:\u0022L\u0022,\u0022Value\u0022:\u0022L\u0022,\u0022Icon\u0022:null}]", "Meta_Choices_AllowMultiple": "False" }, "TypeChildProperties": [], "Position": 0 }, { "Name": "Bottom", "DefaultValue": "None", "Title": "Bottom", "Type": "chipchoice", "SectionName": null, "CategoryName": null, "Properties": { "Meta_Choices": "[{\u0022Title\u0022:\u0022None\u0022,\u0022Name\u0022:\u0022None\u0022,\u0022Value\u0022:\u0022None\u0022,\u0022Icon\u0022:null},{\u0022Title\u0022:\u0022Small\u0022,\u0022Name\u0022:\u0022S\u0022,\u0022Value\u0022:\u0022S\u0022,\u0022Icon\u0022:null},{\u0022Title\u0022:\u0022Medium\u0022,\u0022Name\u0022:\u0022M\u0022,\u0022Value\u0022:\u0022M\u0022,\u0022Icon\u0022:null},{\u0022Title\u0022:\u0022Large\u0022,\u0022Name\u0022:\u0022L\u0022,\u0022Value\u0022:\u0022L\u0022,\u0022Icon\u0022:null}]", "Meta_Choices_AllowMultiple": "False" }, "TypeChildProperties": [], "Position": 0 }], "Position": 1 }], "CategoryName": "Advanced" }] }], "PropertyMetadataFlat": [{ "Name": "Content", "DefaultValue": null, "Title": "Content", "Type": "html", "SectionName": null, "CategoryName": null, "Properties": { "Meta_DynamicLinksContainer_HasLinks": "True" }, "TypeChildProperties": [], "Position": 0 }, { "Name": "ProviderName", "DefaultValue": null, "Title": "ProviderName", "Type": "string", "SectionName": null, "CategoryName": null, "Properties": {}, "TypeChildProperties": [], "Position": 0 }, { "Name": "SharedContentID", "DefaultValue": null, "Title": "SharedContentID", "Type": "uuid", "SectionName": null, "CategoryName": null, "Properties": {}, "TypeChildProperties": [], "Position": 0 }, { "Name": "SfWidgetLabel", "DefaultValue": "Content block", "Title": "Label", "Type": null, "SectionName": null, "CategoryName": "Advanced", "Properties": { "Meta_Description_Description": "Custom labels are displayed in the page editor for your convenience. You can change the generic name with a specific one only for this widget.", "Meta_MaxLength_Length": "30" }, "TypeChildProperties": [], "Position": 0 }, { "Name": "WrapperCssClass", "DefaultValue": null, "Title": "Wrapper CSS class", "Type": "string", "SectionName": null, "CategoryName": "Advanced", "Properties": {}, "TypeChildProperties": [], "Position": 0 }, { "Name": "TagName", "DefaultValue": "div", "Title": "Tag name", "Type": "string", "SectionName": null, "CategoryName": "Advanced", "Properties": {}, "TypeChildProperties": [], "Position": 0 }, { "Name": "Margins", "DefaultValue": null, "Title": "Margins", "Type": "complex", "SectionName": "Display settings", "CategoryName": "Advanced", "Properties": { "Meta_TableView_ColumnTitle": "Content", "Meta_TableView_Enabled": "True" }, "TypeChildProperties": [{ "Name": "Top", "DefaultValue": "None", "Title": "Top", "Type": "chipchoice", "SectionName": null, "CategoryName": null, "Properties": { "Meta_Choices": "[{\u0022Title\u0022:\u0022None\u0022,\u0022Name\u0022:\u0022None\u0022,\u0022Value\u0022:\u0022None\u0022,\u0022Icon\u0022:null},{\u0022Title\u0022:\u0022Small\u0022,\u0022Name\u0022:\u0022S\u0022,\u0022Value\u0022:\u0022S\u0022,\u0022Icon\u0022:null},{\u0022Title\u0022:\u0022Medium\u0022,\u0022Name\u0022:\u0022M\u0022,\u0022Value\u0022:\u0022M\u0022,\u0022Icon\u0022:null},{\u0022Title\u0022:\u0022Large\u0022,\u0022Name\u0022:\u0022L\u0022,\u0022Value\u0022:\u0022L\u0022,\u0022Icon\u0022:null}]", "Meta_Choices_AllowMultiple": "False" }, "TypeChildProperties": [], "Position": 0 }, { "Name": "Bottom", "DefaultValue": "None", "Title": "Bottom", "Type": "chipchoice", "SectionName": null, "CategoryName": null, "Properties": { "Meta_Choices": "[{\u0022Title\u0022:\u0022None\u0022,\u0022Name\u0022:\u0022None\u0022,\u0022Value\u0022:\u0022None\u0022,\u0022Icon\u0022:null},{\u0022Title\u0022:\u0022Small\u0022,\u0022Name\u0022:\u0022S\u0022,\u0022Value\u0022:\u0022S\u0022,\u0022Icon\u0022:null},{\u0022Title\u0022:\u0022Medium\u0022,\u0022Name\u0022:\u0022M\u0022,\u0022Value\u0022:\u0022M\u0022,\u0022Icon\u0022:null},{\u0022Title\u0022:\u0022Large\u0022,\u0022Name\u0022:\u0022L\u0022,\u0022Value\u0022:\u0022L\u0022,\u0022Icon\u0022:null}]", "Meta_Choices_AllowMultiple": "False" }, "TypeChildProperties": [], "Position": 0 }], "Position": 1 }] });
+        const componentMetadata = <ComponentMetadata>this.metadataMap[args.widgetName];
+        if (componentMetadata) {
+            return Promise.resolve(componentMetadata);
+        }
+
+        return Promise.resolve({
+            Name: args.widgetName,
+            Caption: args.widgetName,
+            PropertyMetadata: [],
+            PropertyMetadataFlat: [],
+        });
     }
 
     renderWidget(args: RenderWidgetArgs): Promise<RenderResult> {
@@ -35,23 +51,9 @@ export class RendererContractImpl implements RendererContract {
 
     getWidgets(args: GetWidgetsArgs): Promise<TotalCountResult<WidgetSection[]>> {
         if (args.category === "Content") {
-            return Promise.resolve({
-                totalCount: 1,
-                dataItems: [
-                    {
-                        title: "Basic",
-                        widgets: [
-                            {
-                                name: "ContentBlock",
-                                addWidgetName: "ContentBlock",
-                                addWidgetTitle: "Content block",
-                                title: "Content block",
-                                initialProperties: []
-                            }
-                        ]
-                    }
-                ]
-            });
+            return Promise.resolve(contentWidgetsJson);
+        } else if (args.category === "Layout") {
+            return Promise.resolve(layoutWidgetsJson);
         }
 
         return Promise.resolve({
@@ -97,8 +99,8 @@ export interface Script {
 export interface WidgetItem {
     name: string;
     title: string;
-    addWidgetTitle: string;
-    addWidgetName: string;
+    addWidgetTitle: string | null;
+    addWidgetName: string | null;
     thumbnailUrl?: string;
     initialProperties: Array<{ name: string, value: string}>
 }

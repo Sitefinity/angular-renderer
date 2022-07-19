@@ -1,12 +1,15 @@
 import { ApplicationRef, ComponentFactoryResolver, Injectable, Injector, RendererFactory2, ViewContainerRef } from "@angular/core";
 import { BaseComponent } from "../components/base.component";
 import { ContentComponent } from "../components/content-block/content-block.component";
+import { ErrorComponent } from "../components/error/error.component";
+import { SectionComponent } from "../components/section/section.component";
 import { ModelBase } from "../models/model-base";
 import { RenderContext } from "./render-context";
-import { ComponentMetadata, WidgetModel } from "./renderer-contract";
+import { WidgetModel } from "./renderer-contract";
 
-const TYPES_MAP: { [key: string]: Function } = {
-    ContentBlock: ContentComponent
+export const TYPES_MAP: { [key: string]: Function } = {
+    "SitefinityContentBlock": ContentComponent,
+    "SitefinitySection": SectionComponent
 };
 
 @Injectable()
@@ -21,14 +24,16 @@ export class RenderWidgetService {
     }
 
     public createAndInjectComponent(widgetModel: WidgetModel, viewContainer: ViewContainerRef) {
-        const type: any = TYPES_MAP[widgetModel.Name];
+        let type: any = TYPES_MAP[widgetModel.Name];
+        let error: string | null = null;
         if (!type) {
-            return;
+            type = ErrorComponent;
+            error = `No componenent with the name ${widgetModel.Name} found.`
         }
 
         const factory = this.resolver.resolveComponentFactory(type);
         const componentRef = viewContainer.createComponent(factory, undefined, viewContainer.injector);
-        this.setAttributes(componentRef.location.nativeElement, widgetModel);
+        this.setAttributes(componentRef.location.nativeElement, widgetModel, error);
 
         const componentInstance = componentRef.instance as BaseComponent<ModelBase<any>>;
         this.setProperties(widgetModel, componentInstance);
@@ -37,14 +42,16 @@ export class RenderWidgetService {
     }
 
     public createComponent(widgetModel: WidgetModel) {
-        const type: any = TYPES_MAP[widgetModel.Name];
+        let type: any = TYPES_MAP[widgetModel.Name];
+        let error: string | null = null;
         if (!type) {
-            return;
+            type = ErrorComponent;
+            error = `No componenent with the name ${widgetModel.Name} found.`
         }
 
         const factory = this.resolver.resolveComponentFactory(type);
         const componentRef = factory.create(this.injector);
-        this.setAttributes(componentRef.location.nativeElement, widgetModel);
+        this.setAttributes(componentRef.location.nativeElement, widgetModel, error);
 
         const componentInstance = componentRef.instance as BaseComponent<ModelBase<any>>;
         this.setProperties(widgetModel, componentInstance);
@@ -55,15 +62,22 @@ export class RenderWidgetService {
         return componentRef;
     }
 
-    private setAttributes(element: HTMLElement, widgetModel: WidgetModel) {
+    private setAttributes(element: HTMLElement, widgetModel: WidgetModel, error: string | null) {
         if (this.renderContext.isEdit()) {
-            this.renderer.createRenderer(null, null).setAttribute(element, "data-sfname", widgetModel.Name);
-            this.renderer.createRenderer(null, null).setAttribute(element, "data-sftitle", widgetModel.Name);
-            this.renderer.createRenderer(null, null).setAttribute(element, "data-sfemptyiconaction", "Edit");
-            this.renderer.createRenderer(null, null).setAttribute(element, "data-sfid", widgetModel.Id);
-            this.renderer.createRenderer(null, null).setAttribute(element, "data-sfisorphaned", "false");
-            this.renderer.createRenderer(null, null).setAttribute(element, "data-sfiscontentwidget", "true");
-            this.renderer.createRenderer(null, null).setAttribute(element, "data-sfisemptyvisualhidden", "false");
+            const renderer = this.renderer.createRenderer(null, null);
+            renderer.setAttribute(element, "data-sfname", widgetModel.Name);
+            renderer.setAttribute(element, "data-sftitle", widgetModel.Name);
+            renderer.setAttribute(element, "data-sfemptyiconaction", "Edit");
+            renderer.setAttribute(element, "data-sfid", widgetModel.Id);
+            renderer.setAttribute(element, "data-sfisorphaned", "false");
+
+            const isContentWidget = widgetModel.Name != "SitefinitySection";
+            renderer.setAttribute(element, "data-sfiscontentwidget", isContentWidget.toString());
+            renderer.setAttribute(element, "data-sfisemptyvisualhidden", "false");
+
+            if (error) {
+                renderer.setAttribute(element, "data-sferror", error);
+            }
         }
     }
 

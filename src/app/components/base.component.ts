@@ -6,6 +6,9 @@ import { PageContentService } from "../services/page-content.service";
 @Component({ template: '' })
 export class BaseComponent<T> implements OnDestroy {
     public Model: ModelBase<T> = {} as ModelBase<T>;
+    public get Properties(): T {
+        return this.Model.Properties;
+    }
 
     private subscriptions: Subscription[] = [];
 

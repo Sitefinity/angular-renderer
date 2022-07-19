@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { PageContentService } from "../../services/page-content.service";
-import { ContentBlockEntity } from "../../models/content-block-entity";
+import { ContentBlockEntity } from "./content-block-entity";
 import { ODataEntityResponse } from "../../models/service-response";
 import { BaseComponent } from "../base.component";
 import { RenderContext } from "src/app/services/render-context";
