@@ -22,10 +22,10 @@ export class AppComponent {
     }
 
     ngOnInit(): void {
-        const path = window.location.pathname;
         this.pageContentService.get(window.location.href).subscribe(s => {
             this.renderContext.cultureName = s.Culture;
             this.content = s.ComponentContext.Components;
+            document.title = s.MetaInfo.Title;
 
             if (this.renderContext.isEdit()) {
                 window.document.body.setAttribute('data-sfcontainer', '');

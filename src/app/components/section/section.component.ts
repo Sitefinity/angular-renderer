@@ -18,6 +18,7 @@ import { SectionHolder } from "./section-holder";
 import { SectionViewModel } from "./section-view-model";
 import { StylingConfig } from "src/app/styling/styling-config";
 import { ColumnHolder } from "./column-holder";
+import { ModelBase } from "src/app/models/model-base";
 const ColumnNamePrefix = "Column";
 
 @Component({
@@ -179,10 +180,13 @@ export class SectionComponent extends BaseComponent<SectionEntity> implements On
 
             const classAttribute = `col-md-${proportions[i]}`;
             const classAttributes = [classAttribute];
-            const children = this.Model.Children.filter(x => x.PlaceHolder === currentName);
+            let children: Array<ModelBase<any>> = [];
+            if (this.Model.Children) {
+                children = this.Model.Children.filter(x => x.PlaceHolder === currentName);
+            }
+
             const column: ColumnHolder = {
-                Attributes: {
-                },
+                Attributes: { },
                 Children: children
             };
 

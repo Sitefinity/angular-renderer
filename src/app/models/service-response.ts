@@ -4,6 +4,9 @@ export interface PageContentServiceResponse {
     Culture: string;
     SiteId: string;
     ComponentContext: ComponentContext;
+    MetaInfo: {
+        Title: string
+    }
 }
 
 export interface ComponentContext {
