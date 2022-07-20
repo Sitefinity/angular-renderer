@@ -3,10 +3,12 @@ import { BaseComponent } from "../base.component";
 import { RenderContext } from "src/app/services/render-context";
 import { SectionEntity } from "./section.entity";
 import { ColumnModel } from "./column-model";
-import { BackgroundBase } from "src/app/styling/background-base";
 import { LabelModel } from "./label-model";
 import { AttributeModel } from "../attribute-model";
 import { SimpleBackgroundStyle } from "src/app/styling/simple-background-style";
+import { BackgroundStyle } from "src/app/styling/background-style";
+import { RestSdkTypes, RestService } from "src/app/sdk/rest-service";
+import { VideoItem } from "src/app/sdk/video-item";
 const ColumnNamePrefix = "Column";
 
 @Component({
@@ -14,7 +16,7 @@ const ColumnNamePrefix = "Column";
     selector: "app-section"
 })
 export class SectionComponent extends BaseComponent<SectionEntity> implements OnInit {
-    constructor(public renderContext: RenderContext) {
+    constructor(private renderContext: RenderContext, private restService: RestService) {
         super();
     }
 
@@ -22,6 +24,19 @@ export class SectionComponent extends BaseComponent<SectionEntity> implements On
         this.Properties.ColumnsCount = this.Properties.ColumnsCount || 1;
         this.Properties.ColumnProportionsInfo = this.Properties.ColumnProportionsInfo || "[12]";
         this.Properties.Columns = this.generateColumns();
+
+        let sectionBackground: BackgroundStyle | null= null;
+        if (this.Properties.SectionBackground) {
+            sectionBackground = JSON.parse(this.Properties.SectionBackground);
+            if (sectionBackground?.BackgroundType == "Video") {
+                this.Properties.ShowVideo = true;
+                if (sectionBackground.VideoItem) {
+                    this.restService.getItemWithFallback<VideoItem>(RestSdkTypes.Video, sectionBackground.VideoItem.Id, sectionBackground.VideoItem.Provider).subscribe((video) => {
+                        this.Properties.VideoUrl = video.Url;
+                    });
+                }
+            }
+        }
     }
 
     private generateColumns(): ColumnModel[] {
@@ -72,7 +87,7 @@ export class SectionComponent extends BaseComponent<SectionEntity> implements On
             if (columnsBackground && columnsBackground.hasOwnProperty(currentName)) {
                 const backgroundStyle = columnsBackground[currentName];
                 if (backgroundStyle.BackgroundType == "Color") {
-                    column.Attributes["style"] = `--sf-background-color: ${backgroundStyle.Color}`;
+                    column.Attributes["style"] = `--sf-backgrоund-color: ${backgroundStyle.Color}`;
                 }
             }
 

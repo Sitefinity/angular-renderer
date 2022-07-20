@@ -11,8 +11,8 @@ export class PageContentService {
     public receivedContent$ = new ReplaySubject<ModelBase<any>>();
 
     private readonly serviceApi = "api/default";
-
     constructor(private http: HttpClient, private rootUrlService: RootUrlService, private renderContext: RenderContext) { }
+
 
     public get(pageName: string): Observable<PageContentServiceResponse> {
         const return$ = new Subject<PageContentServiceResponse>();

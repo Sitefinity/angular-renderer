@@ -13,7 +13,7 @@ export interface SectionEntity {
     ColumnProportionsInfo: string,
     SectionPadding: OffsetStyle,
     SectionMargin: OffsetStyle,
-    SectionBackground: BackgroundStyle,
+    SectionBackground: string,
     ColumnsPadding: { [key: string]: OffsetStyle },
     ColumnsBackground: string,
     CustomCssClass: { [key: string]: CustomCssModel },
@@ -24,4 +24,6 @@ export interface SectionEntity {
     Columns: ColumnModel[];
     WrapperCssClass: string;
     SectionClasses: string;
+    ShowVideo: boolean;
+    VideoUrl: string;
 }

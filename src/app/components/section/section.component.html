@@ -1,4 +1,10 @@
 <section class="row">
+    <div *ngIf="Model.Properties.ShowVideo && Model.Properties.VideoUrl" class="sc-video__wrapper">
+        <video class="sc-video__element" autoplay muted loop>
+            <source src="{{Model.Properties.VideoUrl}}">
+        </video>
+    </div>
+
     <ng-container *ngFor="let column of Model.Properties.Columns">
         <div [dynamicAttributes]="column.Attributes"></div>
     </ng-container>

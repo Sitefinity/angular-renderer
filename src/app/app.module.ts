@@ -13,6 +13,7 @@ import { RenderWidgetService } from "./services/render-widget.service";
 import { ErrorComponent } from "./components/error/error.component";
 import { SectionComponent } from "./components/section/section.component";
 import { DynamicAttributesDirective } from "./directives/dynamic-attributes.directive";
+import { RestService } from "./sdk/rest-service";
 
 @NgModule({
     declarations: [
@@ -35,6 +36,7 @@ import { DynamicAttributesDirective } from "./directives/dynamic-attributes.dire
     ],
     providers: [
         RootUrlService,
+        RestService,
         PageContentService,
         RenderContext,
         RenderWidgetService,
