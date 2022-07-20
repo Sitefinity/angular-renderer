@@ -1,6 +1,1 @@
-export enum  OffsetSize {
-    None,
-    S,
-    M,
-    L
-}
+export type OffsetSize = 'None' | 'M' | 'L' | 'S';

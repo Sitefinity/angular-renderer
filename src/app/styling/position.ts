@@ -1,5 +1,1 @@
-export enum Position {
-    Fill,
-    Center,
-    Cover
-}
+export type ImagePosition = "Fill" | "Center" | "Cover";

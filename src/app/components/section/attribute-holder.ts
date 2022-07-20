@@ -1,3 +1,3 @@
-export interface ColumnModel {
+export interface AttributeHolder {
     Attributes: { [key: string]: string };
 }

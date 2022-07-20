@@ -1,29 +1,28 @@
+import { Observable } from "rxjs";
 import { BackgroundStyle } from "src/app/styling/background-style";
 import { CustomCssModel } from "src/app/styling/custom-css-model";
 import { OffsetStyle } from "src/app/styling/offset-style";
 import { SimpleBackgroundStyle } from "src/app/styling/simple-background-style";
 import { AttributeModel } from "../attribute-model";
-import { ColumnModel } from "./column-model";
+import { AttributeHolder } from "./attribute-holder";
 import { LabelModel } from "./label-model";
+import { SectionHolder } from "./section-holder";
 
 export interface SectionEntity {
     // for designer
     ColumnsCount: number,
     CssSystemGridSize: number,
     ColumnProportionsInfo: string,
-    SectionPadding: OffsetStyle,
-    SectionMargin: OffsetStyle,
+    SectionPadding: string,
+    SectionMargin: string,
     SectionBackground: string,
-    ColumnsPadding: { [key: string]: OffsetStyle },
+    ColumnsPadding: string,
     ColumnsBackground: string,
-    CustomCssClass: { [key: string]: CustomCssModel },
+    CustomCssClass: string,
     Labels: string;
     Attributes: string;
 
     // for logic
-    Columns: ColumnModel[];
-    WrapperCssClass: string;
-    SectionClasses: string;
-    ShowVideo: boolean;
-    VideoUrl: string;
+    Columns: AttributeHolder[];
+    Section: Observable<SectionHolder>;
 }

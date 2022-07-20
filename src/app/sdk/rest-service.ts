@@ -6,6 +6,7 @@ import { SdkItem } from "./sdk-item";
 
 export class RestSdkTypes {
     public static readonly Video: string = "Telerik.Sitefinity.Libraries.Model.Video";
+    public static readonly Image: string = "Telerik.Sitefinity.Libraries.Model.Image";
 }
 
 @Injectable()
@@ -24,10 +25,13 @@ export class RestService {
     }
 
     private getSetNameForType(itemType: string) {
-        if (itemType === RestSdkTypes.Video) {
-            return "videos";
+        switch (itemType) {
+            case RestSdkTypes.Image:
+                return "images";
+            case RestSdkTypes.Video:
+                return "videos";
+            default:
+                return null;
         }
-
-        return null;
     }
 }

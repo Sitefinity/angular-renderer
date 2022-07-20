@@ -14,6 +14,7 @@ import { ErrorComponent } from "./components/error/error.component";
 import { SectionComponent } from "./components/section/section.component";
 import { DynamicAttributesDirective } from "./directives/dynamic-attributes.directive";
 import { RestService } from "./sdk/rest-service";
+import { StyleGenerator } from "./styling/style-generator.service";
 
 @NgModule({
     declarations: [
@@ -37,6 +38,7 @@ import { RestService } from "./sdk/rest-service";
     providers: [
         RootUrlService,
         RestService,
+        StyleGenerator,
         PageContentService,
         RenderContext,
         RenderWidgetService,
