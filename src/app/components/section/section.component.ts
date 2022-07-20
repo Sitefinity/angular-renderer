@@ -17,6 +17,7 @@ import { BehaviorSubject, Observable, ReplaySubject } from "rxjs";
 import { SectionHolder } from "./section-holder";
 import { SectionViewModel } from "./section-view-model";
 import { StylingConfig } from "src/app/styling/styling-config";
+import { ColumnHolder } from "./column-holder";
 const ColumnNamePrefix = "Column";
 
 @Component({
@@ -113,6 +114,8 @@ export class SectionComponent extends BaseComponent<SectionEntity> implements On
 
                     section$.next(sectionObject);
                 });
+
+                return section$.asObservable();
             }
         } else if (sectionBackground.BackgroundType === "Image" && sectionBackground.ImageItem && sectionBackground.ImageItem.Id) {
             const imagePosition = sectionBackground.Position || "Fill";
@@ -135,19 +138,20 @@ export class SectionComponent extends BaseComponent<SectionEntity> implements On
                 sectionObject.Attributes["style"] = style;
                 sectionObject.Attributes["class"] = sectionClasses.filter(x => x).join(" ");
                 section$.next(sectionObject);
+                return section$.asObservable();
             });
         } else if (sectionBackground.BackgroundType === "Color" && sectionBackground.Color) {
             const style = `--sf-backgrоund-color: ${sectionBackground.Color}`;
             sectionObject.Attributes["style"] = style;
-            sectionObject.Attributes["class"] = sectionClasses.filter(x => x).join(" ");
-            section$.next(sectionObject);
         }
 
+        sectionObject.Attributes["class"] = sectionClasses.filter(x => x).join(" ");
+        section$.next(sectionObject);
         return section$.asObservable();
     }
 
-    private populateColumns(): AttributeHolder[] {
-        let columns: AttributeHolder[] = [];
+    private populateColumns(): ColumnHolder[] {
+        let columns: ColumnHolder[] = [];
 
         const proportions = JSON.parse(this.Properties.ColumnProportionsInfo);
         let labels: { [key: string]: LabelModel } | null = null;
@@ -175,8 +179,11 @@ export class SectionComponent extends BaseComponent<SectionEntity> implements On
 
             const classAttribute = `col-md-${proportions[i]}`;
             const classAttributes = [classAttribute];
-            const column: AttributeHolder = {
-                Attributes: {}
+            const children = this.Model.Children.filter(x => x.PlaceHolder === currentName);
+            const column: ColumnHolder = {
+                Attributes: {
+                },
+                Children: children
             };
 
             if (this.renderContext.isEdit()) {

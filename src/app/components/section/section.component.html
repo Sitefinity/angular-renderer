@@ -7,7 +7,10 @@
         </div>
 
         <ng-container *ngFor="let column of viewModel.Columns">
-            <div [dynamicAttributes]="column.Attributes"></div>
+            <div [dynamicAttributes]="column.Attributes">
+                <ng-container *ngFor="let child of column.Children" [componentWrapper]="child">
+                </ng-container>
+            </div>
         </ng-container>
     </section>
 </ng-container>

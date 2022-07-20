@@ -1,7 +1,7 @@
-import { AttributeHolder } from "./attribute-holder";
+import { ColumnHolder } from "./column-holder";
 import { SectionHolder } from "./section-holder";
 
 export interface SectionViewModel {
-    Columns: AttributeHolder[],
+    Columns: ColumnHolder[],
     Section: SectionHolder
 }
