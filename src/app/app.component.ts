@@ -1,4 +1,5 @@
 import { Component, ViewContainerRef } from "@angular/core";
+import { Meta } from "@angular/platform-browser";
 import { ActivatedRoute } from "@angular/router";
 import { ModelBase } from "./models/model-base";
 import { PageContentService } from "./services/page-content.service";
@@ -15,6 +16,7 @@ export class AppComponent {
     public content: ModelBase<any>[] = [];
 
     constructor(
+        private meta: Meta,
         private renderContext: RenderContext,
         private rendererService: RendererContractImpl,
         private pageContentService: PageContentService) {
@@ -26,6 +28,33 @@ export class AppComponent {
             this.renderContext.cultureName = s.Culture;
             this.content = s.ComponentContext.Components;
             document.title = s.MetaInfo.Title;
+
+            const metaMap = {
+                "og:title": s.MetaInfo.OpenGraphTitle,
+                "og:image": s.MetaInfo.OpenGraphImage,
+                "og:video": s.MetaInfo.OpenGraphVideo,
+                "og:type": s.MetaInfo.OpenGraphType,
+                "og:description": s.MetaInfo.OpenGraphDescription,
+                "og:site": s.MetaInfo.OpenGraphSite,
+            }
+
+            Object.keys(metaMap).forEach((key) => {
+                const val = (<any>metaMap)[key];
+                if (val) {
+                    this.meta.addTag({ property: key, content: val });
+                }
+            });
+
+            if (s.MetaInfo.Description) {
+                this.meta.addTag({ name: "description", content: s.MetaInfo.Description });
+            }
+
+            if (s.MetaInfo.CanonicalUrl) {
+                const linkElement = document.createElement("link");
+                linkElement.setAttribute("rel", "canonical");
+                linkElement.setAttribute("href", s.MetaInfo.CanonicalUrl);
+                document.head.appendChild(linkElement);
+            }
 
             if (this.renderContext.isEdit()) {
                 window.document.body.setAttribute('data-sfcontainer', '');

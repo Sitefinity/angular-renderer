@@ -5,7 +5,16 @@ export interface PageContentServiceResponse {
     SiteId: string;
     ComponentContext: ComponentContext;
     MetaInfo: {
-        Title: string
+        Title: string,
+        Description: string,
+        HtmlInHeadTag: string,
+        OpenGraphTitle: string,
+        OpenGraphDescription: string,
+        OpenGraphImage: string,
+        OpenGraphVideo: string,
+        OpenGraphType: string,
+        OpenGraphSite: string,
+        CanonicalUrl: string,
     }
 }
 
