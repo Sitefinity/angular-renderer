@@ -1,4 +1,4 @@
-import { ApplicationRef, ComponentFactoryResolver, Injectable, Injector, RendererFactory2, ViewContainerRef } from "@angular/core";
+import { ApplicationRef, ComponentFactoryResolver, ComponentRef, Injectable, Injector, RendererFactory2, ViewContainerRef } from "@angular/core";
 import { BaseComponent } from "../components/base.component";
 import { ContentComponent } from "../components/content-block/content-block.component";
 import { ErrorComponent } from "../components/error/error.component";
@@ -20,7 +20,6 @@ export class RenderWidgetService {
         private renderContext: RenderContext,
         private renderer: RendererFactory2,
         private injector: Injector) {
-
     }
 
     public createAndInjectComponent(widgetModel: WidgetModel, viewContainer: ViewContainerRef) {
@@ -41,7 +40,7 @@ export class RenderWidgetService {
         return componentInstance;
     }
 
-    public createComponent(widgetModel: WidgetModel) {
+    public createComponent(widgetModel: WidgetModel): Promise<ComponentRef<any>> {
         let type: any = TYPES_MAP[widgetModel.Name];
         let error: string | null = null;
         if (!type) {
@@ -57,9 +56,17 @@ export class RenderWidgetService {
         this.setProperties(widgetModel, componentInstance);
 
         this.appRef.attachView(componentRef.hostView);
-        this.appRef.tick();
 
-        return componentRef;
+        return new Promise((resolve) => {
+            let counter = 0;
+            let handle = setInterval(() => {
+                this.appRef.tick();
+                if (++counter === 5) {
+                    clearInterval(handle);
+                    resolve(componentRef);
+                }
+            }, 100);
+        });
     }
 
     private setAttributes(element: HTMLElement, widgetModel: WidgetModel, error: string | null) {

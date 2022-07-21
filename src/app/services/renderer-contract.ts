@@ -35,14 +35,14 @@ export class RendererContractImpl implements RendererContract {
     }
 
     renderWidget(args: RenderWidgetArgs): Promise<RenderResult> {
-        const instanceReference = this.renderWidgetService.createComponent(args.model);
-
-        return new Promise((resolve, reject) => {
-            resolve({
-                element: instanceReference?.location.nativeElement,
-                content: '',
-                scripts: []
-            })
+        return this.renderWidgetService.createComponent(args.model).then((instanceReference) => {
+            return new Promise((resolve) => {
+                resolve({
+                    element: instanceReference?.location.nativeElement,
+                    content: '',
+                    scripts: []
+                })
+            });
         });
     }
 
