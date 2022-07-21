@@ -2,18 +2,11 @@ import { Component, OnInit } from "@angular/core";
 import { BaseComponent } from "../base.component";
 import { RenderContext } from "src/app/services/render-context";
 import { SectionEntity } from "./section.entity";
-import { AttributeHolder } from "./attribute-holder";
-import { LabelModel } from "./label-model";
-import { AttributeModel } from "../attribute-model";
-import { SimpleBackgroundStyle } from "src/app/styling/simple-background-style";
-import { BackgroundStyle } from "src/app/styling/background-style";
 import { RestSdkTypes, RestService } from "src/app/sdk/rest-service";
 import { VideoItem } from "src/app/sdk/video-item";
-import { OffsetStyle } from "src/app/styling/offset-style";
-import { CustomCssModel } from "src/app/styling/custom-css-model";
 import { StyleGenerator } from "src/app/styling/style-generator.service";
 import { ImageItem } from "src/app/sdk/image-item";
-import { BehaviorSubject, Observable, ReplaySubject } from "rxjs";
+import { Observable, ReplaySubject } from "rxjs";
 import { SectionHolder } from "./section-holder";
 import { SectionViewModel } from "./section-view-model";
 import { StylingConfig } from "src/app/styling/styling-config";
@@ -54,41 +47,27 @@ export class SectionComponent extends BaseComponent<SectionEntity> implements On
             Attributes: {}
         }
 
-        let attributes: { [key: string]: Array<AttributeModel> } | null = null;
-        if (this.Properties.Attributes) {
-            attributes = JSON.parse(this.Properties.Attributes);
-            if (attributes && attributes.hasOwnProperty("Section")) {
-                attributes["Section"].forEach((attribute) => {
-                    sectionObject.Attributes[attribute.Key] = attribute.Value;
-                });
-            }
+        const sectionKey = "Section";
+        let attributes = this.Properties.Attributes;
+        if (attributes && attributes.hasOwnProperty(sectionKey)) {
+            attributes[sectionKey].forEach((attribute) => {
+                sectionObject.Attributes[attribute.Key] = attribute.Value;
+            });
         }
 
         const sectionClasses: string[] = ["row"];
-        let sectionPadding: OffsetStyle | null = null;
         if (this.Properties.SectionPadding) {
-            sectionPadding = JSON.parse(this.Properties.SectionPadding);
-            if (sectionPadding) {
-                const paddingClasses = this.styleGenerator.getPaddingClasses(sectionPadding);
-                sectionClasses.push(paddingClasses);
-            }
+            const paddingClasses = this.styleGenerator.getPaddingClasses(this.Properties.SectionPadding);
+            sectionClasses.push(paddingClasses);
         }
 
-        let sectionMargin: OffsetStyle | null = null;
         if (this.Properties.SectionMargin) {
-            sectionMargin = JSON.parse(this.Properties.SectionMargin);
-            if (sectionMargin) {
-                const marginClasses = this.styleGenerator.getPaddingClasses(sectionMargin);
-                sectionClasses.push(marginClasses);
-            }
+            const marginClasses = this.styleGenerator.getPaddingClasses(this.Properties.SectionMargin);
+            sectionClasses.push(marginClasses);
         }
 
-        let customCssClass: { [key: string]: CustomCssModel } | null = null;
-        if (this.Properties.CustomCssClass) {
-            customCssClass = JSON.parse(this.Properties.CustomCssClass);
-            if (customCssClass && customCssClass.hasOwnProperty("Section")) {
-                sectionClasses.push(customCssClass["Section"].Class);
-            }
+        if (this.Properties.CustomCssClass && this.Properties.CustomCssClass.hasOwnProperty(sectionKey)) {
+            sectionClasses.push(this.Properties.CustomCssClass[sectionKey].Class);
         }
 
         if (!this.Properties.SectionBackground) {
@@ -97,18 +76,16 @@ export class SectionComponent extends BaseComponent<SectionEntity> implements On
             return section$.asObservable();
         }
 
-        let sectionBackground: BackgroundStyle | null = null;
-        sectionBackground = JSON.parse(this.Properties.SectionBackground);
-        if (!sectionBackground) {
+        if (!this.Properties.SectionBackground) {
             sectionObject.Attributes["class"] = sectionClasses.filter(x => x).join(" ");
             section$.next(sectionObject);
             return section$.asObservable();
         }
 
-        if (sectionBackground.BackgroundType === "Video") {
-            if (sectionBackground.VideoItem && sectionBackground.VideoItem.Id) {
+        if (this.Properties.SectionBackground.BackgroundType === "Video") {
+            if (this.Properties.SectionBackground.VideoItem && this.Properties.SectionBackground.VideoItem.Id) {
                 sectionClasses.push(StylingConfig.VideoBackgroundClass);
-                this.restService.getItemWithFallback<VideoItem>(RestSdkTypes.Video, sectionBackground.VideoItem.Id, sectionBackground.VideoItem.Provider).subscribe((video) => {
+                this.restService.getItemWithFallback<VideoItem>(RestSdkTypes.Video, this.Properties.SectionBackground.VideoItem.Id, this.Properties.SectionBackground.VideoItem.Provider).subscribe((video) => {
                     sectionObject.ShowVideo = true;
                     sectionObject.VideoUrl = video.Url;
                     sectionObject.Attributes["class"] = sectionClasses.filter(x => x).join(" ");
@@ -118,10 +95,10 @@ export class SectionComponent extends BaseComponent<SectionEntity> implements On
 
                 return section$.asObservable();
             }
-        } else if (sectionBackground.BackgroundType === "Image" && sectionBackground.ImageItem && sectionBackground.ImageItem.Id) {
-            const imagePosition = sectionBackground.Position || "Fill";
+        } else if (this.Properties.SectionBackground.BackgroundType === "Image" && this.Properties.SectionBackground.ImageItem && this.Properties.SectionBackground.ImageItem.Id) {
+            const imagePosition = this.Properties.SectionBackground.Position || "Fill";
             sectionClasses.push(StylingConfig.ImageBackgroundClass);
-            this.restService.getItemWithFallback<ImageItem>(RestSdkTypes.Image, sectionBackground.ImageItem.Id, sectionBackground.ImageItem.Provider).subscribe((image) => {
+            this.restService.getItemWithFallback<ImageItem>(RestSdkTypes.Image, this.Properties.SectionBackground.ImageItem.Id, this.Properties.SectionBackground.ImageItem.Provider).subscribe((image) => {
                 let style = "";
                 switch (imagePosition) {
                     case "Fill":
@@ -141,8 +118,8 @@ export class SectionComponent extends BaseComponent<SectionEntity> implements On
                 section$.next(sectionObject);
                 return section$.asObservable();
             });
-        } else if (sectionBackground.BackgroundType === "Color" && sectionBackground.Color) {
-            const style = `--sf-backgrоund-color: ${sectionBackground.Color}`;
+        } else if (this.Properties.SectionBackground.BackgroundType === "Color" && this.Properties.SectionBackground.Color) {
+            const style = `--sf-backgrоund-color: ${this.Properties.SectionBackground.Color}`;
             sectionObject.Attributes["style"] = style;
         }
 
@@ -154,31 +131,10 @@ export class SectionComponent extends BaseComponent<SectionEntity> implements On
     private populateColumns(): ColumnHolder[] {
         let columns: ColumnHolder[] = [];
 
-        const proportions = JSON.parse(this.Properties.ColumnProportionsInfo);
-        let labels: { [key: string]: LabelModel } | null = null;
-        if (this.Properties.Labels)
-            labels = JSON.parse(this.Properties.Labels);
-
-        let attributes: { [key: string]: Array<AttributeModel> } | null = null;
-        if (this.Properties.Attributes)
-            attributes = JSON.parse(this.Properties.Attributes);
-
-        let columnsBackground: { [key: string]: SimpleBackgroundStyle } | null = null;
-        if (this.Properties.ColumnsBackground)
-            columnsBackground = JSON.parse(this.Properties.ColumnsBackground);
-
-        let columnsPadding: { [key: string]: OffsetStyle } | null = null;
-        if (this.Properties.ColumnsPadding)
-            columnsPadding = JSON.parse(this.Properties.ColumnsPadding);
-
-        let customCssClass: { [key: string]: CustomCssModel } | null = null;
-        if (this.Properties.CustomCssClass)
-            customCssClass = JSON.parse(this.Properties.CustomCssClass);
-
         for (let i = 0; i < this.Properties.ColumnsCount; i++) {
             let currentName = `${ColumnNamePrefix}${i + 1}`;
 
-            const classAttribute = `col-md-${proportions[i]}`;
+            const classAttribute = `col-md-${this.Properties.ColumnProportionsInfo[i]}`;
             const classAttributes = [classAttribute];
             let children: Array<ModelBase<any>> = [];
             if (this.Model.Children) {
@@ -194,8 +150,8 @@ export class SectionComponent extends BaseComponent<SectionEntity> implements On
                 column.Attributes["data-sfcontainer"] = currentName;
 
                 let currentTitle = null;
-                if (labels && labels.hasOwnProperty(currentName)) {
-                    currentTitle = labels[currentName].Label;
+                if (this.Properties.Labels && this.Properties.Labels.hasOwnProperty(currentName)) {
+                    currentTitle = this.Properties.Labels[currentName].Label;
                 } else {
                     currentTitle = currentName
                 }
@@ -203,21 +159,21 @@ export class SectionComponent extends BaseComponent<SectionEntity> implements On
                 column.Attributes["data-sfplaceholderlabel"] = currentTitle;
             }
 
-            if (attributes && attributes.hasOwnProperty(currentName)) {
-                attributes[currentName].forEach((attribute) => {
+            if (this.Properties.Attributes && this.Properties.Attributes.hasOwnProperty(currentName)) {
+                this.Properties.Attributes[currentName].forEach((attribute) => {
                     column.Attributes[attribute.Key] = attribute.Value;
                 });
             }
 
-            if (columnsBackground && columnsBackground.hasOwnProperty(currentName)) {
-                const backgroundStyle = columnsBackground[currentName];
+            if (this.Properties.ColumnsBackground && this.Properties.ColumnsBackground.hasOwnProperty(currentName)) {
+                const backgroundStyle = this.Properties.ColumnsBackground[currentName];
                 if (backgroundStyle.BackgroundType == "Color") {
                     column.Attributes["style"] = `--sf-backgrоund-color: ${backgroundStyle.Color}`;
                 }
             }
 
-            if (columnsPadding && columnsPadding.hasOwnProperty(currentName)) {
-                const columnPadding = columnsPadding[currentName];
+            if (this.Properties.ColumnsPadding && this.Properties.ColumnsPadding.hasOwnProperty(currentName)) {
+                const columnPadding = this.Properties.ColumnsPadding[currentName];
                 const paddings = this.styleGenerator.getPaddingClasses(columnPadding);
                 if (paddings) {
                     column.Attributes["class"] = paddings;
@@ -225,8 +181,8 @@ export class SectionComponent extends BaseComponent<SectionEntity> implements On
                 }
             }
 
-            if (customCssClass && customCssClass.hasOwnProperty(currentName)) {
-                const columnCssClass = customCssClass[currentName];
+            if (this.Properties.CustomCssClass && this.Properties.CustomCssClass.hasOwnProperty(currentName)) {
+                const columnCssClass = this.Properties.CustomCssClass[currentName];
                 if (columnCssClass && columnCssClass.Class) {
                     classAttributes.push(columnCssClass.Class);
                 }

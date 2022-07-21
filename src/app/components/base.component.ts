@@ -1,7 +1,6 @@
 import { Component, OnDestroy } from "@angular/core";
 import { Subscription } from "rxjs";
 import { ModelBase } from "../models/model-base";
-import { PageContentService } from "../services/page-content.service";
 
 @Component({ template: '' })
 export class BaseComponent<T> implements OnDestroy {

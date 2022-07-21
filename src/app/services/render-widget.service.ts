@@ -95,6 +95,14 @@ export class RenderWidgetService {
             Object.keys(componentData).forEach((propName) => {
                 (componentInstance.Model as any)[propName] = (componentData as any)[propName];
             });
+
+            Object.keys(componentInstance.Model.Properties).forEach((key) => {
+                try {
+                    (componentInstance.Model.Properties as any)[key] = JSON.parse((componentInstance.Model.Properties as any)[key])
+                } catch {
+
+                }
+            });
         }
     }
 }
