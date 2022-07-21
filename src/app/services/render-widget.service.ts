@@ -1,6 +1,7 @@
 import { ApplicationRef, ComponentFactoryResolver, ComponentRef, Injectable, Injector, RendererFactory2, ViewContainerRef } from "@angular/core";
 import { BaseComponent } from "../components/base.component";
 import { ContentComponent } from "../components/content-block/content-block.component";
+import { ContentListComponent } from "../components/content-list/content-list.component";
 import { ErrorComponent } from "../components/error/error.component";
 import { SectionComponent } from "../components/section/section.component";
 import { ModelBase } from "../models/model-base";
@@ -9,7 +10,8 @@ import { WidgetModel } from "./renderer-contract";
 
 export const TYPES_MAP: { [key: string]: Function } = {
     "SitefinityContentBlock": ContentComponent,
-    "SitefinitySection": SectionComponent
+    "SitefinitySection": SectionComponent,
+    "SitefinityContentList": ContentListComponent
 };
 
 @Injectable()

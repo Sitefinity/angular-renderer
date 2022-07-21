@@ -1,7 +1,8 @@
-import { Injectable, Type } from "@angular/core";
+import { Injectable } from "@angular/core";
 import { RenderWidgetService } from "./render-widget.service";
-import sitefinityContentBlockJson from '../components/content-block/sitefinity-content-block.json'
-import sitefinitySectionJson from '../components/section/sitefinity-section.json';
+import sitefinityContentBlockJson from '../components/content-block/designer-metadata.json'
+import sitefinitySectionJson from '../components/section/designer-metadata.json';
+import sitefinityContentListJson from '../components/content-list/designer-metadata.json';
 
 import contentWidgetsJson from '../components/selector-metadata/content-widgets.json';
 import layoutWidgetsJson from '../components/selector-metadata/layout-widgets.json';
@@ -13,6 +14,7 @@ export class RendererContractImpl implements RendererContract {
     private metadataMap: { [key: string]: any } = {
         "SitefinityContentBlock": sitefinityContentBlockJson,
         "SitefinitySection": sitefinitySectionJson,
+        "SitefinityContentList": sitefinityContentListJson
     }
 
     constructor(private renderWidgetService: RenderWidgetService) {

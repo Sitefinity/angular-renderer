@@ -1,6 +1,5 @@
-import { Component, ViewContainerRef } from "@angular/core";
+import { Component } from "@angular/core";
 import { Meta } from "@angular/platform-browser";
-import { ActivatedRoute } from "@angular/router";
 import { ModelBase } from "./models/model-base";
 import { PageContentService } from "./services/page-content.service";
 import { RenderContext } from "./services/render-context";

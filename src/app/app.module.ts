@@ -15,12 +15,14 @@ import { SectionComponent } from "./components/section/section.component";
 import { DynamicAttributesDirective } from "./directives/dynamic-attributes.directive";
 import { RestService } from "./sdk/rest-service";
 import { StyleGenerator } from "./styling/style-generator.service";
+import { ContentListComponent } from "./components/content-list/content-list.component";
 
 @NgModule({
     declarations: [
         AppComponent,
         ContentComponent,
         SectionComponent,
+        ContentListComponent,
         ErrorComponent,
         WrapperComponentDirective,
         DynamicAttributesDirective
@@ -28,7 +30,8 @@ import { StyleGenerator } from "./styling/style-generator.service";
     entryComponents: [
         ContentComponent,
         ErrorComponent,
-        SectionComponent
+        SectionComponent,
+        ContentListComponent
     ],
     imports: [
         BrowserModule,
