@@ -1,10 +1,10 @@
 import { Injectable, Type } from "@angular/core";
 import { RenderWidgetService } from "./render-widget.service";
-import sitefinityContentBlockJson from './designer-metadata/sitefinity-content-block.json';
-import sitefinitySectionJson from './designer-metadata/sitefinity-section.json';
+import sitefinityContentBlockJson from '../components/content-block/sitefinity-content-block.json'
+import sitefinitySectionJson from '../components/section/sitefinity-section.json';
 
-import contentWidgetsJson from './selector-metadata/content-widgets.json';
-import layoutWidgetsJson from './selector-metadata/layout-widgets.json';
+import contentWidgetsJson from '../components/selector-metadata/content-widgets.json';
+import layoutWidgetsJson from '../components/selector-metadata/layout-widgets.json';
 
 
 @Injectable()
