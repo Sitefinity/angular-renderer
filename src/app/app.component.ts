@@ -56,7 +56,7 @@ export class AppComponent {
             }
 
             if (this.renderContext.isEdit()) {
-                window.document.body.setAttribute('data-sfcontainer', '');
+                window.document.body.setAttribute('data-sfcontainer', 'Body');
                 const timeout = 2000;
                 const start = new Date().getTime();
                 const handle = window.setInterval(() => {
