@@ -13,6 +13,7 @@ import { StylingConfig } from "src/app/styling/styling-config";
 import { ColumnHolder } from "./column-holder";
 import { ModelBase } from "src/app/models/model-base";
 const ColumnNamePrefix = "Column";
+const sectionKey = "Section";
 
 @Component({
     templateUrl: "section.component.html",
@@ -46,7 +47,6 @@ export class SectionComponent extends BaseComponent<SectionEntity> implements On
             Attributes: {}
         }
 
-        const sectionKey = "Section";
         let attributes = this.Properties.Attributes;
         if (attributes && attributes.hasOwnProperty(sectionKey)) {
             attributes[sectionKey].forEach((attribute) => {
