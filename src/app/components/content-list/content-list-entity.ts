@@ -1,13 +1,16 @@
+import { ContentListSettings } from "../designer-entities/content-list-settings";
+import { MixedContentContext } from "../designer-entities/mixed-content-context";
+
 export interface ContentListEntity {
-    SelectedItems: string;
+    SelectedItems: MixedContentContext;
     SfViewName: string;
-    ListSettings: string;
-    ListFieldMapping: string;
+    ListSettings: ContentListSettings;
+    ListFieldMapping: Array<{ Name: string, FriendlyName: string }>;
     OrderBy: string;
     DetailPageMode: "SamePage" | "ExistingPage",
-    DetailPage: string;
+    DetailPage: MixedContentContext;
     SfDetailViewName: string;
-    ContentViewDisplayMode: string;
+    ContentViewDisplayMode: "Automatic" | "Master" | "Detail";
     SelectionGroupLogicalOperator: "AND" | "OR";
     FilterExpression: string;
     SortExpression: string;
@@ -16,9 +19,9 @@ export interface ContentListEntity {
     PagerMode: "URLSegments" | "QueryParameter";
     PagerTemplate: string;
     PagerQueryTemplate: string;
-    CssClasses: string;
+    CssClasses: Array<{ FieldName: string, CssClass: string }>;
     ShowListViewOnChildDetailsView: boolean;
     ShowDetailsViewOnChildDetailsView: boolean;
     ShowListViewOnEmptyParentFilter: boolean;
-    Attributes: string;
+    Attributes: { [key: string]: Array<{ Key: string, Value: string}> };
 }

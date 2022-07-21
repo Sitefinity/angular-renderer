@@ -42,7 +42,6 @@ export class SectionComponent extends BaseComponent<SectionEntity> implements On
 
     private populateSection(): Observable<SectionHolder> {
         const section$ = new ReplaySubject<SectionHolder>();
-        this.Properties.Section = section$.asObservable();
         const sectionObject: SectionHolder = {
             Attributes: {}
         }
