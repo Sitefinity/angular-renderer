@@ -4,8 +4,8 @@ import sitefinityContentBlockJson from '../components/content-block/designer-met
 import sitefinitySectionJson from '../components/section/designer-metadata.json';
 import sitefinityContentListJson from '../components/content-list/designer-metadata.json';
 
-import contentWidgetsJson from '../components/designer-metadata/content-widgets.json';
-import layoutWidgetsJson from '../components/designer-metadata/layout-widgets.json';
+import contentWidgetsJson from '../editor/designer-metadata/content-widgets.json';
+import layoutWidgetsJson from '../editor/designer-metadata/layout-widgets.json';
 
 
 @Injectable()

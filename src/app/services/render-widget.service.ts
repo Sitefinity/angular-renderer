@@ -4,6 +4,7 @@ import { ContentComponent } from "../components/content-block/content-block.comp
 import { ContentListComponent } from "../components/content-list/content-list.component";
 import { ErrorComponent } from "../components/error/error.component";
 import { SectionComponent } from "../components/section/section.component";
+import { EditorMetadata } from "../editor/editor-metadata";
 import { ModelBase } from "../models/model-base";
 import { RenderContext } from "./render-context";
 import { WidgetModel } from "./renderer-contract";
@@ -34,10 +35,10 @@ export class RenderWidgetService {
 
         const factory = this.resolver.resolveComponentFactory(type);
         const componentRef = viewContainer.createComponent(factory, undefined, viewContainer.injector);
-        this.setAttributes(componentRef.location.nativeElement, widgetModel, error);
-
         const componentInstance = componentRef.instance as BaseComponent<ModelBase<any>>;
         this.setProperties(widgetModel, componentInstance);
+        this.setAttributes(componentRef.location.nativeElement, widgetModel, componentInstance.Metadata, error);
+
 
         return componentInstance;
     }
@@ -52,12 +53,13 @@ export class RenderWidgetService {
 
         const factory = this.resolver.resolveComponentFactory(type);
         const componentRef = factory.create(this.injector);
-        this.setAttributes(componentRef.location.nativeElement, widgetModel, error);
 
         const componentInstance = componentRef.instance as BaseComponent<ModelBase<any>>;
         this.setProperties(widgetModel, componentInstance);
 
         this.appRef.attachView(componentRef.hostView);
+
+        this.setAttributes(componentRef.location.nativeElement, widgetModel, componentInstance.Metadata, error);
 
         return new Promise((resolve) => {
             let counter = 0;
@@ -71,12 +73,15 @@ export class RenderWidgetService {
         });
     }
 
-    private setAttributes(element: HTMLElement, widgetModel: WidgetModel, error: string | null) {
+    private setAttributes(element: HTMLElement, widgetModel: WidgetModel, editorMetadata: EditorMetadata, error: string | null) {
         if (this.renderContext.isEdit()) {
             const renderer = this.renderer.createRenderer(null, null);
             renderer.setAttribute(element, "data-sfname", widgetModel.Name);
-            renderer.setAttribute(element, "data-sftitle", widgetModel.Name);
-            renderer.setAttribute(element, "data-sfemptyiconaction", "Edit");
+            renderer.setAttribute(element, "data-sftitle", editorMetadata.Title || widgetModel.Name);
+            renderer.setAttribute(element, "data-sfemptyiconaction", editorMetadata.EmptyIconAction);
+            renderer.setAttribute(element, "data-sfemptyicon", editorMetadata.EmptyIcon);
+            renderer.setAttribute(element, "data-sfemptyicontext", editorMetadata.EmptyIconText);
+
             renderer.setAttribute(element, "data-sfid", widgetModel.Id);
             renderer.setAttribute(element, "data-sfisorphaned", "false");
 

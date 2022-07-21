@@ -10,6 +10,10 @@ import { ContentListEntity } from "./content-list-entity";
 export class ContentListComponent extends BaseComponent<ContentListEntity> implements OnInit {
     constructor(private renderContext: RenderContext) {
         super();
+
+        this.Metadata.Title = "Content list";
+        this.Metadata.EmptyIconText = "Select content";
+        this.Metadata.EmptyIcon = "plus-circle";
     }
 
     ngOnInit() {

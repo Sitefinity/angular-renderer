@@ -1,5 +1,5 @@
-import { ContentListSettings } from "../designer-entities/content-list-settings";
-import { MixedContentContext } from "../designer-entities/mixed-content-context";
+import { ContentListSettings } from "../../editor/designer-entities/content-list-settings";
+import { MixedContentContext } from "../../editor/designer-entities/mixed-content-context";
 
 export interface ContentListEntity {
     SelectedItems: MixedContentContext;
