@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { ReplaySubject, Subject } from "rxjs";
+import { Observable, ReplaySubject, Subject } from "rxjs";
 import { RestService } from "src/app/sdk/rest-service";
+import { SdkItem } from "src/app/sdk/sdk-item";
 import { ContentListViewModelDetail } from "./content-list-detail-view-model";
 import { ContentListModelDetail } from "./content-list-model-detail";
 
@@ -21,7 +22,19 @@ export class ContentListDetailComponent implements OnInit {
         if (!this.detailModel)
             return;
 
-        this.restService.getItem(this.detailModel.DetailItem.ItemType, this.detailModel.DetailItem.Id, this.detailModel.DetailItem.ProviderName).subscribe((x) => {
+        let queryParams: {[key: string]: string} = {};
+        new URLSearchParams(location.search).forEach((val, key) => {
+            queryParams[key] = val;
+        });
+
+        let item$: Observable<SdkItem>;
+        if (queryParams.hasOwnProperty("sf-content-action")) {
+            item$ = this.restService.getItemWithStatus(this.detailModel.DetailItem.ItemType, this.detailModel.DetailItem.Id, this.detailModel.DetailItem.ProviderName, queryParams)
+        } else {
+            item$ = this.restService.getItem(this.detailModel.DetailItem.ItemType, this.detailModel.DetailItem.Id, this.detailModel.DetailItem.ProviderName);
+        }
+
+        item$.subscribe((x) => {
             if (!this.detailModel)
                 return;
 
