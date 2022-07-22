@@ -3,7 +3,7 @@ import { Observable, ReplaySubject, Subject } from "rxjs";
 import { RestService } from "src/app/sdk/rest-service";
 import { SdkItem } from "src/app/sdk/sdk-item";
 import { ContentListViewModelDetail } from "./content-list-detail-view-model";
-import { ContentListModelDetail } from "./content-list-model-detail";
+import { ContentListModelDetail } from "./content-list-detail-model";
 
 @Component({
     templateUrl: "content-list-detail.component.html",

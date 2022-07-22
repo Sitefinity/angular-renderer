@@ -2,8 +2,9 @@ import { Component, OnInit } from "@angular/core";
 import { BaseComponent } from "../base.component";
 import { ContentListEntity } from "./content-list-entity";
 import { ContentListViewModel } from "./content-list-view-model";
-import { ContentListModelDetail } from "./detail/content-list-model-detail";
+import { ContentListModelDetail } from "./detail/content-list-detail-model";
 import { DetailItem } from "src/app/services/detail-item";
+import { ContentListModelMaster } from "./master/content-list-master-model";
 
 @Component({
     templateUrl: "content-list.component.html",
@@ -26,6 +27,7 @@ export class ContentListComponent extends BaseComponent<ContentListEntity> imple
         this.Properties.ContentViewDisplayMode = this.Properties.ContentViewDisplayMode || "Automatic";
         this.Properties.Attributes = this.Properties.Attributes || {};
         this.Properties.CssClasses = this.Properties.CssClasses || [];
+        this.Properties.ListFieldMapping = this.Properties.ListFieldMapping || {};
 
         if (this.Properties.ContentViewDisplayMode === "Automatic") {
             if (this.RequestContext.DetailItem) {
@@ -48,7 +50,19 @@ export class ContentListComponent extends BaseComponent<ContentListEntity> imple
     }
 
     private handleListView() {
+        let contnetListMasterModel: ContentListModelMaster = {
+            RenderLinks: !(this.Properties.ContentViewDisplayMode === "Master" && this.Properties.DetailPageMode === "SamePage"),
+            FieldCssClassMap: {},
+            FieldMap: {}
+        };
 
+        this.Properties.ListFieldMapping.forEach((entry) => {
+            contnetListMasterModel.FieldMap[entry.FriendlyName] = entry.Name;
+        });
+
+        this.Properties.CssClasses.forEach((entry) => {
+            contnetListMasterModel.FieldCssClassMap[entry.FieldName] = entry.CssClass;
+        });
     }
 
     private handleDetailView(detailItem: DetailItem) {
