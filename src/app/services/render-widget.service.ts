@@ -4,6 +4,7 @@ import { ContentComponent } from "../components/content-block/content-block.comp
 import { ContentListComponent } from "../components/content-list/content-list.component";
 import { ErrorComponent } from "../components/error/error.component";
 import { SectionComponent } from "../components/section/section.component";
+import { ComponentContainer } from "../directives/component-wrapper.directive";
 import { EditorMetadata } from "../editor/editor-metadata";
 import { ModelBase } from "../models/model-base";
 import { RenderContext } from "./render-context";
@@ -25,20 +26,20 @@ export class RenderWidgetService {
         private injector: Injector) {
     }
 
-    public createAndInjectComponent(widgetModel: WidgetModel, viewContainer: ViewContainerRef) {
-        let type: any = TYPES_MAP[widgetModel.Name];
+    public createAndInjectComponent(widgetModel: ComponentContainer, viewContainer: ViewContainerRef) {
+        let type: any = TYPES_MAP[widgetModel.model.Name];
         let error: string | null = null;
         if (!type) {
             type = ErrorComponent;
-            error = `No componenent with the name ${widgetModel.Name} found.`
+            error = `No componenent with the name ${widgetModel.model.Name} found.`
         }
 
         const factory = this.resolver.resolveComponentFactory(type);
         const componentRef = viewContainer.createComponent(factory, undefined, viewContainer.injector);
         const componentInstance = componentRef.instance as BaseComponent<ModelBase<any>>;
-        this.setProperties(widgetModel, componentInstance);
-        this.setAttributes(componentRef.location.nativeElement, widgetModel, componentInstance.Metadata, error);
-
+        this.setProperties(widgetModel.model, componentInstance);
+        this.setAttributes(componentRef.location.nativeElement, widgetModel.model, componentInstance.Metadata, error);
+        componentInstance.RequestContext = widgetModel.context;
 
         return componentInstance;
     }
@@ -80,7 +81,9 @@ export class RenderWidgetService {
             renderer.setAttribute(element, "data-sftitle", editorMetadata.Title || widgetModel.Name);
             renderer.setAttribute(element, "data-sfemptyiconaction", editorMetadata.EmptyIconAction);
             renderer.setAttribute(element, "data-sfemptyicon", editorMetadata.EmptyIcon);
-            renderer.setAttribute(element, "data-sfemptyicontext", editorMetadata.EmptyIconText);
+
+            if (editorMetadata.EmptyIconText)
+                renderer.setAttribute(element, "data-sfemptyicontext", editorMetadata.EmptyIconText);
 
             renderer.setAttribute(element, "data-sfid", widgetModel.Id);
             renderer.setAttribute(element, "data-sfisorphaned", "false");

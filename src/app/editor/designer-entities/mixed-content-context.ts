@@ -1,5 +1,5 @@
 export interface MixedContentContext {
-    ItemIdsOrders: string[],
+    ItemIdsOrdered: string[],
     Content: ContentContext[]
 }
 

@@ -7,6 +7,7 @@ import { SdkItem } from "./sdk-item";
 export class RestSdkTypes {
     public static readonly Video: string = "Telerik.Sitefinity.Libraries.Model.Video";
     public static readonly Image: string = "Telerik.Sitefinity.Libraries.Model.Image";
+    public static readonly News: string = "Telerik.Sitefinity.News.Model.NewsItem";
 }
 
 @Injectable()
@@ -24,12 +25,22 @@ export class RestService {
         return this.http.get<T>(wholeUrl);
     }
 
+    getItem<T extends SdkItem>(itemType: string, id: string, provider: string): Observable<T> {
+        const rootUrl = this.rootUrlService.getUrl();
+        const setName = this.getSetNameForType(itemType);
+        const wholeUrl = `${rootUrl}/${this.serviceApi}/${setName}(${id})?sf_provider=${provider}&sf_fallback_prop_names=*&$select=*`
+
+        return this.http.get<T>(wholeUrl);
+    }
+
     private getSetNameForType(itemType: string) {
         switch (itemType) {
             case RestSdkTypes.Image:
                 return "images";
             case RestSdkTypes.Video:
                 return "videos";
+            case RestSdkTypes.News:
+                return "newsitems";
             default:
                 return null;
         }

@@ -1,6 +1,7 @@
 import { ModelBase } from "../models/model-base";
 import { Directive, OnInit, ViewContainerRef, Input } from "@angular/core";
 import { RenderWidgetService } from "../services/render-widget.service";
+import { RequestContext } from "../services/request-context";
 
 
 @Directive({
@@ -8,7 +9,7 @@ import { RenderWidgetService } from "../services/render-widget.service";
     selector: "[componentWrapper]"
 })
 export class WrapperComponentDirective implements OnInit {
-    @Input("componentWrapper") componentData!: ModelBase<any>;
+    @Input("componentWrapper") componentData!: ComponentContainer;
 
     constructor(
         private viewContainer: ViewContainerRef,
@@ -17,4 +18,9 @@ export class WrapperComponentDirective implements OnInit {
     public ngOnInit(): void {
         this.renderWidgetService.createAndInjectComponent(this.componentData, this.viewContainer);
     }
+}
+
+export interface ComponentContainer {
+    model: ModelBase<any>;
+    context: RequestContext
 }

@@ -1,0 +1,7 @@
+<div *ngIf="detailViewModel$ | async as detailViewModel" [dynamicAttributes]="detailViewModel.Attributes">
+    <ng-container *ngIf="detailViewModel.ViewName=='News'">
+        <h3>
+            <span>{{detailViewModel.DetailItem.Title}}</span>
+        </h3>
+    </ng-container>
+</div>

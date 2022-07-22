@@ -11,7 +11,7 @@ import { SectionHolder } from "./section-holder";
 import { SectionViewModel } from "./section-view-model";
 import { StylingConfig } from "src/app/styling/styling-config";
 import { ColumnHolder } from "./column-holder";
-import { ModelBase } from "src/app/models/model-base";
+import { ComponentContainer } from "src/app/directives/component-wrapper.directive";
 const ColumnNamePrefix = "Column";
 const sectionKey = "Section";
 
@@ -115,8 +115,8 @@ export class SectionComponent extends BaseComponent<SectionEntity> implements On
                 sectionObject.Attributes["style"] = style;
                 sectionObject.Attributes["class"] = sectionClasses.filter(x => x).join(" ");
                 section$.next(sectionObject);
-                return section$.asObservable();
             });
+            return section$.asObservable();
         } else if (this.Properties.SectionBackground.BackgroundType === "Color" && this.Properties.SectionBackground.Color) {
             const style = `--sf-backgrоund-color: ${this.Properties.SectionBackground.Color}`;
             sectionObject.Attributes["style"] = style;
@@ -135,9 +135,14 @@ export class SectionComponent extends BaseComponent<SectionEntity> implements On
 
             const classAttribute = `col-md-${this.Properties.ColumnProportionsInfo[i]}`;
             const classAttributes = [classAttribute];
-            let children: Array<ModelBase<any>> = [];
+            let children: Array<ComponentContainer> = [];
             if (this.Model.Children) {
-                children = this.Model.Children.filter(x => x.PlaceHolder === currentName);
+                children = this.Model.Children.filter(x => x.PlaceHolder === currentName).map((x => {
+                    return <ComponentContainer>{
+                        model: x,
+                        context: this.RequestContext
+                    }
+                }));
             }
 
             const column: ColumnHolder = {

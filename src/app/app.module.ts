@@ -16,6 +16,8 @@ import { DynamicAttributesDirective } from "./directives/dynamic-attributes.dire
 import { RestService } from "./sdk/rest-service";
 import { StyleGenerator } from "./styling/style-generator.service";
 import { ContentListComponent } from "./components/content-list/content-list.component";
+import { ContentListDetailComponent } from "./components/content-list/detail/content-list-detail.component";
+import { RouterModule } from "@angular/router";
 
 @NgModule({
     declarations: [
@@ -23,9 +25,10 @@ import { ContentListComponent } from "./components/content-list/content-list.com
         ContentComponent,
         SectionComponent,
         ContentListComponent,
+        ContentListDetailComponent,
         ErrorComponent,
         WrapperComponentDirective,
-        DynamicAttributesDirective
+        DynamicAttributesDirective,
     ],
     entryComponents: [
         ContentComponent,
@@ -36,7 +39,7 @@ import { ContentListComponent } from "./components/content-list/content-list.com
     imports: [
         BrowserModule,
         CommonModule,
-        HttpClientModule
+        HttpClientModule,
     ],
     providers: [
         RootUrlService,

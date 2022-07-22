@@ -1,3 +1,4 @@
+import { DetailItem } from "../services/detail-item";
 import { ModelBase } from "./model-base";
 
 export interface PageContentServiceResponse {
@@ -15,7 +16,9 @@ export interface PageContentServiceResponse {
         OpenGraphType: string,
         OpenGraphSite: string,
         CanonicalUrl: string,
-    }
+    },
+    DetailItem: DetailItem,
+    UrlParameters: string[]
 }
 
 export interface ComponentContext {
