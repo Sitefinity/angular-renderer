@@ -40,9 +40,8 @@ export class ContentListDetailComponent implements OnInit {
 
             let attributes: { [key: string]: string } = {};
             if (this.detailModel) {
-                const attributesForContentList = this.detailModel.Attributes["ContentList"];
-                if (attributesForContentList) {
-                    attributesForContentList.forEach((pair) => {
+                if (this.detailModel.Attributes) {
+                    this.detailModel.Attributes.forEach((pair) => {
                         attributes[pair.Key] = pair.Value;
                     });
                 }

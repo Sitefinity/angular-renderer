@@ -5,5 +5,5 @@ export interface ContentListModelDetail {
         ProviderName: string;
         ItemType: string;
     },
-    Attributes: { [key: string]: Array<{ Key: string, Value: string}> };
+    Attributes: Array<{ Key: string, Value: string}>;
 }

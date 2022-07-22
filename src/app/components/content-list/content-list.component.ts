@@ -24,6 +24,8 @@ export class ContentListComponent extends BaseComponent<ContentListEntity> imple
     ngOnInit() {
         this.Properties.DetailPageMode = this.Properties.DetailPageMode || "SamePage";
         this.Properties.ContentViewDisplayMode = this.Properties.ContentViewDisplayMode || "Automatic";
+        this.Properties.Attributes = this.Properties.Attributes || {};
+        this.Properties.CssClasses = this.Properties.CssClasses || [];
 
         if (this.Properties.ContentViewDisplayMode === "Automatic") {
             if (this.RequestContext.DetailItem) {
@@ -50,8 +52,22 @@ export class ContentListComponent extends BaseComponent<ContentListEntity> imple
     }
 
     private handleDetailView(detailItem: DetailItem) {
+        const detailsViewCss = this.Properties.CssClasses.find(x => x.FieldName === "Details view");
+        const contentListAttributes = this.Properties.Attributes["ContentList"];
+        if (detailsViewCss && contentListAttributes) {
+            const classAttribute = contentListAttributes.find(x => x.Key === "class");
+            if (!classAttribute) {
+                contentListAttributes.push({
+                    Key: "class",
+                    Value: detailsViewCss.CssClass
+                });
+            } else {
+                classAttribute.Value += ` ${detailsViewCss.CssClass}`;
+            }
+        }
+
         this.detailModel = {
-            Attributes: this.Properties.Attributes,
+            Attributes: this.Properties.Attributes["ContentList"],
             DetailItem: detailItem,
             ViewName: this.Properties.SfDetailViewName
         };
