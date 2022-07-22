@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+    production: false,
+    sitefinityUrl: "https://localhost:8081/",
+    serviceUrl: "api/default"
 };
 
 /*

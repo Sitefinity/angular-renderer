@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { BaseComponent } from "../base.component";
 import { RenderContext } from "src/app/services/render-context";
 import { SectionEntity } from "./section.entity";
-import { RestSdkTypes, RestService } from "src/app/sdk/rest-service";
+import { RestSdkTypes, RestService } from "src/app/sdk/services/rest.service";
 import { VideoItem } from "src/app/sdk/video-item";
 import { StyleGenerator } from "src/app/styling/style-generator.service";
 import { ImageItem } from "src/app/sdk/image-item";

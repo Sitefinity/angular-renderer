@@ -1,8 +1,8 @@
 import { Component } from "@angular/core";
 import { Meta } from "@angular/platform-browser";
 import { ComponentContainer } from "./directives/component-wrapper.directive";
-import { PageContentServiceResponse } from "./models/service-response";
-import { PageContentService } from "./services/page-content.service";
+import { PageLayoutServiceResponse } from "./models/service-response";
+import { LayoutService } from "./sdk/services/layout.service";
 import { RenderContext } from "./services/render-context";
 import { RendererContractImpl } from "./services/renderer-contract";
 
@@ -18,12 +18,12 @@ export class AppComponent {
         private meta: Meta,
         private renderContext: RenderContext,
         private rendererService: RendererContractImpl,
-        private pageContentService: PageContentService) {
+        private layoutService: LayoutService) {
 
     }
 
     ngOnInit(): void {
-        this.pageContentService.get(window.location.href).subscribe(s => {
+        this.layoutService.get(window.location.href).subscribe(s => {
             this.renderContext.cultureName = s.Culture;
             this.content = s.ComponentContext.Components.map(x => {
                 return <ComponentContainer>{
@@ -46,7 +46,6 @@ export class AppComponent {
     }
 
     private fireEventForEditor() {
-
         if (this.renderContext.isEdit()) {
             window.document.body.setAttribute('data-sfcontainer', 'Body');
             const timeout = 2000;
@@ -66,7 +65,7 @@ export class AppComponent {
         }
     }
 
-    private renderMetaInfo(s: PageContentServiceResponse) {
+    private renderMetaInfo(s: PageLayoutServiceResponse) {
         document.title = s.MetaInfo.Title;
 
         const metaMap = {

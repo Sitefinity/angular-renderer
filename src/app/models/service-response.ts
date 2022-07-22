@@ -1,7 +1,7 @@
 import { DetailItem } from "../services/detail-item";
 import { ModelBase } from "./model-base";
 
-export interface PageContentServiceResponse {
+export interface PageLayoutServiceResponse {
     Culture: string;
     SiteId: string;
     ComponentContext: ComponentContext;

@@ -1,7 +1,6 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { AppComponent } from "./app.component";
-import { PageContentService } from "./services/page-content.service";
 import { HttpClientModule } from "@angular/common/http";
 import { ContentComponent } from "./components/content-block/content-block.component";
 import { WrapperComponentDirective } from "./directives/component-wrapper.directive";
@@ -13,11 +12,11 @@ import { RenderWidgetService } from "./services/render-widget.service";
 import { ErrorComponent } from "./components/error/error.component";
 import { SectionComponent } from "./components/section/section.component";
 import { DynamicAttributesDirective } from "./directives/dynamic-attributes.directive";
-import { RestService } from "./sdk/rest-service";
+import { RestService } from "./sdk/services/rest.service";
 import { StyleGenerator } from "./styling/style-generator.service";
 import { ContentListComponent } from "./components/content-list/content-list.component";
 import { ContentListDetailComponent } from "./components/content-list/detail/content-list-detail.component";
-import { RouterModule } from "@angular/router";
+import { LayoutService } from "./sdk/services/layout.service";
 
 @NgModule({
     declarations: [
@@ -43,14 +42,14 @@ import { RouterModule } from "@angular/router";
     ],
     providers: [
         RootUrlService,
+        LayoutService,
         RestService,
         StyleGenerator,
-        PageContentService,
         RenderContext,
         RenderWidgetService,
         RendererContractImpl,
         WrapperComponentDirective,
-        DynamicAttributesDirective
+        DynamicAttributesDirective,
     ],
     bootstrap: [AppComponent]
 })

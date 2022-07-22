@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { Observable, ReplaySubject, Subject } from "rxjs";
-import { RestService } from "src/app/sdk/rest-service";
+import { RestService } from "src/app/sdk/services/rest.service";
 import { SdkItem } from "src/app/sdk/sdk-item";
 import { ContentListViewModelDetail } from "./content-list-detail-view-model";
 import { ContentListModelDetail } from "./content-list-detail-model";
