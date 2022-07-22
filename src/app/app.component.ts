@@ -2,6 +2,7 @@ import { Component } from "@angular/core";
 import { Meta } from "@angular/platform-browser";
 import { ComponentContainer } from "./directives/component-wrapper.directive";
 import { PageLayoutServiceResponse } from "./models/service-response";
+import { ServiceMetadata } from "./sdk/service-metadata";
 import { LayoutService } from "./sdk/services/layout.service";
 import { RenderContext } from "./services/render-context";
 import { RendererContractImpl } from "./services/renderer-contract";
@@ -15,6 +16,7 @@ export class AppComponent {
     public content: ComponentContainer[] = [];
 
     constructor(
+        private serviceMetadata: ServiceMetadata,
         private meta: Meta,
         private renderContext: RenderContext,
         private rendererService: RendererContractImpl,
@@ -23,25 +25,27 @@ export class AppComponent {
     }
 
     ngOnInit(): void {
-        this.layoutService.get(window.location.href).subscribe(s => {
-            this.renderContext.cultureName = s.Culture;
-            this.content = s.ComponentContext.Components.map(x => {
-                return <ComponentContainer>{
-                    model: x,
-                    context: {
-                        DetailItem: s.DetailItem
+        this.serviceMetadata.fetch().subscribe(() => {
+            this.layoutService.get(window.location.href).subscribe(s => {
+                this.renderContext.cultureName = s.Culture;
+                this.content = s.ComponentContext.Components.map(x => {
+                    return <ComponentContainer>{
+                        model: x,
+                        context: {
+                            DetailItem: s.DetailItem
+                        }
                     }
+                });
+
+                if (s.UrlParameters.length > 0 && !s.DetailItem) {
+                    // this.router.navigate(["404"]);
+                    this.fireEventForEditor();
+                    return;
                 }
-            });
 
-            if (s.UrlParameters.length > 0 && !s.DetailItem) {
-                // this.router.navigate(["404"]);
                 this.fireEventForEditor();
-                return;
-            }
-
-            this.fireEventForEditor();
-            this.renderMetaInfo(s);
+                this.renderMetaInfo(s);
+            });
         });
     }
 

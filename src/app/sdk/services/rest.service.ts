@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { RootUrlService } from "../../services/root-url.service";
 import { GenericContentItem } from "../generic-content-item";
 import { SdkItem } from "../sdk-item";
+import { ServiceMetadata } from "../service-metadata";
 
 export class RestSdkTypes {
     public static readonly Video: string = "Telerik.Sitefinity.Libraries.Model.Video";
@@ -15,7 +16,7 @@ export class RestSdkTypes {
 
 @Injectable()
 export class RestService {
-    constructor(private http: HttpClient, private rootUrlService: RootUrlService) {
+    constructor(private http: HttpClient, private rootUrlService: RootUrlService, private serviceMetadata: ServiceMetadata) {
 
     }
 
@@ -63,7 +64,7 @@ export class RestService {
 
     public buildItemBaseUrl(itemType: string): string {
         const serviceUrl = this.rootUrlService.getServiceUrl();
-        const setName = this.getSetNameForType(itemType);
+        const setName = this.serviceMetadata.getSetNameFromType(itemType);
 
         return `${serviceUrl}${setName}`;
     }
@@ -80,22 +81,5 @@ export class RestService {
         }
 
         return result;
-    }
-
-    public getSetNameForType(itemType: string) {
-        switch (itemType) {
-            case RestSdkTypes.Image:
-                return "images";
-            case RestSdkTypes.Video:
-                return "videos";
-            case RestSdkTypes.News:
-                return "newsitems";
-            case RestSdkTypes.GenericContent:
-                return "contentitems";
-            case RestSdkTypes.Pages:
-                return "pages";
-            default:
-                return null;
-        }
     }
 }

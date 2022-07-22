@@ -17,6 +17,7 @@ import { StyleGenerator } from "./styling/style-generator.service";
 import { ContentListComponent } from "./components/content-list/content-list.component";
 import { ContentListDetailComponent } from "./components/content-list/detail/content-list-detail.component";
 import { LayoutService } from "./sdk/services/layout.service";
+import { ServiceMetadata } from "./sdk/service-metadata";
 
 @NgModule({
     declarations: [
@@ -43,6 +44,7 @@ import { LayoutService } from "./sdk/services/layout.service";
     providers: [
         RootUrlService,
         LayoutService,
+        ServiceMetadata,
         RestService,
         StyleGenerator,
         RenderContext,
