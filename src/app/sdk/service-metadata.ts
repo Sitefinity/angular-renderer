@@ -53,6 +53,61 @@ export class ServiceMetadata {
 
         return null;
     }
+
+    public isPropertyACollection(type: string, propName: string) {
+        var entityTypeDef = this.serviceMetadataCache.definitions[type];
+        var propMeta = entityTypeDef["properties"][propName];
+        var propType = propMeta["type"];
+
+        if (!propType)
+            return false;
+
+        if (Array.isArray(propType) || propType == "array")
+            return true;
+
+        return false;
+    }
+
+    public getRelatedTypeEntitySet(type: string, relationName: string) {
+        const typeDefinition = this.serviceMetadataCache.definitions[type];
+
+        var properties = typeDefinition["properties"];
+        var property = properties[relationName];
+        if (typeof property.Type !== 'object')
+            return null;
+
+        var relatedReferenceType = property["$ref"];
+        if (relatedReferenceType == null) {
+            var itemsProperty = property["items"];
+            if (itemsProperty != null) {
+                relatedReferenceType = itemsProperty["$ref"];
+            }
+        }
+
+        if (relatedReferenceType == null) {
+            var anyOfProperty: Array<any> = property["anyOf"];
+            if (anyOfProperty && anyOfProperty.length > 0) {
+                var relatedItemProperty = anyOfProperty.find(x => x["$ref"] != null);
+                if (relatedItemProperty != null) {
+                    relatedReferenceType = relatedItemProperty["$ref"];
+                }
+            }
+        }
+
+        if (relatedReferenceType == null)
+            return null;
+
+        var relatedReferenceTypeString = this.serviceMetadataCache.definitions[relatedReferenceType];
+        foreach (var prop in sets.Properties())
+        {
+            if (prop.Value["entityType"]["$ref"].ToString() == relatedReferenceTypeString)
+            {
+                return prop.Name;
+            }
+        }
+
+        return null;
+    }
 }
 
 interface ServiceMetadataDefinition {
