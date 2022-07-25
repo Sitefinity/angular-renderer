@@ -1,0 +1,24 @@
+<div [dynamicAttributes]="model.Attributes">
+    <div *ngFor="let item of model.Items" class="col">
+        <div class="card h-100">
+            <img *ngIf="" class="{{item.Image.Css}}" src="{{item.Image.Url}}" alt="{{item.Image.AlternativeText}}" title="{{item.Image.Title}}" />
+            <div class="card-body">
+                <h5 *ngIf="item.Title" [attr.class]="item.Title.Css">
+                    <ng-container *ngIf="model.OpenDetails">
+                        <a *ngIf="item.Title.Link" href="{{item.Title.Link}}">{{item.Title.Value}}}</a>
+                        <ng-container *ngIf="!item.Title.Link">
+                            {{item.Title.Value}}
+                        </ng-container>
+                    </ng-container>
+                    <ng-container *ngIf="!model.OpenDetails">
+                        {{item.Title.Value}}
+                    </ng-container>
+                </h5>
+                <p *ngIf="item.Text" class="{{item.Text.Css}}">{{item.Text.Value}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="model.Pager" class="mt-2">
+    <!-- render pager -->
+</div>

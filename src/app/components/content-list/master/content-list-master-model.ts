@@ -1,5 +1,12 @@
+import { Observable } from "rxjs";
+import { CollectionResponse } from "src/app/sdk/collection-response";
+import { SdkItem } from "src/app/sdk/sdk-item";
+
 export interface ContentListModelMaster {
-    RenderLinks: boolean;
+    OpenDetails: boolean;
     FieldCssClassMap: { [key: string]: string };
     FieldMap: { [key: string]: string };
+    Items$: Observable<CollectionResponse<SdkItem>>,
+    ViewName: string;
+    Attributes: Array<{ Key: string, Value: string }>;
 }

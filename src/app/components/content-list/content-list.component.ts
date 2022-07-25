@@ -1,20 +1,20 @@
 import { Component, OnInit } from "@angular/core";
 import { BaseComponent } from "../base.component";
 import { ContentListEntity } from "./content-list-entity";
-import { ContentListViewModel } from "./content-list-view-model";
 import { ContentListModelDetail } from "./detail/content-list-detail-model";
 import { DetailItem } from "src/app/services/detail-item";
 import { ContentListModelMaster } from "./master/content-list-master-model";
+import { ContentListRestService } from "./content-list-rest.service";
 
 @Component({
     templateUrl: "content-list.component.html",
     selector: "app-content-list"
 })
 export class ContentListComponent extends BaseComponent<ContentListEntity> implements OnInit {
-    viewModel: ContentListViewModel | undefined;
     detailModel: ContentListModelDetail | undefined;
+    listModel: ContentListModelMaster | undefined;
 
-    constructor() {
+    constructor(private contentlistService: ContentListRestService) {
         super();
 
         this.Metadata.Title = "Content list";
@@ -28,6 +28,13 @@ export class ContentListComponent extends BaseComponent<ContentListEntity> imple
         this.Properties.Attributes = this.Properties.Attributes || {};
         this.Properties.CssClasses = this.Properties.CssClasses || [];
         this.Properties.ListFieldMapping = this.Properties.ListFieldMapping || {};
+        this.Properties.OrderBy = this.Properties.OrderBy || "PublicationDate DESC";
+        this.Properties.ListSettings = this.Properties.ListSettings || {};
+        this.Properties.ListSettings.DisplayMode = this.Properties.ListSettings.DisplayMode || "All";
+        this.Properties.ListSettings.ItemsPerPage = this.Properties.ListSettings.ItemsPerPage || 20;
+        this.Properties.ListSettings.LimitItemsCount = this.Properties.ListSettings.LimitItemsCount || 20;
+        this.Properties.SelectExpression = this.Properties.SelectExpression || "*";
+        this.Properties.SelectionGroupLogicalOperator = this.Properties.SelectionGroupLogicalOperator || "AND";
 
         if (this.Properties.ContentViewDisplayMode === "Automatic") {
             if (this.RequestContext.DetailItem) {
@@ -50,40 +57,61 @@ export class ContentListComponent extends BaseComponent<ContentListEntity> imple
     }
 
     private handleListView() {
+        const listFieldMapping: {[key: string]: string} = {};
+        this.Properties.ListFieldMapping.forEach((entry) => {
+            listFieldMapping[entry.FriendlyName] = entry.Name;
+        });
+
+        const fieldCssClassMap: {[key: string]: string} = {};
+        this.Properties.CssClasses.forEach((entry) => {
+            fieldCssClassMap[entry.FieldName] = entry.CssClass;
+        });
+
+        const items = this.contentlistService.getItems(this.Properties, this.RequestContext.DetailItem);
+
         let contnetListMasterModel: ContentListModelMaster = {
-            RenderLinks: !(this.Properties.ContentViewDisplayMode === "Master" && this.Properties.DetailPageMode === "SamePage"),
-            FieldCssClassMap: {},
-            FieldMap: {}
+            OpenDetails: !(this.Properties.ContentViewDisplayMode === "Master" && this.Properties.DetailPageMode === "SamePage"),
+            FieldCssClassMap: fieldCssClassMap,
+            FieldMap: listFieldMapping,
+            Items$: items,
+            ViewName: this.Properties.SfViewName,
+            Attributes: this.getAttributesWithClasses("Content list", "row row-cols-1 row-cols-md-3")
         };
 
-        this.Properties.ListFieldMapping.forEach((entry) => {
-            contnetListMasterModel.FieldMap[entry.FriendlyName] = entry.Name;
-        });
-
-        this.Properties.CssClasses.forEach((entry) => {
-            contnetListMasterModel.FieldCssClassMap[entry.FieldName] = entry.CssClass;
-        });
+        this.listModel = contnetListMasterModel;
     }
 
     private handleDetailView(detailItem: DetailItem) {
-        const detailsViewCss = this.Properties.CssClasses.find(x => x.FieldName === "Details view");
-        const contentListAttributes = this.Properties.Attributes["ContentList"];
-        if (detailsViewCss && contentListAttributes) {
-            const classAttribute = contentListAttributes.find(x => x.Key === "class");
-            if (!classAttribute) {
-                contentListAttributes.push({
-                    Key: "class",
-                    Value: detailsViewCss.CssClass
-                });
-            } else {
-                classAttribute.Value += ` ${detailsViewCss.CssClass}`;
-            }
-        }
+        const contentListAttributes = this.getAttributesWithClasses("Details view", null);
 
         this.detailModel = {
-            Attributes: this.Properties.Attributes["ContentList"],
+            Attributes: contentListAttributes,
             DetailItem: detailItem,
             ViewName: this.Properties.SfDetailViewName
         };
+    }
+
+    private getAttributesWithClasses(fieldName: string, additiinalClasses: string | null): Array<{ Key: string, Value: string}> {
+        const viewCss = this.Properties.CssClasses.find(x => x.FieldName === fieldName);
+
+        const contentListAttributes = this.Properties.Attributes["ContentList"];
+        let classAttribute = contentListAttributes.find(x => x.Key === "class");
+        if (!classAttribute) {
+            classAttribute = {
+                Key: "class",
+                Value: ''
+            };
+
+            contentListAttributes.push(classAttribute);
+        }
+
+        if (viewCss) {
+            classAttribute.Value += ` ${viewCss.CssClass}`;
+        }
+
+        if (additiinalClasses)
+            classAttribute.Value += ` ${additiinalClasses}`;
+
+        return contentListAttributes;
     }
 }

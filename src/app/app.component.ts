@@ -48,8 +48,8 @@ export class AppComponent {
             });
         });
     }
-
     private fireEventForEditor() {
+
         if (this.renderContext.isEdit()) {
             window.document.body.setAttribute('data-sfcontainer', 'Body');
             const timeout = 2000;

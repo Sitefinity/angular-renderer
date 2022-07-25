@@ -1,10 +1,14 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 import { RootUrlService } from "../../services/root-url.service";
+import { CollectionResponse } from "../collection-response";
 import { GenericContentItem } from "../generic-content-item";
+import { ODataWrapper } from "../odata-wrapper";
 import { SdkItem } from "../sdk-item";
 import { ServiceMetadata } from "../service-metadata";
+import { GetAllArgs } from "./get-all-args";
 
 export class RestSdkTypes {
     public static readonly Video: string = "Telerik.Sitefinity.Libraries.Model.Video";
@@ -53,6 +57,28 @@ export class RestService {
         return this.http.get<T>(wholeUrl);
     }
 
+    getItems<T extends SdkItem>(args: GetAllArgs): Observable<CollectionResponse<T>> {
+        const baseUrl = this.buildItemBaseUrl(args.Type);
+
+        let queryParamsForMethod: { [key: string]: any } = {
+            "$count": args.Count,
+            "$orderby": args.OrderBy ? args.OrderBy.map(x => `${x.Name} ${x.Type}`) : null,
+            "sf_provider": args.Provider,
+            "sf_culture": args.Culture,
+            "$select": "*",
+            "$expand": "*",
+            "$skip": null,
+            "$take": null,
+            "$filter": null
+        };
+
+        queryParamsForMethod = Object.assign(queryParamsForMethod, args.AdditionalQueryParams);
+
+        const wholeUrl = `${this.buildItemBaseUrl(args.Type)}${this.buildQueryParams(queryParamsForMethod)}`
+
+        return this.http.get<ODataWrapper<T[]>>(wholeUrl).pipe(map(x => <CollectionResponse<T>>{ Items: x.value, TotalCount: x["@odata.count"] }));
+    }
+
     public getSharedContent(id: string, cultureName: string): Observable<GenericContentItem> {
         let queryParamsForMethod = {
             sf_culture: cultureName,
@@ -72,7 +98,9 @@ export class RestService {
     public buildQueryParams(queryParams: { [key: string]: string }) {
         let result = "";
         Object.keys(queryParams).forEach((key) => {
-            result += `${key}=${queryParams[key]}&`;
+            const value = queryParams[key];
+            if (value)
+                result += `${key}=${value}&`;
         });
 
         if (result !== "") {

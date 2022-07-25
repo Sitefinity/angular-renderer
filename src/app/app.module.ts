@@ -18,6 +18,9 @@ import { ContentListComponent } from "./components/content-list/content-list.com
 import { ContentListDetailComponent } from "./components/content-list/detail/content-list-detail.component";
 import { LayoutService } from "./sdk/services/layout.service";
 import { ServiceMetadata } from "./sdk/service-metadata";
+import { ContentListMasterComponent } from "./components/content-list/master/content-list-master.component";
+import { CardsListComponent } from "./components/content-list/master/cards-list/cards-list.component";
+import { ContentListRestService } from "./components/content-list/content-list-rest.service";
 
 @NgModule({
     declarations: [
@@ -26,6 +29,8 @@ import { ServiceMetadata } from "./sdk/service-metadata";
         SectionComponent,
         ContentListComponent,
         ContentListDetailComponent,
+        ContentListMasterComponent,
+        CardsListComponent,
         ErrorComponent,
         WrapperComponentDirective,
         DynamicAttributesDirective,
@@ -52,6 +57,7 @@ import { ServiceMetadata } from "./sdk/service-metadata";
         RendererContractImpl,
         WrapperComponentDirective,
         DynamicAttributesDirective,
+        ContentListRestService,
     ],
     bootstrap: [AppComponent]
 })
