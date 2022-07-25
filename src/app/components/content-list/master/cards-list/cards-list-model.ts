@@ -1,3 +1,4 @@
+import { SdkItem } from "src/app/sdk/sdk-item";
 import { ContentListModelbase } from "../content-list-model-base";
 
 export interface CardsListModel extends ContentListModelbase {
@@ -20,4 +21,6 @@ export interface CardItemModel {
         Value: string,
         Css: string
     },
+
+    Original: SdkItem
 }

@@ -105,7 +105,7 @@ export class RestService {
 
         if (result !== "") {
             result = "?" + result;
-            result = result.substring(0, result.length - 2);
+            result = result.substring(0, result.length - 1);
         }
 
         return result;

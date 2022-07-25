@@ -1,4 +1,4 @@
 <app-content-list-detail *ngIf="detailModel" [detailModel]="detailModel">
 </app-content-list-detail>
-<app-content-list-master *ngIf="listModel" [listModel]="listModel">
+<app-content-list-master *ngIf="listModel" [listModel]="listModel" (onDetailItemOpen)="onDetailItemOpenHandler($event)">
 </app-content-list-master>

@@ -5,6 +5,7 @@ import { ContentListModelDetail } from "./detail/content-list-detail-model";
 import { DetailItem } from "src/app/services/detail-item";
 import { ContentListModelMaster } from "./master/content-list-master-model";
 import { ContentListRestService } from "./content-list-rest.service";
+import { SdkItem } from "src/app/sdk/sdk-item";
 
 @Component({
     templateUrl: "content-list.component.html",
@@ -54,6 +55,15 @@ export class ContentListComponent extends BaseComponent<ContentListEntity> imple
         } else if (this.Properties.ContentViewDisplayMode === "Master") {
             this.handleListView();
         }
+    }
+
+    public onDetailItemOpenHandler(item: SdkItem) {
+        const selectedContent = this.Properties.SelectedItems.Content[0];
+        this.handleDetailView({
+            Id: item.Id,
+            ProviderName: item.Provider,
+            ItemType: selectedContent.Type
+        });
     }
 
     private handleListView() {

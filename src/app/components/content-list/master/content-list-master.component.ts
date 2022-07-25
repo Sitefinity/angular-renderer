@@ -1,7 +1,6 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { ImageItem } from "src/app/sdk/image-item";
 import { SdkItem } from "src/app/sdk/sdk-item";
-import { ServiceMetadata } from "src/app/sdk/service-metadata";
 import { CardItemModel, CardsListModel } from "./cards-list/cards-list-model";
 import { ContentListModelMaster } from "./content-list-master-model";
 
@@ -11,6 +10,8 @@ import { ContentListModelMaster } from "./content-list-master-model";
 })
 export class ContentListMasterComponent implements OnInit {
     @Input() listModel!: ContentListModelMaster;
+    @Output() onDetailItemOpen: EventEmitter<SdkItem> = new EventEmitter();
+
     cardsListModel: CardsListModel | null = null;
 
     ngOnInit(): void {
@@ -52,11 +53,16 @@ export class ContentListMasterComponent implements OnInit {
                             Text: {
                                 Value: x[this.listModel.FieldMap["Text"]],
                                 Css: 'card-text ' + `${x[this.listModel.FieldCssClassMap["Text"]] || ''}`,
-                            }
+                            },
+                            Original: x
                         }
                     })
                 };
             }
         });
+    }
+
+    onDetailItemOpenHandler(item: SdkItem) {
+        this.onDetailItemOpen.emit(item);
     }
 }

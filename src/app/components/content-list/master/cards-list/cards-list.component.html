@@ -5,10 +5,7 @@
             <div class="card-body">
                 <h5 *ngIf="item.Title" [attr.class]="item.Title.Css">
                     <ng-container *ngIf="model.OpenDetails">
-                        <a *ngIf="item.Title.Link" href="{{item.Title.Link}}">{{item.Title.Value}}}</a>
-                        <ng-container *ngIf="!item.Title.Link">
-                            {{item.Title.Value}}
-                        </ng-container>
+                        <a href="#" (click)="onDetailItemOpenHandler(item.Original, $event)">{{item.Title.Value}}</a>
                     </ng-container>
                     <ng-container *ngIf="!model.OpenDetails">
                         {{item.Title.Value}}
