@@ -24,6 +24,14 @@ export class ContentListComponent extends BaseComponent<ContentListEntity> imple
     }
 
     ngOnInit() {
+        window.addEventListener('popstate', ((ev) => {
+            if (this.detailModel) {
+                this.detailModel = undefined;
+            } else if (ev.state && ev.state.hasOwnProperty("Id")) {
+                this.handleDetailView(<DetailItem>ev.state);
+            }
+        }));
+
         this.Properties.DetailPageMode = this.Properties.DetailPageMode || "SamePage";
         this.Properties.ContentViewDisplayMode = this.Properties.ContentViewDisplayMode || "Automatic";
         this.Properties.Attributes = this.Properties.Attributes || {};
@@ -59,11 +67,16 @@ export class ContentListComponent extends BaseComponent<ContentListEntity> imple
 
     public onDetailItemOpenHandler(item: SdkItem) {
         const selectedContent = this.Properties.SelectedItems.Content[0];
-        this.handleDetailView({
+        const detailItem: DetailItem = {
             Id: item.Id,
             ProviderName: item.Provider,
             ItemType: selectedContent.Type
-        });
+        };
+
+        this.handleDetailView(detailItem);
+
+        const newUrl = window.location.origin + window.location.pathname + item.ItemDefaultUrl + window.location.search;
+        window.history.pushState(detailItem, '', newUrl);
     }
 
     private handleListView() {
