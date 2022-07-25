@@ -50,10 +50,7 @@
               "outputHashing": "all",
               "buildOptimizer": false,  
               "optimization": false,
-              "index": {
-                  "input": "src/index.prod.html",
-                  "output": "index.html"
-              },
+              "index": "src/index.html",
               "deployUrl": "/sitefinity/public/renderers/angular/"
             },
             "development": {
