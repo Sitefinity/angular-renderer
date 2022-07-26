@@ -106,7 +106,7 @@ export class ContentListComponent extends BaseComponent<ContentListEntity> imple
             FieldCssClassMap: fieldCssClassMap,
             FieldMap: listFieldMapping,
             Items$: items,
-            ViewName: this.Properties.SfViewName,
+            ViewName: <any>this.Properties.SfViewName,
             Attributes: this.getAttributesWithClasses("Content list", "row row-cols-1 row-cols-md-3")
         };
 

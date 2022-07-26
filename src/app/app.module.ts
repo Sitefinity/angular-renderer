@@ -21,6 +21,7 @@ import { ServiceMetadata } from "./sdk/service-metadata";
 import { ContentListMasterComponent } from "./components/content-list/master/content-list-master.component";
 import { CardsListComponent } from "./components/content-list/master/cards-list/cards-list.component";
 import { ContentListRestService } from "./components/content-list/content-list-rest.service";
+import { ListWithImageComponent } from "./components/content-list/master/list-with-image/list-with-image.component";
 
 @NgModule({
     declarations: [
@@ -34,6 +35,7 @@ import { ContentListRestService } from "./components/content-list/content-list-r
         ErrorComponent,
         WrapperComponentDirective,
         DynamicAttributesDirective,
+        ListWithImageComponent,
     ],
     entryComponents: [
         ContentComponent,

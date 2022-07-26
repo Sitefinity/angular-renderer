@@ -7,6 +7,6 @@ export interface ContentListModelMaster {
     FieldCssClassMap: { [key: string]: string };
     FieldMap: { [key: string]: string };
     Items$: Observable<CollectionResponse<SdkItem>>,
-    ViewName: string;
+    ViewName: "CardsList" | "ListWithImage" | "ListWithSummary";
     Attributes: Array<{ Key: string, Value: string }>;
 }

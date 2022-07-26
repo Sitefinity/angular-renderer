@@ -3,6 +3,7 @@ import { ImageItem } from "src/app/sdk/image-item";
 import { SdkItem } from "src/app/sdk/sdk-item";
 import { CardItemModel, CardsListModel } from "./cards-list/cards-list-model";
 import { ContentListModelMaster } from "./content-list-master-model";
+import { ListWithImageModel } from "./list-with-image/list-with-image-model";
 
 @Component({
     templateUrl: "content-list-master.component.html",
@@ -13,6 +14,7 @@ export class ContentListMasterComponent implements OnInit {
     @Output() onDetailItemOpen: EventEmitter<SdkItem> = new EventEmitter();
 
     cardsListModel: CardsListModel | null = null;
+    listWithImageModel: ListWithImageModel | null = null;
 
     ngOnInit(): void {
         let attributes: { [key: string]: string } = {};
@@ -23,8 +25,8 @@ export class ContentListMasterComponent implements OnInit {
         }
 
         this.listModel.Items$.subscribe((response) => {
-            if (this.listModel.ViewName === "CardsList") {
-                this.cardsListModel = {
+            if (this.listModel.ViewName === "CardsList" || this.listModel.ViewName === "ListWithImage") {
+                const model = {
                     Attributes: attributes,
                     OpenDetails: this.listModel.OpenDetails,
                     Items: response.Items.map((x) => {
@@ -58,6 +60,12 @@ export class ContentListMasterComponent implements OnInit {
                         }
                     })
                 };
+
+                if (this.listModel.ViewName === "CardsList") {
+                    this.cardsListModel = model;
+                } else if (this.listModel.ViewName === "ListWithImage") {
+                    this.listWithImageModel = model;
+                }
             }
         });
     }

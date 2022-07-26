@@ -1,0 +1,18 @@
+<div [dynamicAttributes]="model.Attributes">
+    <ng-container *ngFor="let item of model.Items; first as isFirst" class="col">
+        <hr *ngIf="!isFirst">
+        <div class="d-flex">
+            <div class="flex-shrink-0">
+                <img *ngIf="" class="{{item.Image.Css}}" src="{{item.Image.Url}}" alt="{{item.Image.AlternativeText}}" title="{{item.Image.Title}}" />
+            </div>
+            <div class="flex-grow-1 ms-3">
+                <h5 *ngIf="item.Title" [attr.class]="item.Title.Css">{{item.Title.Value}}</h5>
+                <p *ngIf="item.Text" class="{{item.Text.Css}}">{{item.Text.Value}}</p>
+                <ng-container *ngIf="model.OpenDetails">
+                    <a href="#" class="btn btn-primary" (click)="onDetailItemOpenHandler(item.Original, $event)">Learn more</a>
+                </ng-container>
+            </div>
+
+        </div>
+    </ng-container>
+</div>
