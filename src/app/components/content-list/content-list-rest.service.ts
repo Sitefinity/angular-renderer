@@ -28,7 +28,7 @@ export class ContentListRestService {
 
 
             const mainFilter = this.getMainFilter(entity, variation);
-            const additionalFilter = this.getAdditionalFilter(entity);
+            const additionalFilter = entity.FilterExpression;
             const parentFilter = this.getParentFilterExpression(selectedContent, variation, detailItem);
 
             const filters: Array<CombinedFilter | FilterClause | RelationFilter | null> = [mainFilter, additionalFilter, parentFilter];
@@ -148,14 +148,6 @@ export class ContentListRestService {
 
             return parsedCombined;
         }
-    }
-
-    private getAdditionalFilter(entity: ContentListEntity): CombinedFilter | FilterClause | null {
-        if (entity.FilterExpression) {
-            return JSON.parse(entity.FilterExpression);
-        }
-
-        return null;
     }
 
     private getParentFilterExpression(selectedContent: ContentContext, variation: ContentVariation, detailItem: DetailItem | null): FilterClause | null {

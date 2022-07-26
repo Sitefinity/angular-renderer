@@ -1,3 +1,6 @@
+import { CombinedFilter } from "src/app/sdk/filters/combined-filter";
+import { FilterClause } from "src/app/sdk/filters/filter-clause";
+import { RelationFilter } from "src/app/sdk/filters/relation-filter";
 import { ContentListSettings } from "../../editor/designer-entities/content-list-settings";
 import { MixedContentContext } from "../../editor/designer-entities/mixed-content-context";
 
@@ -12,7 +15,7 @@ export interface ContentListEntity {
     SfDetailViewName: string;
     ContentViewDisplayMode: "Automatic" | "Master" | "Detail";
     SelectionGroupLogicalOperator: "AND" | "OR";
-    FilterExpression: string;
+    FilterExpression: CombinedFilter | FilterClause | RelationFilter | null;
     SortExpression: string;
     SelectExpression: string;
     DisableCanonicalUrlMetaTag: boolean;
