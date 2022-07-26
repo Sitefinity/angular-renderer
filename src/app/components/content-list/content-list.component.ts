@@ -6,6 +6,8 @@ import { DetailItem } from "src/app/services/detail-item";
 import { ContentListModelMaster } from "./master/content-list-master-model";
 import { ContentListRestService } from "./content-list-rest.service";
 import { SdkItem } from "src/app/sdk/sdk-item";
+import { RestSdkTypes, RestService } from "src/app/sdk/services/rest.service";
+import { PageItem } from "src/app/sdk/page-item";
 
 @Component({
     templateUrl: "content-list.component.html",
@@ -15,7 +17,7 @@ export class ContentListComponent extends BaseComponent<ContentListEntity> imple
     detailModel: ContentListModelDetail | undefined;
     listModel: ContentListModelMaster | undefined;
 
-    constructor(private contentlistService: ContentListRestService) {
+    constructor(private contentlistService: ContentListRestService, private restService: RestService) {
         super();
 
         this.Metadata.Title = "Content list";
@@ -51,7 +53,7 @@ export class ContentListComponent extends BaseComponent<ContentListEntity> imple
             } else {
                 this.handleListView();
             }
-        } else if (this.Properties.ContentViewDisplayMode === "Detail" && this.Properties.DetailPageMode === "SamePage") {
+        } else if (this.Properties.ContentViewDisplayMode === "Detail") {
             if (this.Properties.SelectedItems && this.Properties.SelectedItems.Content && this.Properties.SelectedItems.Content.length > 0) {
                 const selectedContent = this.Properties.SelectedItems.Content[0];
                 this.handleDetailView({
@@ -73,10 +75,17 @@ export class ContentListComponent extends BaseComponent<ContentListEntity> imple
             ItemType: selectedContent.Type
         };
 
-        this.handleDetailView(detailItem);
+        if (this.Properties.DetailPageMode === "SamePage") {
+            this.handleDetailView(detailItem);
 
-        const newUrl = window.location.origin + window.location.pathname + item.ItemDefaultUrl + window.location.search;
-        window.history.pushState(detailItem, '', newUrl);
+            const newUrl = window.location.origin + window.location.pathname + item.ItemDefaultUrl + window.location.search;
+            window.history.pushState(detailItem, '', newUrl);
+        } else if (this.Properties.DetailPage) {
+            this.restService.getItem(RestSdkTypes.Pages, this.Properties.DetailPage.ItemIdsOrdered[0], this.Properties.DetailPage.Content[0].Variations[0].Source).subscribe((page: SdkItem) => {
+                const newUrl = (page as PageItem).ViewUrl + item.ItemDefaultUrl;
+                window.location.href = newUrl;
+            });
+        }
     }
 
     private handleListView() {
