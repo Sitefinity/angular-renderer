@@ -22,6 +22,7 @@ import { ContentListMasterComponent } from "./components/content-list/master/con
 import { CardsListComponent } from "./components/content-list/master/cards-list/cards-list.component";
 import { ContentListRestService } from "./components/content-list/content-list-rest.service";
 import { ListWithImageComponent } from "./components/content-list/master/list-with-image/list-with-image.component";
+import { ListWithSummaryComponent } from "./components/content-list/master/list-with-summary/list-with-summary.component";
 
 @NgModule({
     declarations: [
@@ -36,6 +37,7 @@ import { ListWithImageComponent } from "./components/content-list/master/list-wi
         WrapperComponentDirective,
         DynamicAttributesDirective,
         ListWithImageComponent,
+        ListWithSummaryComponent
     ],
     entryComponents: [
         ContentComponent,
