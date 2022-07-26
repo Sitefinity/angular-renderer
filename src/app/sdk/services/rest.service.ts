@@ -114,8 +114,6 @@ export class RestService {
         return result;
     }
 
-
-
     private getSimpleFields(type: string, fields: string[]): string[] {
         var star = "*";
         if (fields != null && fields.length == 1 && fields[0] == star)

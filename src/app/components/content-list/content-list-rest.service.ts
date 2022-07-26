@@ -5,6 +5,7 @@ import { CollectionResponse } from "src/app/sdk/collection-response";
 import { CombinedFilter } from "src/app/sdk/filters/combined-filter";
 import { FilterClause, FilterOperators } from "src/app/sdk/filters/filter-clause";
 import { OrderBy } from "src/app/sdk/filters/orderby";
+import { RelationFilter } from "src/app/sdk/filters/relation-filter";
 import { SdkItem } from "src/app/sdk/sdk-item";
 import { ServiceMetadata } from "src/app/sdk/service-metadata";
 import { GetAllArgs } from "src/app/sdk/services/get-all-args";
@@ -12,6 +13,7 @@ import { ODataFilterSerializer } from "src/app/sdk/services/odata-filter-seriali
 import { RestService } from "src/app/sdk/services/rest.service";
 import { DetailItem } from "src/app/services/detail-item";
 import { ContentListEntity } from "./content-list-entity";
+import { DateOffsetPeriod } from "./date-offset-period";
 
 @Injectable()
 export class ContentListRestService {
@@ -29,7 +31,7 @@ export class ContentListRestService {
             const additionalFilter = this.getAdditionalFilter(entity);
             const parentFilter = this.getParentFilterExpression(selectedContent, variation, detailItem);
 
-            const filters: Array<CombinedFilter | FilterClause | null> = [mainFilter, additionalFilter, parentFilter];
+            const filters: Array<CombinedFilter | FilterClause | RelationFilter | null> = [mainFilter, additionalFilter, parentFilter];
             let bigFilter: CombinedFilter = {
                 Operator: entity.SelectionGroupLogicalOperator,
                 ChildFilters: filters.filter(x => x) as Array<CombinedFilter | FilterClause>
@@ -53,14 +55,12 @@ export class ContentListRestService {
         return EMPTY;
     }
 
-    private getMainFilter(entity: ContentListEntity, variation: ContentVariation): CombinedFilter | null {
-        let filter: CombinedFilter | null = null;
+    private getMainFilter(entity: ContentListEntity, variation: ContentVariation): CombinedFilter | FilterClause | RelationFilter | null {
+        let filter: CombinedFilter | FilterClause | RelationFilter | null = null;
         if (variation.Filter && variation.Filter.Value) {
             switch (variation.Filter.Key) {
                 case "Complex":
-                    filter = JSON.parse(variation.Filter.Value);
-                    if (filter)
-                        filter.Operator = entity.SelectionGroupLogicalOperator;
+                    filter = this.parseComplexFilter(JSON.parse(variation.Filter.Value))
                     break;
                 case "Ids":
                     const itemIds = variation.Filter.Value.split(',');
@@ -72,7 +72,7 @@ export class ContentListRestService {
                         }
                     });
 
-                    filter = {
+                    filter = <CombinedFilter>{
                         Operator: "OR",
                         ChildFilters: filters
                     }
@@ -83,6 +83,71 @@ export class ContentListRestService {
         }
 
         return filter;
+    }
+
+    private parseComplexFilter(filter: any): CombinedFilter | FilterClause | RelationFilter {
+        if (filter.hasOwnProperty("FieldName") && filter.hasOwnProperty("FieldValue")) {
+            const filterClause = <FilterClause>filter;
+            return filterClause;
+        } else if (filter.hasOwnProperty("Name") && filter.hasOwnProperty("Operator")) {
+            var relationFilter = <RelationFilter>filter;
+            if (relationFilter.ChildFilter) {
+                relationFilter.ChildFilter = this.parseComplexFilter(relationFilter.ChildFilter);
+            }
+
+            return relationFilter;
+        } else if (filter.hasOwnProperty("DateFieldName")) {
+
+            const datePeriod = <DateOffsetPeriod>filter;
+            const combinedFilter: CombinedFilter = {
+                Operator: "AND",
+                ChildFilters: []
+            };
+
+            const currentTime = new Date();
+            switch (datePeriod.OffsetType) {
+                case "years":
+                    currentTime.setFullYear(currentTime.getFullYear() - datePeriod.OffsetValue);
+                    break;
+                case "months":
+                    currentTime.setMonth(currentTime.getMonth() - datePeriod.OffsetValue);
+                    break;
+                case "weeks":
+                    currentTime.setDate(currentTime.getDate() - (datePeriod.OffsetValue * 7));
+                    break;
+                case "days":
+                    currentTime.setDate(currentTime.getDate() - datePeriod.OffsetValue);
+                    break;
+            }
+
+            const fromDateFilter: FilterClause = {
+                FieldName: datePeriod.DateFieldName,
+                Operator: FilterOperators.GreaterThanOrEqual,
+                FieldValue: currentTime.toISOString()
+            };
+
+            const toDateFilter: FilterClause = {
+                FieldName: datePeriod.DateFieldName,
+                Operator: FilterOperators.LessThanOrEqual,
+                FieldValue: new Date().toISOString()
+            };
+
+            combinedFilter.ChildFilters = [ fromDateFilter, toDateFilter ];
+            return combinedFilter;
+        } else {
+            const parsedCombined = <CombinedFilter>filter;
+            const newCollection = new Array(parsedCombined.ChildFilters.length);
+
+            for (let i = 0; i < parsedCombined.ChildFilters.length; i++) {
+                var currentChildFilter = parsedCombined.ChildFilters[i];
+                const parsed = this.parseComplexFilter(currentChildFilter);
+                newCollection[i] = parsed;
+            }
+
+            parsedCombined.ChildFilters = newCollection;
+
+            return parsedCombined;
+        }
     }
 
     private getAdditionalFilter(entity: ContentListEntity): CombinedFilter | FilterClause | null {

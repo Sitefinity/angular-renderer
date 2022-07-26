@@ -156,6 +156,6 @@ export class ODataFilterSerializer {
 
 
 interface FilterContext {
-    Filter: FilterClause | CombinedFilter;
+    Filter: FilterClause | CombinedFilter | RelationFilter;
     Type: string;
 }

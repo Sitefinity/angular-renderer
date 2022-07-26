@@ -4,5 +4,5 @@ import { FilterClause } from "./filter-clause";
 export interface RelationFilter {
     Name: string;
     Operator: "Any" | "All"
-    ChildFilter: FilterClause | CombinedFilter
+    ChildFilter: FilterClause | CombinedFilter | RelationFilter
 }
