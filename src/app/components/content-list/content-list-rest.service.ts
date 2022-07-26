@@ -8,6 +8,7 @@ import { OrderBy } from "src/app/sdk/filters/orderby";
 import { SdkItem } from "src/app/sdk/sdk-item";
 import { ServiceMetadata } from "src/app/sdk/service-metadata";
 import { GetAllArgs } from "src/app/sdk/services/get-all-args";
+import { ODataFilterSerializer } from "src/app/sdk/services/odata-filter-serializer";
 import { RestService } from "src/app/sdk/services/rest.service";
 import { DetailItem } from "src/app/services/detail-item";
 import { ContentListEntity } from "./content-list-entity";
@@ -43,7 +44,7 @@ export class ContentListRestService {
                 Provider: variation.Source,
                 OrderBy: <OrderBy[]>[this.getOrderByExpression(entity)].filter(x => x),
                 Fields: this.getSelectExpression(entity),
-                Filter: bigFilter
+                Filter: bigFilter,
             };
 
             return this.restService.getItems(getAllArgs);
@@ -54,7 +55,7 @@ export class ContentListRestService {
 
     private getMainFilter(entity: ContentListEntity, variation: ContentVariation): CombinedFilter | null {
         let filter: CombinedFilter | null = null;
-        if (variation.Filter) {
+        if (variation.Filter && variation.Filter.Value) {
             switch (variation.Filter.Key) {
                 case "Complex":
                     filter = JSON.parse(variation.Filter.Value);

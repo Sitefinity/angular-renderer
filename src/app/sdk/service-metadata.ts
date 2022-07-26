@@ -68,12 +68,12 @@ export class ServiceMetadata {
         return false;
     }
 
-    public getRelatedTypeEntitySet(type: string, relationName: string) {
+    public getRelatedType(type: string, relationName: string): string | null {
         const typeDefinition = this.serviceMetadataCache.definitions[type];
 
         var properties = typeDefinition["properties"];
         var property = properties[relationName];
-        if (typeof property.Type !== 'object')
+        if (typeof property !== 'object')
             return null;
 
         var relatedReferenceType = property["$ref"];
@@ -97,16 +97,101 @@ export class ServiceMetadata {
         if (relatedReferenceType == null)
             return null;
 
-        var relatedReferenceTypeString = this.serviceMetadataCache.definitions[relatedReferenceType];
-        foreach (var prop in sets.Properties())
+        relatedReferenceType = relatedReferenceType.replace("#/definitions/", "");
+
+        if (this.serviceMetadataCache.definitions.hasOwnProperty(relatedReferenceType)) {
+            return relatedReferenceType;
+        }
+
+        return null;
+    }
+
+    private isRelatedProperty(type: string, propName: string) {
+        return !!this.getRelatedType(type, propName);
+    }
+
+    private isPrimitiveProperty(type: string, propName: string)
+    {
+        const definition = this.serviceMetadataCache.definitions[type];
+        var properties = definition["properties"];
+        var property = properties[propName];
+        if (property == null)
+            throw new Error(`The field - ${propName} is not recognized as a property of the current type - ${type}`);
+
+        return (typeof property === 'object') && !this.isRelatedProperty(type, propName);
+    }
+
+    public serializeFilterValue(type: string, propName: string, value: any) {
+        const definition = this.serviceMetadataCache.definitions[type];
+
+        if (this.isPrimitiveProperty(type, propName))
         {
-            if (prop.Value["entityType"]["$ref"].ToString() == relatedReferenceTypeString)
-            {
-                return prop.Name;
+            const propMeta = definition["properties"][propName];
+            const propType = propMeta["type"];
+            const propFormat = propMeta["format"];
+            let propFormatToString = null;
+            if (propFormat != null)
+                propFormatToString = propFormat.toString();
+
+            if (propType == null)
+                return null;
+
+            const propTypeArray: string[] = propType;
+            const propTypeString = propType.toString();
+            if (Array.isArray(propType) && propType.length > 0) {
+                if (propTypeArray.some(x => x === 'null') && value === null) {
+                    return 'null';
+                }
+
+                if (propTypeArray.some(x => x === 'string')) {
+                    return `'${value}'`;
+                }
+            }
+            else if (propTypeString == "array") {
+                if (propMeta.items && propMeta.items.format) {
+                    switch (propMeta.items.format) {
+                        case 'string':
+                            return `'${value}'`;
+                        default:
+                            return value.toString();
+                    }
+                }
+            }
+            else if (propFormatToString == "date-time" && value instanceof Date) {
+                return value.toISOString();
+            }
+            else if (value !== null) {
+                return value.toString();
             }
         }
 
         return null;
+    }
+
+    public getSimpleFields(type: string): string[] {
+        var definition = this.serviceMetadataCache.definitions[type];
+        var propertiesObject = definition["properties"];
+
+        return <string[]>Object.keys(propertiesObject).map((key) => {
+            if (this.isPrimitiveProperty(type, key)) {
+                return key;
+            }
+
+            return null;
+        }).filter(x => !!x);
+    }
+
+    public getRelationFields(type: string): string[] {
+        var definition = this.serviceMetadataCache.definitions[type];
+        var propertiesObject = definition["properties"];
+
+        return <string[]>Object.keys(propertiesObject).map((key) => {
+            if (this.isRelatedProperty(type, key)) {
+                return key;
+            }
+
+            return null;
+        }).filter(x => !!x);
     }
 }
 
