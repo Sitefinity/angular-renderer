@@ -8,7 +8,7 @@ import { ComponentContainer } from "../directives/component-wrapper.directive";
 import { EditorMetadata } from "../editor/editor-metadata";
 import { ModelBase } from "../models/model-base";
 import { RenderContext } from "./render-context";
-import { WidgetModel } from "./renderer-contract";
+import { WidgetModel } from "../editor/renderer-contract";
 
 export const TYPES_MAP: { [key: string]: Function } = {
     "SitefinityContentBlock": ContentComponent,

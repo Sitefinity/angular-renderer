@@ -1,11 +1,11 @@
 import { Injectable } from "@angular/core";
-import { RenderWidgetService } from "./render-widget.service";
+import { RenderWidgetService } from "../services/render-widget.service";
 import sitefinityContentBlockJson from '../components/content-block/designer-metadata.json'
 import sitefinitySectionJson from '../components/section/designer-metadata.json';
 import sitefinityContentListJson from '../components/content-list/designer-metadata.json';
 
-import contentWidgetsJson from '../editor/designer-metadata/content-widgets.json';
-import layoutWidgetsJson from '../editor/designer-metadata/layout-widgets.json';
+import contentWidgetsJson from './designer-metadata/content-widgets.json';
+import layoutWidgetsJson from './designer-metadata/layout-widgets.json';
 
 
 @Injectable()
@@ -87,11 +87,6 @@ export interface RenderResult {
 export interface Script {
     src: string;
     id: string;
-}
-
-export interface RenderResult {
-    content: string,
-    scripts: Array<Script>
 }
 
 export interface Script {

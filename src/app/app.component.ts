@@ -5,7 +5,7 @@ import { PageLayoutServiceResponse } from "./models/service-response";
 import { ServiceMetadata } from "./sdk/service-metadata";
 import { LayoutService } from "./sdk/services/layout.service";
 import { RenderContext } from "./services/render-context";
-import { RendererContractImpl } from "./services/renderer-contract";
+import { RendererContractImpl } from "./editor/renderer-contract";
 
 @Component({
     selector: "body",
