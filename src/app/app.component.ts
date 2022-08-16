@@ -43,6 +43,7 @@ export class AppComponent {
                     return;
                 }
 
+                window.document.body.classList.add("container-fluid");
                 this.fireEventForEditor();
                 this.renderMetaInfo(s);
             });

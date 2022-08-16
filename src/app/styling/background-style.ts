@@ -1,6 +1,4 @@
-import { Position } from "@angular/compiler";
 import { SdkItem } from "../sdk/sdk-item";
-import { Background } from "./background";
 import { ImagePosition } from "./position";
 
 export interface BackgroundStyle {
