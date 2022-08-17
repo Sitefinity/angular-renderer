@@ -17,6 +17,7 @@ export class ContentListDetailComponent implements OnChanges {
         this.detailViewModel$ = new ReplaySubject<ContentListViewModelDetail>();
         this.detailModel = null;
     }
+
     ngOnChanges(changes: SimpleChanges): void {
         if (changes && changes["detailModel"].currentValue !== changes["detailModel"].previousValue) {
             const currentValue: ContentListModelDetail = changes["detailModel"].currentValue;

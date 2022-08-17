@@ -38,7 +38,7 @@ export class ContentListComponent extends BaseComponent<ContentListEntity> imple
         this.Properties.ContentViewDisplayMode = this.Properties.ContentViewDisplayMode || "Automatic";
         this.Properties.Attributes = this.Properties.Attributes || {};
         this.Properties.CssClasses = this.Properties.CssClasses || [];
-        this.Properties.ListFieldMapping = this.Properties.ListFieldMapping || {};
+        this.Properties.ListFieldMapping = this.Properties.ListFieldMapping || [];
         this.Properties.OrderBy = this.Properties.OrderBy || "PublicationDate DESC";
         this.Properties.ListSettings = this.Properties.ListSettings || {};
         this.Properties.ListSettings.DisplayMode = this.Properties.ListSettings.DisplayMode || "All";
@@ -126,7 +126,7 @@ export class ContentListComponent extends BaseComponent<ContentListEntity> imple
     private getAttributesWithClasses(fieldName: string, additiinalClasses: string | null): Array<{ Key: string, Value: string}> {
         const viewCss = this.Properties.CssClasses.find(x => x.FieldName === fieldName);
 
-        const contentListAttributes = this.Properties.Attributes["ContentList"];
+        const contentListAttributes = this.Properties.Attributes["ContentList"] || [];
         let classAttribute = contentListAttributes.find(x => x.Key === "class");
         if (!classAttribute) {
             classAttribute = {
