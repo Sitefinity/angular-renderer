@@ -33,8 +33,10 @@ export class ContentListMasterComponent implements OnInit {
                     OpenDetails: this.listModel.OpenDetails,
                     Items: response.Items.map((x) => {
                         let url!: string;
-                        const image: ImageItem = x[this.listModel.FieldMap["Image"]];
-                        if (image) {
+                        const imageProp: ImageItem[] = x[this.listModel.FieldMap["Image"]];
+                        let image: ImageItem | null = null;
+                        if (imageProp && imageProp.length > 0) {
+                            image = imageProp[0];
                             if (image.Thumbnails && image.Thumbnails.length > 0) {
                                 url = image.Thumbnails[0].Url;
                             } else {
@@ -73,16 +75,6 @@ export class ContentListMasterComponent implements OnInit {
                     Attributes: attributes,
                     OpenDetails: this.listModel.OpenDetails,
                     Items: response.Items.map((x) => {
-                        let url!: string;
-                        const image: ImageItem = x[this.listModel.FieldMap["Image"]];
-                        if (image) {
-                            if (image.Thumbnails && image.Thumbnails.length > 0) {
-                                url = image.Thumbnails[0].Url;
-                            } else {
-                                url = image.Url;
-                            }
-                        }
-
                         const itemModel = <ItemModel>{
                             Title: {
                                 Value: x[this.listModel.FieldMap["Title"]],
