@@ -17,6 +17,8 @@ export class LayoutService {
         let serviceUrl = `${rootUrl}/Default.Model(url=@param)?@param='${encodeURIComponent(pagePathAndQuery)}'`;
         if (this.renderContext.isEdit()) {
             serviceUrl += "&sfaction=edit";
+        } else if (this.renderContext.isPreview()) {
+            serviceUrl += "&sfaction=preview";
         }
 
         return this.http.get<PageLayoutServiceResponse>(serviceUrl);
