@@ -46,6 +46,7 @@ export class AppComponent {
                 window.document.body.classList.add("container-fluid");
                 this.fireEventForEditor();
                 this.renderMetaInfo(s);
+                this.renderScripts(s);
             });
         });
     }
@@ -68,6 +69,25 @@ export class AppComponent {
                 }
             }, 100);
         }
+    }
+
+    private renderScripts(response: PageLayoutServiceResponse) {
+        response.Scripts.forEach((script) => {
+            const scriptElement = document.createElement('script');
+            if (script.Source) {
+                scriptElement.setAttribute('src', script.Source);
+            }
+
+            script.Attributes.forEach((attribute) => {
+                scriptElement.setAttribute(attribute.Key, attribute.Value);
+            });
+
+            if (script.Value) {
+                scriptElement.innerText = script.Value;
+            }
+
+            document.body.appendChild(scriptElement);
+        });
     }
 
     private renderMetaInfo(s: PageLayoutServiceResponse) {

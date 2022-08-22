@@ -18,7 +18,14 @@ export interface PageLayoutServiceResponse {
         CanonicalUrl: string,
     },
     DetailItem: DetailItem,
-    UrlParameters: string[]
+    UrlParameters: string[],
+    Scripts: PageScript[]
+}
+
+export interface PageScript {
+    Source: string,
+    Attributes: [{ Key: string, Value: string }]
+    Value: string
 }
 
 export interface ComponentContext {
