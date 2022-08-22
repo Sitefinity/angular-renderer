@@ -34,6 +34,10 @@ export class RenderWidgetService {
             error = `No componenent with the name ${widgetModel.model.Name} found.`
         }
 
+        if (widgetModel.context.LazyComponentMap && widgetModel.context.LazyComponentMap.hasOwnProperty(widgetModel.model.Id)) {
+            widgetModel.model.Properties = widgetModel.context.LazyComponentMap[widgetModel.model.Id].Properties;
+        }
+
         const factory = this.resolver.resolveComponentFactory(type);
         const componentRef = viewContainer.createComponent(factory, undefined, viewContainer.injector);
         const componentInstance = componentRef.instance as BaseComponent<ModelBase<any>>;

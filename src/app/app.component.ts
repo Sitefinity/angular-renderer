@@ -6,6 +6,8 @@ import { ServiceMetadata } from "./sdk/service-metadata";
 import { LayoutService } from "./sdk/services/layout.service";
 import { RenderContext } from "./services/render-context";
 import { RendererContractImpl } from "./editor/renderer-contract";
+import { RequestContext } from "./services/request-context";
+import { ModelBase } from "./models/model-base";
 
 @Component({
     selector: "body",
@@ -28,14 +30,26 @@ export class AppComponent {
         this.serviceMetadata.fetch().subscribe(() => {
             this.layoutService.get(window.location.href).subscribe(s => {
                 this.renderContext.cultureName = s.Culture;
-                this.content = s.ComponentContext.Components.map(x => {
-                    return <ComponentContainer>{
-                        model: x,
-                        context: {
-                            DetailItem: s.DetailItem
-                        }
-                    }
-                });
+                if (!this.renderContext.isEdit() && s.ComponentContext.HasLazyComponents) {
+                    this.layoutService.getLazyComponents(window.location.href).subscribe((lazyComponentsResponse) => {
+                        const lazyComponentsMap: {[key: string]: ModelBase<any>} = {};
+                        lazyComponentsResponse.Components.forEach((component) => {
+                            lazyComponentsMap[component.Id] = component;
+                        });
+
+                        this.setContent(s, {
+                            DetailItem: s.DetailItem,
+                            LazyComponentMap: lazyComponentsMap
+                        });
+                    });
+                }
+
+                if (!s.ComponentContext.HasLazyComponents) {
+                    this.setContent(s, {
+                        DetailItem: s.DetailItem,
+                        LazyComponentMap: null
+                    });
+                }
 
                 if (s.UrlParameters.length > 0 && !s.DetailItem) {
                     // this.router.navigate(["404"]);
@@ -50,8 +64,17 @@ export class AppComponent {
             });
         });
     }
-    private fireEventForEditor() {
+    private setContent(response: PageLayoutServiceResponse, requestContext: RequestContext) {
+        this.content = response.ComponentContext.Components.map(x => {
+            return <ComponentContainer>{
+                model: x,
+                context: requestContext
+            }
+        });
+    }
 
+
+    private fireEventForEditor() {
         if (this.renderContext.isEdit()) {
             window.document.body.setAttribute('data-sfcontainer', 'Body');
             const timeout = 2000;
