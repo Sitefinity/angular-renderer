@@ -114,33 +114,35 @@ export class AppComponent {
     }
 
     private renderMetaInfo(s: PageLayoutServiceResponse) {
-        document.title = s.MetaInfo.Title;
+        if (s.MetaInfo) {
+            document.title = s.MetaInfo.Title;
 
-        const metaMap = {
-            "og:title": s.MetaInfo.OpenGraphTitle,
-            "og:image": s.MetaInfo.OpenGraphImage,
-            "og:video": s.MetaInfo.OpenGraphVideo,
-            "og:type": s.MetaInfo.OpenGraphType,
-            "og:description": s.MetaInfo.OpenGraphDescription,
-            "og:site": s.MetaInfo.OpenGraphSite,
-        }
-
-        Object.keys(metaMap).forEach((key) => {
-            const val = (<any>metaMap)[key];
-            if (val) {
-                this.meta.addTag({ property: key, content: val });
+            const metaMap = {
+                "og:title": s.MetaInfo.OpenGraphTitle,
+                "og:image": s.MetaInfo.OpenGraphImage,
+                "og:video": s.MetaInfo.OpenGraphVideo,
+                "og:type": s.MetaInfo.OpenGraphType,
+                "og:description": s.MetaInfo.OpenGraphDescription,
+                "og:site": s.MetaInfo.OpenGraphSite,
             }
-        });
 
-        if (s.MetaInfo.Description) {
-            this.meta.addTag({ name: "description", content: s.MetaInfo.Description });
-        }
+            Object.keys(metaMap).forEach((key) => {
+                const val = (<any>metaMap)[key];
+                if (val) {
+                    this.meta.addTag({ property: key, content: val });
+                }
+            });
 
-        if (s.MetaInfo.CanonicalUrl) {
-            const linkElement = document.createElement("link");
-            linkElement.setAttribute("rel", "canonical");
-            linkElement.setAttribute("href", s.MetaInfo.CanonicalUrl);
-            document.head.appendChild(linkElement);
+            if (s.MetaInfo.Description) {
+                this.meta.addTag({ name: "description", content: s.MetaInfo.Description });
+            }
+
+            if (s.MetaInfo.CanonicalUrl) {
+                const linkElement = document.createElement("link");
+                linkElement.setAttribute("rel", "canonical");
+                linkElement.setAttribute("href", s.MetaInfo.CanonicalUrl);
+                document.head.appendChild(linkElement);
+            }
         }
     }
 }

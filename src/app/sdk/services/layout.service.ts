@@ -1,29 +1,18 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, ReplaySubject } from "rxjs";
+import { Observable } from "rxjs";
 import { LazyComponentsResponse } from "src/app/models/lazy-components.response";
 import { PageLayoutServiceResponse } from "src/app/models/service-response";
-import { RenderContext } from "src/app/services/render-context";
 import { RootUrlService } from "src/app/services/root-url.service";
-import { RestSdkTypes, RestService } from "./rest.service";
 
 @Injectable()
 export class LayoutService {
-    constructor(private http: HttpClient, private restService: RestService, private renderContext: RenderContext, private rootUrlService: RootUrlService) {
+    constructor(private http: HttpClient, private rootUrlService: RootUrlService) {
 
     }
 
     public get(pagePathAndQuery: string): Observable<PageLayoutServiceResponse> {
-        const rootUrl = this.restService.buildItemBaseUrl(RestSdkTypes.Pages);
-
-        let serviceUrl = `${rootUrl}/Default.Model(url=@param)?@param='${encodeURIComponent(pagePathAndQuery)}'`;
-        if (this.renderContext.isEdit()) {
-            serviceUrl += "&sfaction=edit";
-        } else if (this.renderContext.isPreview()) {
-            serviceUrl += "&sfaction=preview";
-        }
-
-        return this.http.get<PageLayoutServiceResponse>(serviceUrl);
+        return this.http.get<PageLayoutServiceResponse>(pagePathAndQuery, { headers: { "X-SFRENDERER-PROXY": "true", "X-SF-WEBSERVICEPATH": "api/default" } });
     }
 
     public getLazyComponents(pagePathAndQuery: string): Observable<LazyComponentsResponse> {
