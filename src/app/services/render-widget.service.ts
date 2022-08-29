@@ -83,8 +83,12 @@ export class RenderWidgetService {
             const renderer = this.renderer.createRenderer(null, null);
             renderer.setAttribute(element, "data-sfname", widgetModel.Name);
             renderer.setAttribute(element, "data-sftitle", editorMetadata.Title || widgetModel.Name);
-            renderer.setAttribute(element, "data-sfemptyiconaction", editorMetadata.EmptyIconAction);
-            renderer.setAttribute(element, "data-sfemptyicon", editorMetadata.EmptyIcon);
+
+            if (editorMetadata.EmptyIconAction)
+                renderer.setAttribute(element, "data-sfemptyiconaction", editorMetadata.EmptyIconAction);
+
+            if (editorMetadata.EmptyIcon)
+                renderer.setAttribute(element, "data-sfemptyicon", editorMetadata.EmptyIcon);
 
             if (editorMetadata.EmptyIconText)
                 renderer.setAttribute(element, "data-sfemptyicontext", editorMetadata.EmptyIconText);

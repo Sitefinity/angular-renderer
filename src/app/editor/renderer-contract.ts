@@ -24,8 +24,7 @@ export class RendererContractImpl implements RendererContract {
     getWidgetMetadata(args: GetWidgetMetadataArgs): Promise<ComponentMetadata> {
         const componentMetadata = <ComponentMetadata>this.metadataMap[args.widgetName];
         if (componentMetadata) {
-            const clone = JSON.parse(JSON.stringify(componentMetadata));
-            return Promise.resolve(clone);
+            return Promise.resolve(componentMetadata);
         }
 
         return Promise.resolve({
