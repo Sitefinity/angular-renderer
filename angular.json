@@ -41,6 +41,18 @@
           },
           "configurations": {
             "production": {
+             "budgets": [
+               {
+                "type": "initial",
+                "maximumWarning": "500kb",
+                "maximumError": "1mb"
+               },
+               {
+                "type": "anyComponentStyle",
+                "maximumWarning": "2kb",
+                "maximumError": "4kb"
+               }
+              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -48,9 +60,6 @@
                 }
               ],
               "outputHashing": "all",
-              "buildOptimizer": false,  
-              "optimization": false,
-              "index": "src/index.html",
               "deployUrl": "/sitefinity/public/renderers/angular/"
             },
             "development": {
