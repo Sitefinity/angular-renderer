@@ -1,3 +1,7 @@
+The sample is depricated. Please use the new Angular Frontend Renderer [here](https://github.com/Sitefinity/angular-standalone-renderer)
+======================================================================
+
+\
 Progress® Sitefinity® CMS sample frontend renderer app
 ======================================================
 
